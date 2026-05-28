@@ -1,0 +1,455 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>結婚式 Web招待状サービス比較</title>
+<style>
+  :root{
+    --bg:#faf6f4; --card:#ffffff; --ink:#3b3536; --muted:#7c7376;
+    --rose:#a85d6b; --rose-soft:#fdeef1; --rose-line:#e7cdd4;
+    --gold:#c79a52; --gold-soft:#fbf3e4;
+    --green:#3f8f6b; --green-soft:#e9f6ef;
+    --line:#ece4e2;
+    --gold-medal:#c9a227; --silver:#9aa0a6; --bronze:#b07a48;
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0; background:var(--bg); color:var(--ink);
+    font-family:system-ui,-apple-system,"Hiragino Sans","Hiragino Kaku Gothic ProN","Noto Sans JP",Meiryo,sans-serif;
+    line-height:1.8; font-size:16px; -webkit-font-smoothing:antialiased;
+  }
+  .wrap{max-width:980px; margin:0 auto; padding:0 20px 80px;}
+
+  /* header */
+  header.hero{
+    text-align:center; padding:56px 20px 40px; margin-bottom:8px;
+    background:linear-gradient(180deg,#fff,#fbf1f3);
+    border-bottom:1px solid var(--rose-line);
+  }
+  .hero .eyebrow{letter-spacing:.3em; font-size:.72rem; color:var(--gold); font-weight:700; margin:0 0 10px;}
+  .hero h1{font-size:2rem; margin:0 0 14px; color:var(--rose); font-weight:800; letter-spacing:.02em;}
+  .hero p.lead{max-width:680px; margin:0 auto; color:var(--muted); font-size:.95rem;}
+  .meta-chips{display:flex; flex-wrap:wrap; gap:8px; justify-content:center; margin-top:18px;}
+  .chip{background:#fff; border:1px solid var(--rose-line); color:var(--rose);
+    border-radius:999px; padding:5px 14px; font-size:.8rem; font-weight:600;}
+
+  /* TOC */
+  nav.toc{
+    background:var(--card); border:1px solid var(--line); border-radius:14px;
+    padding:18px 22px; margin:28px 0 40px; box-shadow:0 2px 10px rgba(168,93,107,.05);
+  }
+  nav.toc h2{margin:0 0 10px; font-size:.85rem; letter-spacing:.15em; color:var(--gold); border:0; padding:0;}
+  nav.toc ol{margin:0; padding-left:1.2em; columns:2; column-gap:30px;}
+  nav.toc li{margin:4px 0;}
+  nav.toc a{color:var(--ink); text-decoration:none; font-size:.9rem;}
+  nav.toc a:hover{color:var(--rose); text-decoration:underline;}
+
+  section{margin:0 0 44px; scroll-margin-top:16px;}
+  h2.sec{
+    font-size:1.35rem; color:var(--rose); margin:0 0 18px; padding-bottom:8px;
+    border-bottom:2px solid var(--rose-line); display:flex; align-items:center; gap:10px;
+  }
+  h2.sec .num{
+    background:var(--rose); color:#fff; font-size:.85rem; font-weight:700;
+    width:28px; height:28px; border-radius:50%; display:inline-flex; align-items:center; justify-content:center; flex:none;
+  }
+  h3{font-size:1.05rem; color:var(--ink); margin:26px 0 12px;}
+
+  /* conclusion callout */
+  .callout{
+    background:var(--rose-soft); border:1px solid var(--rose-line); border-left:5px solid var(--rose);
+    border-radius:12px; padding:20px 22px; margin:0 0 18px;
+  }
+  .callout.gold{background:var(--gold-soft); border-color:#ecdcb8; border-left-color:var(--gold);}
+  .callout p{margin:8px 0;}
+  .callout strong{color:var(--rose);}
+
+  ul.clean{list-style:none; padding:0; margin:14px 0;}
+  ul.clean>li{position:relative; padding-left:24px; margin:10px 0;}
+  ul.clean>li::before{content:"◆"; color:var(--gold); position:absolute; left:0; top:0; font-size:.8rem;}
+  ul.sub{margin:6px 0 6px 6px;}
+  ul.sub li{margin:4px 0;}
+
+  /* recommendation badges */
+  .recos{display:grid; gap:12px; margin:16px 0;}
+  .reco{display:flex; gap:14px; align-items:flex-start; background:#fff; border:1px solid var(--line);
+    border-radius:12px; padding:14px 16px;}
+  .medal{flex:none; width:34px; height:34px; border-radius:50%; display:flex; align-items:center; justify-content:center;
+    font-weight:800; color:#fff; font-size:.95rem;}
+  .m1{background:var(--gold-medal);} .m2{background:var(--silver);} .m3{background:var(--bronze);}
+  .reco .name{font-weight:800; color:var(--rose);}
+  .reco .why{color:var(--muted); font-size:.9rem;}
+
+  /* tables */
+  .tablewrap{overflow-x:auto; border:1px solid var(--line); border-radius:12px; margin:14px 0;
+    box-shadow:0 1px 6px rgba(168,93,107,.04);}
+  table{border-collapse:collapse; width:100%; min-width:540px; background:#fff; font-size:.9rem;}
+  thead th{background:var(--rose); color:#fff; font-weight:700; text-align:left; padding:11px 14px; white-space:nowrap;}
+  tbody th{background:var(--rose-soft); color:var(--ink); text-align:left; padding:10px 14px; font-weight:700; white-space:nowrap;}
+  tbody td{padding:10px 14px; border-top:1px solid var(--line); vertical-align:top;}
+  tbody tr:nth-child(even) td{background:#fcfaf9;}
+  table.compare td:first-child{font-weight:700; background:var(--rose-soft); white-space:nowrap;}
+  .free{color:var(--green); font-weight:800;}
+  .hl{background:#fff6d9; padding:1px 6px; border-radius:5px; font-weight:700;}
+  .best{color:var(--green); font-weight:800;}
+  .yes{color:var(--green); font-weight:700;} .no{color:#c25b5b;} .maybe{color:var(--gold);}
+  .rank td:first-child{text-align:center; background:var(--gold-soft);}
+
+  /* fee zone diagram */
+  .zones{display:grid; gap:14px; margin:16px 0;}
+  .zone{border-radius:12px; padding:16px 18px;}
+  .zone.freez{background:var(--green-soft); border:1px solid #bfe3cf;}
+  .zone.paidz{background:var(--gold-soft); border:1px solid #ecdcb8;}
+  .zone h4{margin:0 0 8px; font-size:1rem;}
+  .zone.freez h4{color:var(--green);} .zone.paidz h4{color:var(--gold);}
+  .zone ul{margin:0; padding-left:1.2em;} .zone li{margin:3px 0; font-size:.9rem;}
+
+  /* service cards */
+  .cards{display:grid; gap:16px; grid-template-columns:repeat(auto-fit,minmax(260px,1fr));}
+  .scard{background:#fff; border:1px solid var(--line); border-radius:14px; padding:18px 20px;
+    box-shadow:0 2px 10px rgba(168,93,107,.05);}
+  .scard h3{margin:0 0 6px; color:var(--rose);}
+  .scard .tag{display:inline-block; font-size:.72rem; font-weight:700; color:var(--gold);
+    background:var(--gold-soft); border-radius:6px; padding:2px 8px; margin-bottom:8px;}
+  .scard ul{margin:8px 0 0; padding-left:1.1em;} .scard li{margin:5px 0; font-size:.88rem;}
+
+  /* checklist */
+  ul.check{list-style:none; padding:0; margin:14px 0;}
+  ul.check li{position:relative; padding:10px 12px 10px 40px; background:#fff; border:1px solid var(--line);
+    border-radius:10px; margin:8px 0; font-size:.92rem;}
+  ul.check li::before{content:"☐"; position:absolute; left:14px; top:9px; color:var(--rose); font-size:1.1rem; font-weight:700;}
+
+  /* sources */
+  ul.src{list-style:none; padding:0; margin:10px 0;}
+  ul.src li{margin:7px 0; padding-left:18px; position:relative; font-size:.88rem;}
+  ul.src li::before{content:"↗"; position:absolute; left:0; color:var(--gold);}
+  a{color:var(--rose);}
+
+  .note{background:#fff8e6; border:1px dashed var(--gold); border-radius:10px; padding:12px 16px; font-size:.88rem; margin:14px 0; color:#7a6326;}
+  footer{text-align:center; color:var(--muted); font-size:.8rem; margin-top:50px; padding-top:24px; border-top:1px solid var(--line);}
+
+  @media (max-width:640px){
+    .hero h1{font-size:1.5rem;} nav.toc ol{columns:1;} body{font-size:15px;}
+  }
+  @media print{
+    body{background:#fff;} .tablewrap{overflow:visible; box-shadow:none;}
+    nav.toc{display:none;} header.hero{padding:20px;} section{page-break-inside:avoid;}
+  }
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <p class="eyebrow">WEDDING RESEARCH</p>
+  <h1>結婚式 Web招待状サービス比較</h1>
+  <p class="lead">AT TERRACE さんから紹介された3サービス（PIARY / BRAPLA / Weddingday）を中心に、他の有力サービスも加えて「無料でどこまで／有料はどこから」を整理しました。</p>
+  <div class="meta-chips">
+    <span class="chip">畑昂希 ✕ 玉置ひかり</span>
+    <span class="chip">会場：AT TERRACE</span>
+    <span class="chip">挙式 2026-10-31</span>
+    <span class="chip">二次会 検討中</span>
+    <span class="chip">調査日 2026-05-28</span>
+  </div>
+</header>
+
+<div class="wrap">
+
+  <nav class="toc">
+    <h2>目次</h2>
+    <ol>
+      <li><a href="#s1">結論（先に要点）</a></li>
+      <li><a href="#s2">「良い」とは？判断軸</a></li>
+      <li><a href="#s3">料金の全体像（無料/有料の境界）</a></li>
+      <li><a href="#s4">メイン比較表</a></li>
+      <li><a href="#s5">手数料シミュレーション</a></li>
+      <li><a href="#s6">各サービスの詳細</a></li>
+      <li><a href="#s7">お二人のケースへの当てはめ</a></li>
+      <li><a href="#s8">注意点・次のアクション</a></li>
+      <li><a href="#s9">出典</a></li>
+    </ol>
+  </nav>
+
+  <!-- 1 -->
+  <section id="s1">
+    <h2 class="sec"><span class="num">1</span>結論（先に要点だけ）</h2>
+    <div class="callout">
+      <p><strong>大前提：</strong>紹介された3つはどれも「招待状づくり〜出欠管理」までは<span class="free">完全無料</span>。差が出るのは ①デザイン ②ご祝儀・会費の「オンライン決済」を使うか・その手数料 ③付随機能、の3点だけです。</p>
+    </div>
+    <ul class="clean">
+      <li><strong>招待状＋出欠管理だけ使う（ご祝儀はオンライン決済しない）なら</strong> → どれを選んでも実質タダ。好みのデザインで決めてOK。
+        <ul class="sub">
+          <li>デザイン数・統一感（席次表まで無料）重視なら <strong>BRAPLA</strong></li>
+          <li>広告ゼロ・写真/動画多め・多言語なら <strong>Weddingday</strong></li>
+        </ul>
+      </li>
+      <li><strong>二次会（会費制）や、ご祝儀をオンラインで事前に集めたいなら</strong> → 手数料の安さが効く。
+        <ul class="sub">
+          <li>金額が大きいほど <span class="hl">定額3,500円の「楽々!WEB招待状」</span> か <span class="hl">銀行振込0.9%の Weddingday</span> が圧倒的に有利</li>
+          <li>PIARY(3%) / BRAPLA(3.1%) は%課金なので集金額が大きいと割高</li>
+        </ul>
+      </li>
+    </ul>
+
+    <h3>総合おすすめ</h3>
+    <div class="recos">
+      <div class="reco"><span class="medal m1">1</span><div><span class="name">BRAPLA</span> をメイン招待状に<br><span class="why">無料の完成度が最高。テンプレ業界最多200超＋WEB席次表も無料＋付箋・同伴者・リマインド充実。迷ったらこれ。</span></div></div>
+      <div class="reco"><span class="medal m2">2</span><div><span class="name">PIARY</span><br><span class="why">席次表・席札・引き出物宅配まで名簿連携で“1か所完結”したい効率重視派に。</span></div></div>
+      <div class="reco"><span class="medal m3">3</span><div><span class="name">Weddingday</span><br><span class="why">写真40枚・40言語・広告ゼロでゲスト体験◎。二次会会費を振込0.9%で集めたい場合にも。</span></div></div>
+      <div class="reco"><span class="medal" style="background:var(--green)">¥</span><div><span class="name">楽々!WEB招待状（併用）</span><br><span class="why">二次会会費 or ご祝儀をオンライン決済するなら、その用途だけ定額3,500円のこれを併用すると手数料を最小化。</span></div></div>
+    </div>
+    <div class="callout gold">
+      <p><strong>最適解：</strong>メイン招待状は <strong>BRAPLA</strong> をベースに、二次会の会費やご祝儀をオンライン決済する場合のみ <strong>楽々 or Weddingday を併用</strong>。これが一番コスパ良し。1つで完結＆準備物連携も欲しいなら <strong>PIARY</strong> も堅実。</p>
+    </div>
+  </section>
+
+  <!-- 2 -->
+  <section id="s2">
+    <h2 class="sec"><span class="num">2</span>そもそも「良い」とは？──判断軸の設計</h2>
+    <p>Web招待状は「無料」を謳うサービスがほとんど。なので<strong>「無料かどうか」では差がつきません</strong>。<em>“無料の範囲の広さ”と“有料になる一線（＝主にご祝儀オンライン決済の手数料）”、そして機能・デザイン</em>で見るのが正解です。</p>
+    <div class="tablewrap">
+      <table>
+        <thead><tr><th>#</th><th>判断軸</th><th>なぜ重要か</th></tr></thead>
+        <tbody>
+          <tr><th>A</th><td>基本機能の料金（作成・送付・出欠管理）</td><td>ここが無料か。3社とも無料だが作成数などの上限に差</td></tr>
+          <tr><th>B</th><td>ご祝儀・会費のオンライン決済の手数料</td><td>唯一の主要な「有料ポイント」。%課金か定額か・誰が負担かで実費が大きく変わる</td></tr>
+          <tr><th>C</th><td>デザイン数・テイスト</td><td>第一印象。前撮り写真を活かせるか</td></tr>
+          <tr><th>D</th><td>出欠管理（RSVP）</td><td>名簿自動化・CSV出力・送り分け・リマインダー</td></tr>
+          <tr><th>E</th><td>写真・動画</td><td>掲載枚数、メッセージ動画やカウントダウン演出</td></tr>
+          <tr><th>F</th><td>アンケート/カスタム質問</td><td>アレルギー確認・自由質問・メッセージ回収</td></tr>
+          <tr><th>G</th><td>二次会・1.5次会対応</td><td>今回二次会を検討中なので重要。会費制への対応</td></tr>
+          <tr><th>H</th><td>準備物との連携</td><td>席次表・席札・引き出物へ名簿を引き継げるか</td></tr>
+          <tr><th>I</th><td>その他（多言語・広告有無・保存期間・サポート・持込実績）</td><td>細かいが満足度に効く</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="note">補足：ご祝儀（披露宴）は「当日ご祝儀袋で手渡し」が主流で、オンライン決済を使わない人も多い。一方 <strong>二次会・1.5次会の「会費制」はオンライン事前決済と相性◎</strong>（受付がラク・未払い防止）。今回は二次会検討中なので軸Bは会費用途で効いてきます。</div>
+  </section>
+
+  <!-- 3 -->
+  <section id="s3">
+    <h2 class="sec"><span class="num">3</span>料金の全体像（無料 / 有料の境界線）</h2>
+    <div class="zones">
+      <div class="zone freez">
+        <h4>✅ 完全無料ゾーン（どのサービスも基本ここまでタダ）</h4>
+        <ul>
+          <li>招待状の作成（テンプレ／写真／動画）</li>
+          <li>LINE / メール / SNS / QR での送付（何通でも）</li>
+          <li>出欠管理（RSVP）・名簿の自動作成・CSVダウンロード</li>
+          <li>送り分け／リマインド／アンケート／カウントダウン 等</li>
+        </ul>
+      </div>
+      <div class="zone paidz">
+        <h4>💰 ここから有料 ＝ 実質「ご祝儀・会費のオンライン決済」だけ</h4>
+        <ul>
+          <li>ゲストがクレカ等で事前に祝儀／会費を払える機能</li>
+          <li>手数料が発生（%課金 or 定額。サービスごとに差大）</li>
+          <li>※紙併用や一部の特殊オプションが有料の場合あり</li>
+        </ul>
+      </div>
+    </div>
+    <div class="callout">
+      <p><strong>つまり：</strong>「無料でどこまで？」＝<span class="free">招待状づくりと出欠管理は全部無料</span>。「有料は何？」＝<span class="hl">ご祝儀・会費をオンライン決済する時の手数料のみ</span>。ここを理解すれば選択はシンプルになります。</p>
+    </div>
+  </section>
+
+  <!-- 4 -->
+  <section id="s4">
+    <h2 class="sec"><span class="num">4</span>メイン比較表</h2>
+
+    <h3>4-1. 紹介された3サービス（＋楽々を参考併記）</h3>
+    <div class="tablewrap">
+      <table class="compare">
+        <thead><tr><th>項目</th><th>PIARY</th><th>BRAPLA</th><th>Weddingday</th><th>（参考）楽々!WEB招待状</th></tr></thead>
+        <tbody>
+          <tr><td>基本料金</td><td class="free">無料</td><td class="free">無料</td><td class="free">無料</td><td class="free">無料</td></tr>
+          <tr><td>招待状の作成数</td><td>複数可</td><td><b>無制限</b></td><td>最大5種類</td><td>複数可</td></tr>
+          <tr><td>ご祝儀/会費 オンライン決済</td><td class="yes">あり</td><td class="yes">あり</td><td class="yes">あり</td><td class="yes">あり</td></tr>
+          <tr><td>└ 手数料</td><td><span class="hl">3% +振込660円</span></td><td><span class="hl">3.1%</span>(+振込660円の情報あり)</td><td><span class="best">振込0.9%</span>/セブン1.9%/クレカ3.9%</td><td><span class="best">一律3,500円(定額)</span></td></tr>
+          <tr><td>手数料の負担者</td><td>新郎新婦/ゲスト 選択可</td><td>新郎新婦想定</td><td>会場が負担の場合あり</td><td>新郎新婦想定</td></tr>
+          <tr><td>デザイン数</td><td>150種以上</td><td><b>200〜242種(最多級)</b></td><td>100種〜(実質2,000超)</td><td>100種以上</td></tr>
+          <tr><td>写真掲載</td><td>最大27枚</td><td>最大20枚</td><td><b>最大40枚＋動画</b></td><td>写真/動画可</td></tr>
+          <tr><td>メッセージ動画</td><td class="yes">○</td><td class="yes">○</td><td class="yes">○</td><td class="yes">○</td></tr>
+          <tr><td>出欠管理(RSVP)</td><td class="yes">○ 項目カスタム/DL</td><td class="yes">○ 同伴者登録可</td><td class="yes">○ CSV一括DL</td><td class="yes">○</td></tr>
+          <tr><td>送り分け</td><td class="yes">○</td><td class="yes">○</td><td class="yes">○</td><td class="yes">○</td></tr>
+          <tr><td>リマインド</td><td class="maybe">要確認</td><td class="yes">○</td><td class="maybe">要確認</td><td class="yes">○</td></tr>
+          <tr><td>アンケート/質問</td><td class="yes">○ 祝い画像も</td><td class="yes">○ アレルギー等</td><td class="yes">○ 選択/複数/自由</td><td class="yes">○ メッセージ回収</td></tr>
+          <tr><td>WEB席次表</td><td>連携あり</td><td class="best">○ 無料作成</td><td class="maybe">△</td><td class="no">×</td></tr>
+          <tr><td>準備物連携</td><td class="best">○ 席次表/席札/引出物宅配</td><td class="maybe">△</td><td class="no">×</td><td class="no">×</td></tr>
+          <tr><td>二次会/1.5次会</td><td class="yes">○</td><td class="yes">○</td><td class="yes">○ 場面別に複数</td><td class="yes">○</td></tr>
+          <tr><td>多言語</td><td class="maybe">要確認</td><td>7言語</td><td class="best">40言語以上</td><td class="maybe">要確認</td></tr>
+          <tr><td>ゲストへの広告</td><td class="maybe">要確認</td><td class="maybe">要確認</td><td class="best">広告ゼロ設計</td><td class="maybe">要確認</td></tr>
+          <tr><td>データ保存</td><td class="maybe">要確認</td><td class="best">無期限</td><td class="maybe">要確認</td><td class="maybe">要確認</td></tr>
+          <tr><td>サポート</td><td>LINE専門スタッフ</td><td>あり</td><td>FAQ充実</td><td>AIプランナー添削</td></tr>
+          <tr><td>独自の強み</td><td>準備物まで一気通貫</td><td><b>デザイン最多＋付箋＋満足度98.2%</b></td><td>広告ゼロ・多言語・写真40枚</td><td><b>決済手数料が定額で最安</b></td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p style="font-size:.82rem;color:var(--muted)">凡例：<span class="yes">○</span>対応 / <span class="maybe">△・要確認</span> / <span class="no">×</span>非対応</p>
+
+    <h3>4-2. オンライン決済「手数料の安い順」一覧（主要サービス横断）</h3>
+    <div class="tablewrap">
+      <table class="rank">
+        <thead><tr><th>順位</th><th>サービス</th><th>手数料</th><th>決済方法</th><th>入金タイミング</th></tr></thead>
+        <tbody>
+          <tr><td>1</td><td><b>Weddingday</b></td><td><span class="best">0.9%〜</span>(銀行振込) / セブン1.9% / クレカ3.9%</td><td>銀行振込・つつむと・クレカ</td><td>10営業日以内</td></tr>
+          <tr><td>2</td><td><b>楽々!WEB招待状</b></td><td><span class="best">一律3,500円(定額)</span></td><td>クレジット</td><td>1〜3週間前で選択</td></tr>
+          <tr><td>3</td><td>PIARY</td><td>3% +振込660円</td><td>クレジット</td><td>10日以内</td></tr>
+          <tr><td>4</td><td>BRAPLA</td><td>3.1%(+振込660円の情報あり)</td><td>クレジット</td><td>1〜3週間前で選択</td></tr>
+          <tr><td>5</td><td>Dear</td><td>クレカ3.6%+振込600円 / 銀行振込500〜1,000円</td><td>クレカ・銀行振込</td><td>4日以内</td></tr>
+          <tr><td>6</td><td>Biluce</td><td>5%</td><td>クレジット</td><td>月末/15日</td></tr>
+          <tr><td>7</td><td>KITENE</td><td>約6%(3%+クレカ3%)等</td><td>クレジット</td><td>7営業日以内</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="note">⚠️ Weddingday は「銀行振込なら0.9%」だが、<strong>ゲストに手軽なクレカ決済だと3.9%</strong>。一方 PIARY/BRAPLA はクレカでも3%台で<strong>決済方法によらず一定</strong>。比較記事側に「Weddingday=4%+260円」とする古い情報もあり、申込み前の実値確認が必須。</div>
+  </section>
+
+  <!-- 5 -->
+  <section id="s5">
+    <h2 class="sec"><span class="num">5</span>手数料シミュレーション（どれが得か体感する）</h2>
+
+    <h3>ケースA：披露宴ご祝儀をオンライン化（60名 × 平均3万円 ＝ 総額180万円）</h3>
+    <div class="tablewrap">
+      <table>
+        <thead><tr><th>サービス</th><th>手数料の概算</th></tr></thead>
+        <tbody>
+          <tr><td>楽々!WEB招待状（定額）</td><td><span class="best">約3,500円</span> ← 圧倒的に安い</td></tr>
+          <tr><td>Weddingday（銀行振込0.9%）</td><td>約16,200円</td></tr>
+          <tr><td>Weddingday（クレカ3.9%）</td><td>約70,200円</td></tr>
+          <tr><td>PIARY（3%+660）</td><td>約54,660円</td></tr>
+          <tr><td>BRAPLA（3.1%）</td><td>約55,800円</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3>ケースB：二次会の会費をオンライン化（40名 × 1万円 ＝ 総額40万円）</h3>
+    <div class="tablewrap">
+      <table>
+        <thead><tr><th>サービス</th><th>手数料の概算</th></tr></thead>
+        <tbody>
+          <tr><td>楽々!WEB招待状（定額）</td><td><span class="best">約3,500円</span></td></tr>
+          <tr><td>Weddingday（銀行振込0.9%）</td><td><span class="best">約3,600円</span></td></tr>
+          <tr><td>BRAPLA（3.1%）</td><td>約12,400円</td></tr>
+          <tr><td>PIARY（3%+660）</td><td>約12,660円</td></tr>
+          <tr><td>Weddingday（クレカ3.9%）</td><td>約15,600円</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="callout">
+      <p><strong>読み取り：</strong>集金額が大きいほど「定額の楽々」「振込0.9%のWeddingday」が有利。%課金のPIARY/BRAPLAは割高に。逆に<strong>オンライン決済を使わない（当日手渡し）なら手数料はゼロ＝どれでも同じ</strong>。</p>
+    </div>
+  </section>
+
+  <!-- 6 -->
+  <section id="s6">
+    <h2 class="sec"><span class="num">6</span>各サービスの詳細</h2>
+    <div class="cards">
+      <div class="scard">
+        <span class="tag">準備物まで一気通貫</span>
+        <h3>PIARY（ピアリー）</h3>
+        <ul>
+          <li>招待状は完全無料。集めた名簿を<strong>席次表・席札・引き出物宅配「ヒキタク」へ連携</strong>でき後工程がラク。</li>
+          <li>デザイン150種以上、写真27枚、メッセージ動画・カウントダウン対応。LINE専門スタッフサポート。</li>
+          <li>決済手数料3%+660円。<strong>負担を新郎新婦/ゲストで選べる</strong>。</li>
+          <li>先輩花嫁の利用率2割前後。紙招待状との統一もしやすい。</li>
+        </ul>
+      </div>
+      <div class="scard">
+        <span class="tag">無料の完成度No.1</span>
+        <h3>BRAPLA（ブラプラ）</h3>
+        <ul>
+          <li><strong>テンプレ業界最多級（200〜242種）</strong>でデザインの幅が圧倒的。前撮り写真も映える。</li>
+          <li><strong>WEB席次表まで無料</strong>で世界観を統一。<strong>付箋機能</strong>（受付・余興の個別案内）が独自。</li>
+          <li>招待状はいくつでも無料・<strong>データ無期限保存</strong>。同伴者登録/アレルギー/リマインドも充実。</li>
+          <li>満足度98.2%、全国の会場で持込実績。決済3.1%。</li>
+        </ul>
+      </div>
+      <div class="scard">
+        <span class="tag">ゲスト体験◎・決済最安水準</span>
+        <h3>Weddingday</h3>
+        <ul>
+          <li><strong>写真40枚＋動画・40言語・広告ゼロ</strong>。海外/外国人ゲストがいるなら特に有利。</li>
+          <li><strong>決済が銀行振込0.9%と最安水準</strong>（クレカは3.9%）。会場が手数料負担のケースも。</li>
+          <li>作成は最大5種類（挙式・二次会など場面別）。合言葉で閲覧制限可、CSV一括DL。</li>
+          <li>カスタムで実質2,000パターン超。利用者数No.1を掲げる定番。</li>
+        </ul>
+      </div>
+      <div class="scard">
+        <span class="tag">参考：決済が定額で最安</span>
+        <h3>楽々!WEB招待状</h3>
+        <ul>
+          <li>会場紹介には未含だが、<strong>決済手数料が一律3,500円の定額</strong>で集金額が大きいほど最安。</li>
+          <li>デザイン100種以上、AIプランナーによる文面添削あり。基本機能は無料。</li>
+          <li>二次会会費やご祝儀オンライン化を本気で考えるなら有力な併用先。</li>
+        </ul>
+      </div>
+      <div class="scard">
+        <span class="tag">参考：その他</span>
+        <h3>その他サービス</h3>
+        <ul>
+          <li><strong>Favori</strong>：別ランキングで1位。デザイン性に定評。</li>
+          <li><strong>Biluce(5%)/Dear/KITENE/Concept Marry</strong>（提携会場のみ・定額4,980円）など。手数料はおおむね高め。</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- 7 -->
+  <section id="s7">
+    <h2 class="sec"><span class="num">7</span>お二人のケースへの当てはめ</h2>
+    <ul class="clean">
+      <li><strong>時間は十分</strong>：挙式まで約5か月。短期間で作れるのでデザイン選びにじっくり時間を使える。</li>
+      <li><strong>会場の持込</strong>：3社とも全国で持込実績あり、AT TERRACE で問題になる可能性は低い（念のため一言確認すると安心）。</li>
+      <li><strong>二次会（会費制）を本当にやるなら</strong>：受付の手間と未払い防止で<strong>オンライン会費決済</strong>が効く → 楽々(定額3,500円) か Weddingday(振込0.9%) が手数料的に有利。</li>
+      <li><strong>ご祝儀（披露宴）</strong>：当日手渡しにするなら手数料は不要＝デザイン重視で選んでOK。</li>
+    </ul>
+    <div class="callout gold">
+      <p><strong>最終提案：</strong></p>
+      <p>🥇 メイン招待状＝<strong>BRAPLA</strong>（無料の完成度が最高、迷ったらこれ）</p>
+      <p>🥈 <strong>PIARY</strong>（席次表・引き出物まで1か所で完結したい効率重視派に）</p>
+      <p>🥉 <strong>Weddingday</strong>（写真多用／外国人ゲスト／広告ゼロ／二次会会費を0.9%で集めたい場合）</p>
+      <p>💰 二次会会費 or ご祝儀のオンライン決済を使うなら、その部分だけ <strong>楽々!WEB招待状（定額3,500円）</strong> を併用すると手数料を最小化（別サービス併用でOK）。</p>
+    </div>
+  </section>
+
+  <!-- 8 -->
+  <section id="s8">
+    <h2 class="sec"><span class="num">8</span>注意点・次のアクション</h2>
+    <ul class="check">
+      <li><strong>手数料の最新値を公式で確認</strong>：特に Weddingday（公式0.9%〜 vs 比較記事4%+260円）と BRAPLA の振込手数料有無。決済を使う場合は申込み前に要確認。</li>
+      <li><strong>オンライン決済を使うか先に決める</strong>：使わない（当日手渡し）なら手数料軸は無視でき、純粋にデザイン・機能で選べる。</li>
+      <li><strong>AT TERRACE に持込可否を一応確認</strong>（紹介3社なのでほぼ問題なしのはず）。</li>
+      <li><strong>二次会の実施可否が固まってから</strong>、会費オンライン化の要否＝楽々/Weddingday併用の要否を判断。</li>
+      <li>候補を2つほどに絞ったら、実際にテンプレを触って<strong>スマホでの見え方</strong>を二人で確認（無料で試せる）。</li>
+    </ul>
+  </section>
+
+  <!-- 9 -->
+  <section id="s9">
+    <h2 class="sec"><span class="num">9</span>出典</h2>
+    <ul class="src">
+      <li><a href="https://www.piary.jp/written_invitation/webinvitation/">WEB招待状(無料)｜PIARY（ピアリー）</a></li>
+      <li><a href="https://www.weddingitemdiy.com/review-of-piary-web-invitation/">PIARY ウェブ招待状レビュー｜weddingitemdiy</a></li>
+      <li><a href="https://brapla.com/invitation">WEB招待状ならブラプラ｜BRAPLA</a></li>
+      <li><a href="https://brapla.com/column/invitation-plan/0e9b49e9-d62d-4798-bf09-58f3a7777ce9">【2026年最新】無料WEB招待状おすすめ比較｜BRAPLAコラム</a></li>
+      <li><a href="https://weddingday.jp/">Web招待状 Weddingday（公式）</a></li>
+      <li><a href="https://weddingday.jp/mag/445">結婚式・二次会のWeb招待状おすすめランキング15選｜Weddingday</a></li>
+      <li><a href="https://weddingday.jp/mag/4272">Web招待状でのオンラインご祝儀払いとは｜Weddingday</a></li>
+      <li><a href="https://www.weddingnews.jp/magazine/151870">2600人の花嫁がガチレビュー WEB招待状人気ランキング｜ウェディングニュース</a></li>
+      <li><a href="https://platinumstyle-invi.jp/column/post-5981/">オンライン決済 手数料の安い順 おすすめ8選｜楽々!WEB招待状</a></li>
+      <li><a href="https://platinumstyle-invi.jp/">楽々!WEB招待状（公式）</a></li>
+      <li><a href="https://ginza-cruise.co.jp/wedding/knowhow/article-57/">無料Web招待状おすすめ14社一覧｜クルーズ・クルーズ</a></li>
+      <li><a href="https://itukichi.com/websyoutaijyou-osusume/">【使ってみた】無料WEB招待状おすすめ7選 機能比較｜家族婚ナビ</a></li>
+    </ul>
+  </section>
+
+  <footer>
+    結婚式準備リサーチ ／ 招待状 ／ 調査日 2026-05-28<br>
+    料金・仕様は調査時点のものです。申込み前に各公式サイトで最新情報をご確認ください。
+  </footer>
+
+</div>
+</body>
+</html>
