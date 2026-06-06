@@ -1,0 +1,889 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>二次会レストラン候補（二宮・大磯・平塚）</title>
+<style>
+  :root{
+    --bg:#faf6f4; --card:#ffffff; --ink:#3b3536; --muted:#7c7376;
+    --rose:#a85d6b; --rose-soft:#fdeef1; --rose-line:#e7cdd4;
+    --gold:#c79a52; --gold-soft:#fbf3e4;
+    --green:#3f8f6b; --green-soft:#e9f6ef;
+    --line:#ece4e2;
+    --pri-high:#c0392b; --pri-high-bg:#fde4e1;
+    --pri-mid:#c79a52;  --pri-mid-bg:#fbf3e4;
+    --pri-low:#8a8487;  --pri-low-bg:#eee9e6;
+    --st-pending:#6b6360; --st-pending-bg:#eee9e6;
+    --st-confirming:#8a6b00; --st-confirming-bg:#fff6d9;
+    --st-ok:#216e4e; --st-ok-bg:#d4ecdf;
+    --st-booked:#fff; --st-booked-bg:#3f8f6b;
+    --st-ng:#a53636; --st-ng-bg:#fbe0e0;
+    --st-skip:#8a8487; --st-skip-bg:#e6e1de;
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0; background:var(--bg); color:var(--ink);
+    font-family:system-ui,-apple-system,"Hiragino Sans","Hiragino Kaku Gothic ProN","Noto Sans JP",Meiryo,sans-serif;
+    line-height:1.8; font-size:16px; -webkit-font-smoothing:antialiased;
+  }
+  .wrap{max-width:1080px; margin:0 auto; padding:0 20px 80px;}
+
+  header.hero{
+    text-align:center; padding:56px 20px 40px; margin-bottom:8px;
+    background:linear-gradient(180deg,#fff,#fbf1f3);
+    border-bottom:1px solid var(--rose-line);
+  }
+  .hero .eyebrow{letter-spacing:.3em; font-size:.72rem; color:var(--gold); font-weight:700; margin:0 0 10px;}
+  .hero h1{font-size:2rem; margin:0 0 14px; color:var(--rose); font-weight:800; letter-spacing:.02em;}
+  .hero p.lead{max-width:680px; margin:0 auto; color:var(--muted); font-size:.95rem;}
+  .meta-chips{display:flex; flex-wrap:wrap; gap:8px; justify-content:center; margin-top:18px;}
+  .chip{background:#fff; border:1px solid var(--rose-line); color:var(--rose);
+    border-radius:999px; padding:5px 14px; font-size:.8rem; font-weight:600;}
+
+  nav.toc{
+    background:var(--card); border:1px solid var(--line); border-radius:14px;
+    padding:18px 22px; margin:28px 0 40px; box-shadow:0 2px 10px rgba(168,93,107,.05);
+  }
+  nav.toc h2{margin:0 0 10px; font-size:.85rem; letter-spacing:.15em; color:var(--gold); border:0; padding:0;}
+  nav.toc ol{margin:0; padding-left:1.2em; columns:2; column-gap:30px;}
+  nav.toc li{margin:4px 0;}
+  nav.toc a{color:var(--ink); text-decoration:none; font-size:.9rem;}
+  nav.toc a:hover{color:var(--rose); text-decoration:underline;}
+
+  section{margin:0 0 44px; scroll-margin-top:16px;}
+  h2.sec{
+    font-size:1.35rem; color:var(--rose); margin:0 0 18px; padding-bottom:8px;
+    border-bottom:2px solid var(--rose-line); display:flex; align-items:center; gap:10px;
+  }
+  h2.sec .num{
+    background:var(--rose); color:#fff; font-size:.85rem; font-weight:700;
+    width:28px; height:28px; border-radius:50%; display:inline-flex; align-items:center; justify-content:center; flex:none;
+  }
+  h3{font-size:1.05rem; color:var(--ink); margin:26px 0 12px;}
+
+  .callout{
+    background:var(--rose-soft); border:1px solid var(--rose-line); border-left:5px solid var(--rose);
+    border-radius:12px; padding:20px 22px; margin:0 0 18px;
+  }
+  .callout.gold{background:var(--gold-soft); border-color:#ecdcb8; border-left-color:var(--gold);}
+  .callout.green{background:var(--green-soft); border-color:#bfe3cf; border-left-color:var(--green);}
+  .callout p{margin:8px 0;}
+  .callout strong{color:var(--rose);}
+
+  /* Tab navigation */
+  .tabs{
+    display:flex; flex-wrap:wrap; gap:8px; margin:0 0 18px;
+    border-bottom:2px solid var(--rose-line); padding-bottom:0;
+  }
+  .tab-btn{
+    background:#fff; color:var(--muted); border:1px solid var(--line);
+    border-bottom:none; border-radius:10px 10px 0 0;
+    padding:10px 18px; font-size:.92rem; font-weight:700; cursor:pointer;
+    transition:all .15s;
+    font-family:inherit;
+    margin-bottom:-2px;
+  }
+  .tab-btn:hover{color:var(--rose); border-color:var(--rose-line);}
+  .tab-btn.active{
+    background:var(--rose); color:#fff; border-color:var(--rose);
+  }
+  .tab-btn .count{
+    display:inline-block; font-size:.72rem; margin-left:6px;
+    background:rgba(255,255,255,.25); padding:1px 7px; border-radius:999px;
+  }
+  .tab-btn:not(.active) .count{
+    background:var(--rose-soft); color:var(--rose);
+  }
+
+  /* Legend */
+  .legend{
+    display:flex; flex-wrap:wrap; gap:14px; align-items:center;
+    background:#fff; border:1px solid var(--line); border-radius:12px;
+    padding:12px 18px; margin:0 0 18px; font-size:.82rem;
+  }
+  .legend .group{display:flex; flex-wrap:wrap; gap:6px; align-items:center;}
+  .legend .label{color:var(--muted); font-weight:700; margin-right:4px;}
+
+  /* Badges */
+  .badge{display:inline-block; font-size:.72rem; font-weight:700; padding:3px 9px; border-radius:999px; white-space:nowrap;}
+  .pri-high{background:var(--pri-high-bg); color:var(--pri-high);}
+  .pri-mid{background:var(--pri-mid-bg); color:var(--pri-mid);}
+  .pri-low{background:var(--pri-low-bg); color:var(--pri-low);}
+  .st-pending{background:var(--st-pending-bg); color:var(--st-pending);}
+  .st-confirming{background:var(--st-confirming-bg); color:var(--st-confirming);}
+  .st-ok{background:var(--st-ok-bg); color:var(--st-ok);}
+  .st-booked{background:var(--st-booked-bg); color:var(--st-booked);}
+  .st-ng{background:var(--st-ng-bg); color:var(--st-ng);}
+  .st-skip{background:var(--st-skip-bg); color:var(--st-skip);}
+
+  /* Table */
+  .tablewrap{overflow-x:auto; border:1px solid var(--line); border-radius:12px; margin:14px 0;
+    box-shadow:0 1px 6px rgba(168,93,107,.04);}
+  table{border-collapse:collapse; width:100%; min-width:900px; background:#fff; font-size:.88rem;}
+  thead th{background:var(--rose); color:#fff; font-weight:700; text-align:left; padding:11px 13px; white-space:nowrap; font-size:.82rem;}
+  tbody td{padding:11px 13px; border-top:1px solid var(--line); vertical-align:top;}
+  tbody tr:nth-child(even) td{background:#fcfaf9;}
+  tbody tr.row-hidden{display:none;}
+  tbody tr.row-skip td{opacity:.55;}
+  td.shop{font-weight:700; color:var(--ink); white-space:nowrap;}
+  td.shop a{color:var(--rose); text-decoration:none; font-weight:700;}
+  td.shop a:hover{text-decoration:underline;}
+  td.notes{font-size:.82rem; color:var(--muted); min-width:220px;}
+  td.last-contact{font-size:.78rem; color:var(--muted); white-space:nowrap;}
+
+  /* Station chip in table */
+  .st-chip{
+    display:inline-block; font-size:.7rem; font-weight:700; padding:2px 8px;
+    border-radius:6px; background:var(--rose-soft); color:var(--rose);
+  }
+  .st-chip.oiso{background:var(--gold-soft); color:var(--gold);}
+  .st-chip.hira{background:var(--green-soft); color:var(--green);}
+
+  /* Cards */
+  .panel{display:none;}
+  .panel.active{display:block;}
+  .cards{display:grid; gap:16px; grid-template-columns:repeat(auto-fit,minmax(280px,1fr));}
+  .scard{background:#fff; border:1px solid var(--line); border-radius:14px; padding:18px 20px;
+    box-shadow:0 2px 10px rgba(168,93,107,.05); position:relative;}
+  .scard h3{margin:0 0 6px; color:var(--rose); font-size:1.05rem;}
+  .scard .tag{display:inline-block; font-size:.72rem; font-weight:700; color:var(--gold);
+    background:var(--gold-soft); border-radius:6px; padding:2px 8px; margin-bottom:8px;}
+  .scard .meta{display:flex; flex-wrap:wrap; gap:6px; margin:6px 0 10px;}
+  .scard ul{margin:8px 0 0; padding-left:1.1em;} .scard li{margin:5px 0; font-size:.88rem;}
+  .scard .action{
+    margin-top:14px; padding-top:12px; border-top:1px dashed var(--line);
+    display:flex; flex-wrap:wrap; gap:8px; align-items:center; font-size:.82rem;
+  }
+  .scard .action .label{color:var(--muted); font-weight:700;}
+  .scard .tel{font-weight:700; color:var(--rose);}
+  .scard.is-skip{opacity:.6;}
+
+  /* TOP recos */
+  .recos{display:grid; gap:12px; margin:16px 0;}
+  .reco{display:flex; gap:14px; align-items:flex-start; background:#fff; border:1px solid var(--line);
+    border-radius:12px; padding:14px 16px;}
+  .medal{flex:none; width:34px; height:34px; border-radius:50%; display:flex; align-items:center; justify-content:center;
+    font-weight:800; color:#fff; font-size:.95rem;}
+  .m1{background:#c9a227;} .m2{background:#9aa0a6;} .m3{background:#b07a48;}
+  .reco .name{font-weight:800; color:var(--rose);}
+  .reco .why{color:var(--muted); font-size:.9rem;}
+
+  .sources{font-size:.88rem;}
+  .sources li{margin:6px 0;}
+  .sources a{color:var(--rose);}
+
+  footer.foot{
+    text-align:center; color:var(--muted); font-size:.8rem; margin-top:60px;
+    padding-top:20px; border-top:1px solid var(--line);
+  }
+  @media (max-width:600px){
+    .hero h1{font-size:1.5rem;}
+    nav.toc ol{columns:1;}
+    .tab-btn{padding:8px 12px; font-size:.85rem;}
+  }
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <p class="eyebrow">WEDDING AFTER-PARTY RESEARCH</p>
+  <h1>二次会レストラン候補</h1>
+  <p class="lead">畑昂希 ✕ 玉置ひかり 結婚式（2026-10-31 / AT TERRACE ninomiya）<br>40名規模の二次会候補を、<strong>二宮駅・大磯駅・平塚駅</strong>で横断管理。優先度と電話ステータスを記録。</p>
+  <div class="meta-chips">
+    <span class="chip">想定人数: 40名</span>
+    <span class="chip">開催日: 2026-10-31(土) 夜</span>
+    <span class="chip">対象エリア: JR東海道線 二宮〜平塚</span>
+    <span class="chip">更新: 2026-06-03</span>
+  </div>
+</header>
+
+<div class="wrap">
+
+<nav class="toc">
+  <h2>CONTENTS</h2>
+  <ol>
+    <li><a href="#sec1">結論 / TOP候補</a></li>
+    <li><a href="#sec2">凡例（優先度・ステータス）</a></li>
+    <li><a href="#sec3">候補一覧（駅切替）</a></li>
+    <li><a href="#sec4">主要候補の詳細</a></li>
+    <li><a href="#sec5">補足: AT TERRACE自前</a></li>
+    <li><a href="#sec6">参考リンク</a></li>
+  </ol>
+</nav>
+
+<section id="sec1">
+  <h2 class="sec"><span class="num">1</span>結論 / TOP候補</h2>
+
+  <div class="callout">
+    <p><strong>HIGH 6軒</strong>（全て平塚駅徒歩5分圏）：<br>
+    ① 鶏バル PIOPIO ／ ② ペコリーノ ／ ③ タパス&パエリア MAR ／ ④ アマルフィイ ホワイトガーデン ／ ⑤ Sol Naciente ／ ⑥ HxM a Table<br>
+    <strong>MID 2軒</strong>（大磯）：大磯迎賓舘 ／ OISO CONNECT CAFE<br>
+    <strong>LOW 7軒</strong>：マリー・ルイーズ ／ ASIAN KITCHEN ／ 辛辛屋 ／ LOCO STYLES CAFE ／ 大磯プリンスホテル ／ 指帆亭(満員) ／ ラ ロッカ(営業外)</p>
+  </div>
+
+  <h3>絶対本命 ★（電話最優先）</h3>
+  <div class="recos">
+    <div class="reco">
+      <div class="medal m1">1</div>
+      <div>
+        <div class="name">鶏バル PIOPIO <span class="badge pri-high">HIGH</span> <span class="badge st-pending">未架電</span></div>
+        <div class="why">JR平塚駅 徒歩5分。白基調ウッド調・落ち着いた雰囲気。<strong>着席40名／立食50名</strong>（席数は40名想定だとややタイト・要確認）。2H飲放9品付 ¥4,000〜¥4,400。プロジェクター完備。TEL 050-5461-0915</div>
+      </div>
+    </div>
+    <div class="reco">
+      <div class="medal m1">2</div>
+      <div>
+        <div class="name">ペコリーノ <span class="badge pri-high">HIGH</span> <span class="badge st-pending">未架電</span></div>
+        <div class="why">JR平塚駅前・ホテルリブマックス1F。<strong>着席40／立食60</strong>と余裕あり。イタリア家庭料理＋アルコール100種以上。<strong>遠方ゲストの宿泊動線が組める</strong>のが地味に強い。TEL 0463-24-2888</div>
+      </div>
+    </div>
+    <div class="reco">
+      <div class="medal m1">3</div>
+      <div>
+        <div class="name">タパス&パエリア MAR（マール） <span class="badge pri-high">HIGH</span> <span class="badge st-pending">未架電</span></div>
+        <div class="why">JR平塚駅西口 徒歩5分。<strong>全44席、店奥にもテーブル4卓で全店貸切30〜40名</strong>。木のぬくもり＋レンガ＋スペインの陽気な雰囲気。コース¥4,950〜。月曜定休（10/31は土曜）。TEL 0463-22-6822</div>
+      </div>
+    </div>
+  </div>
+
+  <h3>HIGH（追加3軒）</h3>
+  <div class="recos">
+    <div class="reco">
+      <div class="medal m2">4</div>
+      <div>
+        <div class="name">アマルフィイ ホワイトガーデン <span class="badge pri-high">HIGH</span> <span class="badge st-pending">未架電</span></div>
+        <div class="why">ラスカ平塚6F屋上・JR平塚駅直結。<strong>屋上テラス＋生演奏</strong>でリゾート感。ディナー¥4,000前後。TEL 0463-74-5661</div>
+      </div>
+    </div>
+    <div class="reco">
+      <div class="medal m2">5</div>
+      <div>
+        <div class="name">Sol Naciente（ソルナシエンテ） <span class="badge pri-high">HIGH</span> <span class="badge st-pending">未架電</span></div>
+        <div class="why">JR平塚駅南口 徒歩5分。<strong>着席40／立食50</strong>。スペインバル・パエリア・タパス。TEL 0463-23-4960</div>
+      </div>
+    </div>
+    <div class="reco">
+      <div class="medal m2">6</div>
+      <div>
+        <div class="name">HxM a Table <span class="badge pri-high">HIGH</span> <span class="badge st-pending">未架電</span></div>
+        <div class="why">JR平塚駅近・2024-11新店のフレンチ。湘南産食材＋仏。ディナー¥4,800〜。<strong>40名規模可否の確認が最優先</strong>。月夜/火休。TEL 0463-27-2171</div>
+      </div>
+    </div>
+  </div>
+
+  <p style="font-size:.85rem; color:var(--muted); margin:14px 0 0;">※ テーブル・カードは全て <strong>Priority順（HIGH → MID → LOW）</strong> にソート済み。</p>
+</section>
+
+<section id="sec2">
+  <h2 class="sec"><span class="num">2</span>凡例（優先度・ステータス）</h2>
+
+  <div class="legend">
+    <div class="group">
+      <span class="label">優先度</span>
+      <span class="badge pri-high">HIGH</span>
+      <span class="badge pri-mid">MID</span>
+      <span class="badge pri-low">LOW</span>
+    </div>
+    <div class="group">
+      <span class="label">電話ステータス</span>
+      <span class="badge st-pending">未架電</span>
+      <span class="badge st-confirming">確認中</span>
+      <span class="badge st-ok">空き確認済</span>
+      <span class="badge st-booked">仮押さえ済</span>
+      <span class="badge st-ng">NG（満員/営業外）</span>
+      <span class="badge st-skip">候補外</span>
+    </div>
+  </div>
+  <p style="font-size:.85rem; color:var(--muted); margin:8px 0 0;">優先度は<strong>我々の意向</strong>（おしゃれ重視 × 40名 × 動線）。ステータスは<strong>電話・現地確認の結果</strong>。両者は独立。</p>
+</section>
+
+<section id="sec3">
+  <h2 class="sec"><span class="num">3</span>候補一覧（駅切替）</h2>
+
+  <div class="tabs" role="tablist">
+    <button class="tab-btn active" data-station="all" onclick="filterStation('all', this)">ALL <span class="count" id="cnt-all">0</span></button>
+    <button class="tab-btn" data-station="ninomiya" onclick="filterStation('ninomiya', this)">二宮駅 <span class="count" id="cnt-ninomiya">0</span></button>
+    <button class="tab-btn" data-station="oiso" onclick="filterStation('oiso', this)">大磯駅 <span class="count" id="cnt-oiso">0</span></button>
+    <button class="tab-btn" data-station="hiratsuka" onclick="filterStation('hiratsuka', this)">平塚駅 <span class="count" id="cnt-hiratsuka">0</span></button>
+  </div>
+
+  <div class="tablewrap">
+    <table id="shop-table">
+      <thead>
+        <tr>
+          <th>店名</th>
+          <th>駅</th>
+          <th>ジャンル</th>
+          <th>キャパ</th>
+          <th>予算(夜)</th>
+          <th>優先度</th>
+          <th>電話ステータス</th>
+          <th>最終確認</th>
+          <th>メモ</th>
+        </tr>
+      </thead>
+      <tbody>
+        <!-- ▼ HIGH（最有力） -->
+        <tr data-station="hiratsuka">
+          <td class="shop">鶏バル PIOPIO</td>
+          <td><span class="st-chip hira">平塚</span></td>
+          <td>鶏バル・ワイン</td>
+          <td>着席40/立食50</td>
+          <td>コース¥4,000〜¥4,400</td>
+          <td><span class="badge pri-high">HIGH</span></td>
+          <td><span class="badge st-pending">未架電</span></td>
+          <td class="last-contact">—</td>
+          <td class="notes"><strong>最有力①</strong> 徒歩5分・白基調ウッド調・2H飲放9品付・PJ完備。席数は40名想定だとややタイト。TEL 050-5461-0915</td>
+        </tr>
+        <tr data-station="hiratsuka">
+          <td class="shop">ペコリーノ</td>
+          <td><span class="st-chip hira">平塚</span></td>
+          <td>イタリアン（ホテル併設）</td>
+          <td>着席40/立食60</td>
+          <td>要確認</td>
+          <td><span class="badge pri-high">HIGH</span></td>
+          <td><span class="badge st-pending">未架電</span></td>
+          <td class="last-contact">—</td>
+          <td class="notes"><strong>最有力②</strong> 駅前・ホテルリブマックス1F。遠方ゲストの宿泊動線が組める。アルコール100種以上。TEL 0463-24-2888</td>
+        </tr>
+        <tr data-station="hiratsuka">
+          <td class="shop">タパス&パエリア MAR（マール）</td>
+          <td><span class="st-chip hira">平塚</span></td>
+          <td>スペイン料理・バル</td>
+          <td>全44席（貸切30〜40名）</td>
+          <td>コース¥4,950〜</td>
+          <td><span class="badge pri-high">HIGH</span></td>
+          <td><span class="badge st-pending">未架電</span></td>
+          <td class="last-contact">—</td>
+          <td class="notes"><strong>最有力③</strong> 西口徒歩5分・木のぬくもり＋レンガ・スペインの陽気な雰囲気。月曜定休（10/31は土曜）。TEL 0463-22-6822</td>
+        </tr>
+        <tr data-station="hiratsuka">
+          <td class="shop">アマルフィイ ホワイトガーデン</td>
+          <td><span class="st-chip hira">平塚</span></td>
+          <td>イタリアン（屋上ガーデン）</td>
+          <td>要確認</td>
+          <td>ディナー¥4,000前後</td>
+          <td><span class="badge pri-high">HIGH</span></td>
+          <td><span class="badge st-pending">未架電</span></td>
+          <td class="last-contact">—</td>
+          <td class="notes">ラスカ平塚6F屋上。<strong>屋上テラス＋生演奏</strong>でリゾート感。駅直結。TEL 0463-74-5661</td>
+        </tr>
+        <tr data-station="hiratsuka">
+          <td class="shop">Sol Naciente（ソルナシエンテ）</td>
+          <td><span class="st-chip hira">平塚</span></td>
+          <td>スペインバル</td>
+          <td>着席40/立食50</td>
+          <td>要確認</td>
+          <td><span class="badge pri-high">HIGH</span></td>
+          <td><span class="badge st-pending">未架電</span></td>
+          <td class="last-contact">—</td>
+          <td class="notes">南口徒歩5分。パエリア・タパス。TEL 0463-23-4960</td>
+        </tr>
+        <tr data-station="hiratsuka">
+          <td class="shop">HxM a Table</td>
+          <td><span class="st-chip hira">平塚</span></td>
+          <td>フレンチ（新店）</td>
+          <td>要確認</td>
+          <td>コース¥4,800〜</td>
+          <td><span class="badge pri-high">HIGH</span></td>
+          <td><span class="badge st-pending">未架電</span></td>
+          <td class="last-contact">—</td>
+          <td class="notes">2024-11オープン。湘南産食材＋フランス。月夜/火休。<strong>40名規模可否の確認が最優先</strong>。TEL 0463-27-2171</td>
+        </tr>
+
+        <!-- ▼ MID -->
+        <tr data-station="oiso">
+          <td class="shop">大磯迎賓舘</td>
+          <td><span class="st-chip oiso">大磯</span></td>
+          <td>イタリアン・ピッツァ</td>
+          <td>1軒貸切（40名規模実績）</td>
+          <td>要見積</td>
+          <td><span class="badge pri-mid">MID</span></td>
+          <td><span class="badge st-pending">未架電</span></td>
+          <td class="last-contact">—</td>
+          <td class="notes">大正元年築・国登録有形文化財・海ビュー。ブライダル窓口 050-3385-0418</td>
+        </tr>
+        <tr data-station="oiso">
+          <td class="shop">OISO CONNECT CAFE<br>grill and pancake</td>
+          <td><span class="st-chip oiso">大磯</span></td>
+          <td>カフェダイニング（海沿い）</td>
+          <td>屋内51＋テラス24＝75席</td>
+          <td>要見積</td>
+          <td><span class="badge pri-mid">MID</span></td>
+          <td><span class="badge st-pending">未架電</span></td>
+          <td class="last-contact">—</td>
+          <td class="notes">大磯港 2F。テラス含めて全貸切OK・コース/ビュッフェ対応。<strong>海沿いリゾート感（モンスーンカフェ寄り）</strong>。駅徒歩約10分。TEL 050-5385-1673</td>
+        </tr>
+
+        <!-- ▼ LOW -->
+        <tr data-station="hiratsuka">
+          <td class="shop">マリー・ルイーズ</td>
+          <td><span class="st-chip hira">平塚</span></td>
+          <td>フレンチ</td>
+          <td>着席25/立食40</td>
+          <td>コース¥5,280〜¥13,200</td>
+          <td><span class="badge pri-low">LOW</span></td>
+          <td><span class="badge st-pending">未架電</span></td>
+          <td class="last-contact">—</td>
+          <td class="notes">創業37年の本格フレンチ。徒歩5分</td>
+        </tr>
+        <tr data-station="hiratsuka">
+          <td class="shop">ASIAN KITCHEN 平塚</td>
+          <td><span class="st-chip hira">平塚</span></td>
+          <td>アジア・エスニック居酒屋</td>
+          <td>要確認（宴会対応）</td>
+          <td>4,500円コース</td>
+          <td><span class="badge pri-low">LOW</span></td>
+          <td><span class="badge st-pending">未架電</span></td>
+          <td class="last-contact">—</td>
+          <td class="notes">タイ・ベトナム・ネパール料理。<strong>アジアンテイスト内装でモンスーンカフェ寄り</strong>。要キャパ確認</td>
+        </tr>
+        <tr data-station="hiratsuka">
+          <td class="shop">焼肉 韓国料理 辛辛屋</td>
+          <td><span class="st-chip hira">平塚</span></td>
+          <td>焼肉・韓国料理</td>
+          <td>貸切24〜40名</td>
+          <td>要確認</td>
+          <td><span class="badge pri-low">LOW</span></td>
+          <td><span class="badge st-pending">未架電</span></td>
+          <td class="last-contact">—</td>
+          <td class="notes">シックモダンな内装。本格韓国料理</td>
+        </tr>
+        <tr data-station="hiratsuka">
+          <td class="shop">LOCO STYLES CAFE</td>
+          <td><span class="st-chip hira">平塚</span></td>
+          <td>ハワイアン居酒屋(ダーツ/ビリヤード)</td>
+          <td>要確認</td>
+          <td>2H飲放¥2,800〜</td>
+          <td><span class="badge pri-low">LOW</span></td>
+          <td><span class="badge st-pending">未架電</span></td>
+          <td class="last-contact">—</td>
+          <td class="notes">紅谷町3F。ハワイアン雑貨で埋め尽くされたテーマ感。二次会対応</td>
+        </tr>
+        <tr data-station="ninomiya">
+          <td class="shop">ジリーノ（GIRINO）</td>
+          <td><span class="st-chip">二宮</span></td>
+          <td>イタリアン</td>
+          <td>非公開（小規模）</td>
+          <td>要確認</td>
+          <td><span class="badge pri-low">LOW</span></td>
+          <td><span class="badge st-pending">未架電</span></td>
+          <td class="last-contact">—</td>
+          <td class="notes">南口徒歩9分。40名は厳しい可能性</td>
+        </tr>
+        <tr data-station="ninomiya">
+          <td class="shop">ハッピーバール</td>
+          <td><span class="st-chip">二宮</span></td>
+          <td>ダイニングバー</td>
+          <td>非公開</td>
+          <td>¥2,000〜3,000</td>
+          <td><span class="badge pri-low">LOW</span></td>
+          <td><span class="badge st-pending">未架電</span></td>
+          <td class="last-contact">—</td>
+          <td class="notes">駅周辺。40名対応の確認要</td>
+        </tr>
+        <tr data-station="oiso">
+          <td class="shop">大磯プリンスホテル<br>（中国料理 滄 / S.DINING）</td>
+          <td><span class="st-chip oiso">大磯</span></td>
+          <td>ホテル系（中華/ブッフェ）</td>
+          <td>滄72席 / S.DINING大箱</td>
+          <td>要見積</td>
+          <td><span class="badge pri-low">LOW</span></td>
+          <td><span class="badge st-pending">未架電</span></td>
+          <td class="last-contact">—</td>
+          <td class="notes">太平洋＆庭園一望。駅から車（送迎バスの延長要相談）</td>
+        </tr>
+        <tr data-station="ninomiya">
+          <td class="shop">ラ ロッカ（la ROCCA）</td>
+          <td><span class="st-chip">二宮</span></td>
+          <td>イタリアン</td>
+          <td>小規模</td>
+          <td>コース¥4,000〜</td>
+          <td><span class="badge pri-low">LOW</span></td>
+          <td><span class="badge st-ng">営業外/不通</span></td>
+          <td class="last-contact">2026-05</td>
+          <td class="notes">電話で繋がらず。再架電要否を判断。徒歩2〜3分・シックな隠れ家</td>
+        </tr>
+        <tr data-station="ninomiya">
+          <td class="shop">指帆亭</td>
+          <td><span class="st-chip">二宮</span></td>
+          <td>フレンチ</td>
+          <td>着席80/立食100</td>
+          <td>¥7,000〜</td>
+          <td><span class="badge pri-low">LOW</span></td>
+          <td><span class="badge st-ng">予約満員</span></td>
+          <td class="last-contact">2026-05</td>
+          <td class="notes">元第一候補だったが10/31は満員。海ビュー・式場併設・AV完備</td>
+        </tr>
+        <tr data-station="ninomiya" class="row-skip">
+          <td class="shop">魚民 二宮北口駅前店</td>
+          <td><span class="st-chip">二宮</span></td>
+          <td>居酒屋・海鮮（チェーン）</td>
+          <td>89席</td>
+          <td>¥2,000〜3,000</td>
+          <td><span class="badge pri-low">LOW</span></td>
+          <td><span class="badge st-skip">候補外</span></td>
+          <td class="last-contact">—</td>
+          <td class="notes">チェーンのため除外</td>
+        </tr>
+        <tr data-station="ninomiya" class="row-skip">
+          <td class="shop">や台ずし 二宮駅前町</td>
+          <td><span class="st-chip">二宮</span></td>
+          <td>寿司・居酒屋（チェーン）</td>
+          <td>108席</td>
+          <td>¥3,000前後</td>
+          <td><span class="badge pri-low">LOW</span></td>
+          <td><span class="badge st-skip">候補外</span></td>
+          <td class="last-contact">—</td>
+          <td class="notes">チェーンのため除外</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <p style="font-size:.82rem; color:var(--muted); margin-top:10px;">※ チェーン店（魚民・や台ずし等）は候補外扱い。元の比較記録として残す。</p>
+</section>
+
+<section id="sec4">
+  <h2 class="sec"><span class="num">4</span>主要候補の詳細（優先度順）</h2>
+
+  <div class="panel active" data-panel="all">
+
+    <h3 style="color:var(--pri-high); border-left:5px solid var(--pri-high); padding-left:10px;">HIGH（最有力）</h3>
+    <div class="cards">
+      <div class="scard">
+        <span class="tag">★最有力① / 平塚</span>
+        <h3>鶏バル PIOPIO</h3>
+        <div class="meta">
+          <span class="badge pri-high">HIGH</span>
+          <span class="badge st-pending">未架電</span>
+        </div>
+        <ul>
+          <li>料理: 鶏料理＋ワイン＋ドリンク100種</li>
+          <li>収容: 着席40名／立食50名（貸切可）<strong>※40名想定だと席数ややタイト・要相談</strong></li>
+          <li>立地: JR平塚駅 徒歩5分</li>
+          <li>予算: 貸切コース ¥4,000〜¥4,400（2H飲み放題9品付）</li>
+          <li>備考: 白基調ウッド調・PJ完備</li>
+        </ul>
+        <div class="action"><span class="label">TEL:</span> <span class="tel">050-5461-0915</span></div>
+      </div>
+      <div class="scard">
+        <span class="tag">★最有力② / 平塚</span>
+        <h3>ペコリーノ</h3>
+        <div class="meta">
+          <span class="badge pri-high">HIGH</span>
+          <span class="badge st-pending">未架電</span>
+        </div>
+        <ul>
+          <li>料理: イタリア家庭料理（肉・パスタ中心）。アルコール100種以上</li>
+          <li>収容: 着席40名／立食60名（余裕あり）</li>
+          <li>立地: 平塚駅前（ホテルリブマックスBUDGET平塚駅前 1F）</li>
+          <li>強み: <strong>ホテル併設のため遠方ゲストの宿泊動線が組める</strong></li>
+        </ul>
+        <div class="action"><span class="label">TEL:</span> <span class="tel">0463-24-2888</span></div>
+      </div>
+      <div class="scard">
+        <span class="tag">★最有力③ / 平塚</span>
+        <h3>タパス&パエリア MAR（マール）</h3>
+        <div class="meta">
+          <span class="badge pri-high">HIGH</span>
+          <span class="badge st-pending">未架電</span>
+        </div>
+        <ul>
+          <li>料理: スペイン料理（パエリア・ハモン・アヒージョ）</li>
+          <li>収容: 全44席（手前＋奥テーブル4卓）、全店貸切で30〜40名</li>
+          <li>立地: JR平塚駅 西口徒歩5分</li>
+          <li>予算: コース ¥4,950〜（飲み放題付きあり）</li>
+          <li>備考: 木のぬくもり＋レンガ・スペインの陽気な雰囲気・月曜定休（10/31は土曜）</li>
+        </ul>
+        <div class="action"><span class="label">TEL:</span> <span class="tel">0463-22-6822</span></div>
+      </div>
+      <div class="scard">
+        <span class="tag">屋上ガーデン / 平塚</span>
+        <h3>アマルフィイ ホワイトガーデン</h3>
+        <div class="meta">
+          <span class="badge pri-high">HIGH</span>
+          <span class="badge st-pending">未架電</span>
+        </div>
+        <ul>
+          <li>料理: イタリアン（ピザ・パスタ）</li>
+          <li>立地: ラスカ平塚6F屋上（JR平塚駅直結）</li>
+          <li>雰囲気: <strong>屋上テラス＋生演奏</strong>・隠れ家的・洗練</li>
+          <li>予算: ディナー¥4,000前後／90分飲み放題オプションあり</li>
+        </ul>
+        <div class="action"><span class="label">TEL:</span> <span class="tel">0463-74-5661</span> <span style="color:var(--muted);">／ 雨天時の屋内退避要確認</span></div>
+      </div>
+      <div class="scard">
+        <span class="tag">スペインバル / 平塚</span>
+        <h3>Sol Naciente（ソルナシエンテ）</h3>
+        <div class="meta">
+          <span class="badge pri-high">HIGH</span>
+          <span class="badge st-pending">未架電</span>
+        </div>
+        <ul>
+          <li>料理: スペイン料理（パエリア・タパス・ハモン）</li>
+          <li>収容: 着席40名／立食50名</li>
+          <li>立地: 平塚駅南口徒歩5分</li>
+        </ul>
+        <div class="action"><span class="label">TEL:</span> <span class="tel">0463-23-4960</span></div>
+      </div>
+      <div class="scard">
+        <span class="tag">フレンチ新店 / 平塚</span>
+        <h3>HxM a Table（アッシュエム ア ターブル）</h3>
+        <div class="meta">
+          <span class="badge pri-high">HIGH</span>
+          <span class="badge st-pending">未架電</span>
+        </div>
+        <ul>
+          <li>料理: 湘南産＋フランスのファーム・トゥ・テーブル</li>
+          <li>立地: 平塚駅近く（2024-11オープン）</li>
+          <li>予算: ディナーコース¥4,800〜</li>
+          <li>備考: 月夜/火曜休。<strong>40名規模可否の確認が最優先</strong></li>
+        </ul>
+        <div class="action"><span class="label">TEL:</span> <span class="tel">0463-27-2171</span></div>
+      </div>
+    </div>
+
+    <h3 style="color:var(--pri-mid); border-left:5px solid var(--pri-mid); padding-left:10px;">MID</h3>
+    <div class="cards">
+      <div class="scard">
+        <span class="tag">洋館 / 大磯</span>
+        <h3>大磯迎賓舘</h3>
+        <div class="meta">
+          <span class="badge pri-mid">MID</span>
+          <span class="badge st-pending">未架電</span>
+        </div>
+        <ul>
+          <li>料理: イタリアン＋ナポリピッツァ</li>
+          <li>収容: 1軒貸切。40名規模の婚礼実績あり</li>
+          <li>立地: <strong>JR大磯駅 徒歩1分</strong>（二宮駅から東海道線で約3分）</li>
+          <li>雰囲気: 大正元年築の洋館（国登録有形文化財）・元貿易商の別荘・海を望むダイニング</li>
+        </ul>
+        <div class="action"><span class="label">TEL:</span> <span class="tel">050-3385-0418</span> <span style="color:var(--muted);">（ブライダル・パーティ窓口）</span></div>
+      </div>
+      <div class="scard">
+        <span class="tag">海沿いカフェ / 大磯</span>
+        <h3>OISO CONNECT CAFE grill and pancake</h3>
+        <div class="meta">
+          <span class="badge pri-mid">MID</span>
+          <span class="badge st-pending">未架電</span>
+        </div>
+        <ul>
+          <li>料理: 地元食材のシェフオリジナル創作料理＋パンケーキ</li>
+          <li>収容: 屋内51＋テラス24＝<strong>計75席</strong>、テラス含めて全貸切OK・コース/ビュッフェ対応</li>
+          <li>立地: 大磯港 OISO CONNECT 2F。JR大磯駅から徒歩約10分／タクシー5分</li>
+          <li>雰囲気: <strong>海沿い・港・テラス・シーサイドリゾート感（モンスーンカフェ寄り）</strong></li>
+        </ul>
+        <div class="action"><span class="label">TEL:</span> <span class="tel">050-5385-1673</span></div>
+      </div>
+    </div>
+
+    <h3 style="color:var(--pri-low); border-left:5px solid var(--pri-low); padding-left:10px;">LOW</h3>
+    <div class="cards">
+      <div class="scard">
+        <span class="tag">フレンチ / 平塚</span>
+        <h3>マリー・ルイーズ</h3>
+        <div class="meta">
+          <span class="badge pri-low">LOW</span>
+          <span class="badge st-pending">未架電</span>
+        </div>
+        <ul>
+          <li>料理: 本格フレンチ（創業37年）</li>
+          <li>収容: 着席25名／立食40名（パーテーション個室化可）</li>
+          <li>立地: JR平塚駅 徒歩5分</li>
+          <li>予算: ディナーコース ¥5,280／¥7,150／¥8,800／¥11,000／¥13,200</li>
+        </ul>
+        <div class="action"><span class="label">TEL:</span> <span class="tel">公式サイト/食べログから予約・問合せ</span></div>
+      </div>
+      <div class="scard">
+        <span class="tag">アジアン居酒屋 / 平塚</span>
+        <h3>ASIAN KITCHEN 平塚</h3>
+        <div class="meta">
+          <span class="badge pri-low">LOW</span>
+          <span class="badge st-pending">未架電</span>
+        </div>
+        <ul>
+          <li>料理: タイ・ベトナム・ネパール（ナン包み焼きカレー等）</li>
+          <li>雰囲気: <strong>アジアンテイスト内装＋アロマ＋音楽</strong>（モンスーンカフェ寄り）</li>
+          <li>予算: 4,500円コース（10名以上で幹事1名無料）</li>
+        </ul>
+        <div class="action"><span class="label">TEL:</span> <span class="tel">公式サイト/ホットペッパー要確認</span> <span style="color:var(--muted);">／ 40名規模のキャパ要確認</span></div>
+      </div>
+      <div class="scard">
+        <span class="tag">韓国料理 / 平塚</span>
+        <h3>焼肉 韓国料理 辛辛屋</h3>
+        <div class="meta">
+          <span class="badge pri-low">LOW</span>
+          <span class="badge st-pending">未架電</span>
+        </div>
+        <ul>
+          <li>料理: 本格韓国料理＋焼肉（ナムル・チーズチジミ・トッポキ・石焼ビビンバ）</li>
+          <li>収容: 貸切24〜40名</li>
+          <li>雰囲気: シックモダンな内装</li>
+        </ul>
+        <div class="action"><span class="label">TEL:</span> <span class="tel">ホットペッパー要確認</span></div>
+      </div>
+      <div class="scard">
+        <span class="tag">ハワイアン居酒屋 / 平塚</span>
+        <h3>LOCO STYLES CAFE</h3>
+        <div class="meta">
+          <span class="badge pri-low">LOW</span>
+          <span class="badge st-pending">未架電</span>
+        </div>
+        <ul>
+          <li>料理: ハワイアン系居酒屋＋ダーツ・ビリヤード</li>
+          <li>立地: 紅谷町9-18 中島ビル3F</li>
+          <li>雰囲気: <strong>ハワイアン雑貨で埋め尽くされたテーマパーク感</strong>。深夜営業</li>
+          <li>予算: 2H飲放¥2,800〜（ダーツ/ビリヤード遊び放題込）</li>
+        </ul>
+        <div class="action"><span class="label">TEL:</span> <span class="tel">0463-20-9757</span></div>
+      </div>
+      <div class="scard">
+        <span class="tag">ホテル系 / 大磯</span>
+        <h3>大磯プリンスホテル</h3>
+        <div class="meta">
+          <span class="badge pri-low">LOW</span>
+          <span class="badge st-pending">未架電</span>
+        </div>
+        <ul>
+          <li>料理: S.DINING（ブッフェ/グリル）、中国料理 滄（72席パーティールーム）</li>
+          <li>立地: JR大磯駅から車（駅徒歩圏ではない）</li>
+          <li>雰囲気: 太平洋＆ガーデン一望・大窓の開放感</li>
+        </ul>
+        <div class="action"><span class="label">TEL:</span> <span class="tel">0463-61-1111</span> <span style="color:var(--muted);">／ AT TERRACEからのバス延長検討</span></div>
+      </div>
+      <div class="scard is-skip">
+        <span class="tag">既存記録 / 二宮</span>
+        <h3>指帆亭（しはんてい）</h3>
+        <div class="meta">
+          <span class="badge pri-low">LOW</span>
+          <span class="badge st-ng">予約満員</span>
+        </div>
+        <ul>
+          <li>料理: フレンチ</li>
+          <li>収容: 着席80名／立食100名</li>
+          <li>立地: JR二宮駅から約600m</li>
+          <li>備考: 元第一候補。2026-10-31同日満員のため確定除外</li>
+        </ul>
+        <div class="action"><span class="label">TEL:</span> <span class="tel">—</span></div>
+      </div>
+      <div class="scard is-skip">
+        <span class="tag">既存記録 / 二宮</span>
+        <h3>ラ ロッカ（la ROCCA）</h3>
+        <div class="meta">
+          <span class="badge pri-low">LOW</span>
+          <span class="badge st-ng">営業外/不通</span>
+        </div>
+        <ul>
+          <li>料理: イタリアン（フルコース¥4,000〜）</li>
+          <li>立地: JR二宮駅から131m（徒歩2〜3分）</li>
+          <li>備考: 前回不通。再架電要否を判断</li>
+        </ul>
+        <div class="action"><span class="label">再架電要否:</span> <span style="color:var(--muted);">タイミング変えて再トライ判断</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="sec5">
+  <h2 class="sec"><span class="num">5</span>補足: AT TERRACE自前</h2>
+
+  <div class="callout green">
+    <p><strong>① 会場（AT TERRACE）自体で二次会するのが一番スムーズ</strong></p>
+    <p>パーティ会場は着席80／立食200名対応。移動なし・送迎手配不要・スタッフ持ち上がりでスムーズ。<br>
+    既存見積: フード&ドリンク 1人 ¥8,470＋バス延長 ¥44,000。<br>
+    あえて外でやる理由が「会費を抑える」「雰囲気を変える」なら、上記レストラン候補が活きる。</p>
+  </div>
+
+  <div class="callout gold">
+    <p><strong>② 外でやるなら平塚3軒（PIOPIO／ペコリーノ／MAR）の電話結果で決める</strong></p>
+    <p>40名×貸切×おしゃれ×徒歩5分圏 のバランスが最良。雰囲気フックを足したい場合は<strong>OISO CONNECT CAFE（海沿いリゾート感）</strong>や<strong>アマルフィイ ホワイトガーデン（屋上テラス＋生演奏）</strong>を繰り上げる選択肢。</p>
+  </div>
+
+  <div class="callout">
+    <p><strong>③ モンスーンカフェ系のテイスト整理</strong></p>
+    <p>当該エリアに <strong>モンスーンカフェ本体の支店はなし</strong>。最も近い雰囲気の候補：</p>
+    <ul class="clean" style="margin:6px 0 0;">
+      <li><strong>OISO CONNECT CAFE</strong>（大磯港・海沿い・テラス・カフェダイニング）— リゾート感は最も近い</li>
+      <li><strong>ASIAN KITCHEN 平塚</strong>（タイ・ベトナム・ネパール・アジアン内装）— 料理ジャンルが最も近い</li>
+      <li><strong>アマルフィイ ホワイトガーデン</strong>（屋上テラス＋生演奏）— "非日常"感が近い</li>
+      <li><strong>LOCO STYLES CAFE</strong>（ハワイアン雑貨・南国感）— カジュアル枠</li>
+    </ul>
+  </div>
+</section>
+
+<section id="sec6">
+  <h2 class="sec"><span class="num">6</span>参考リンク</h2>
+  <ul class="sources">
+    <li><a href="https://at-terrace.com/" target="_blank" rel="noopener">AT TERRACE ninomiya（公式）</a></li>
+    <li><a href="https://www.shihantei.com/wedding/" target="_blank" rel="noopener">指帆亭 挙式＆パーティ（公式）</a></li>
+    <li><a href="https://gourmetplus.jp/shops/9711/" target="_blank" rel="noopener">指帆亭 貸切・大人数パーティー（グルメプラス）</a></li>
+    <li><a href="https://tabelog.com/kanagawa/A1404/A140408/14072764/" target="_blank" rel="noopener">リストランテ バール ラ ロッカ（食べログ）</a></li>
+    <li><a href="https://www.oisogeihinkan.com/" target="_blank" rel="noopener">大磯迎賓舘（公式）</a></li>
+    <li><a href="http://www.oisogeihinkan.com/wedding/" target="_blank" rel="noopener">大磯迎賓舘 ウェディング（公式）</a></li>
+    <li><a href="https://www.princehotels.co.jp/oiso/restaurant/" target="_blank" rel="noopener">大磯プリンスホテル レストラン・バー（公式）</a></li>
+    <li><a href="https://www.m-louise.com/" target="_blank" rel="noopener">湘南平塚フランス料理 マリー・ルイーズ（公式）</a></li>
+    <li><a href="https://restaurant.ikyu.com/108639" target="_blank" rel="noopener">マリー・ルイーズ（一休.comレストラン）</a></li>
+    <li><a href="https://www.mar-hiratsuka.com/" target="_blank" rel="noopener">タパス&パエリア MAR マール（公式）</a></li>
+    <li><a href="https://hiratsuka-mar.owst.jp/" target="_blank" rel="noopener">タパス&パエリア MAR マール（ホットペッパー予約）</a></li>
+    <li><a href="https://www.toribaru-piopio.com/" target="_blank" rel="noopener">鶏バル PIOPIO（公式）</a></li>
+    <li><a href="https://tabelog.com/kanagawa/A1404/A140407/14028566/" target="_blank" rel="noopener">ペコリーノ（食べログ）</a></li>
+    <li><a href="https://anniversarys-mag.jp/198597/2" target="_blank" rel="noopener">平塚の結婚式二次会会場15選（アニーお祝い体験マガジン）</a></li>
+    <li><a href="https://hitosara.com/kanagawa/LC117/ST23269/" target="_blank" rel="noopener">二宮駅周辺グルメ一覧（ヒトサラ）</a></li>
+    <li><a href="https://oisoconnectcafe.com/" target="_blank" rel="noopener">OISO CONNECT CAFE grill and pancake（公式）</a></li>
+    <li><a href="https://oisoconnectcafe.com/news/1401/" target="_blank" rel="noopener">OISO CONNECT CAFE 貸切ご案内</a></li>
+    <li><a href="https://oiso-nigiwai.com/" target="_blank" rel="noopener">OISO CONNECT（大磯港賑わい創出施設）</a></li>
+    <li><a href="https://hitosara.com/0031325317/" target="_blank" rel="noopener">アマルフィイ ホワイトガーデン（ヒトサラ）</a></li>
+    <li><a href="https://asiankitchen-hiratsuka.owst.jp/" target="_blank" rel="noopener">ASIAN KITCHEN 平塚（公式予約サイト）</a></li>
+    <li><a href="https://sol-naciente.net/" target="_blank" rel="noopener">SOL NACIENTE ソルナシエンテ（公式）</a></li>
+    <li><a href="https://www.hotpepper.jp/strJ003366578/" target="_blank" rel="noopener">LOCO STYLES CAFE（ホットペッパー）</a></li>
+    <li><a href="https://www.atable-hiratsuka.com/" target="_blank" rel="noopener">HxM a Table（公式）</a></li>
+    <li><a href="https://hitosara.com/contents/FC23/kanagawa/T14005/I08200/" target="_blank" rel="noopener">平塚/大磯/二宮 おしゃれな雰囲気のお店（ヒトサラ）</a></li>
+    <li><a href="https://monsoon-cafe.jp/" target="_blank" rel="noopener">参考: Monsoon Cafe（公式・支店一覧）</a></li>
+  </ul>
+</section>
+
+<footer class="foot">
+  畑昂希 ✕ 玉置ひかり 結婚式準備 / koki-hikari-wedding-plan / docs/research/二次会会場/
+</footer>
+
+</div>
+
+<script>
+  function filterStation(station, btn){
+    // Tabs
+    document.querySelectorAll('.tab-btn').forEach(function(b){ b.classList.remove('active'); });
+    btn.classList.add('active');
+
+    // Table rows
+    var rows = document.querySelectorAll('#shop-table tbody tr');
+    rows.forEach(function(r){
+      var s = r.getAttribute('data-station');
+      if(station === 'all' || s === station){
+        r.classList.remove('row-hidden');
+      }else{
+        r.classList.add('row-hidden');
+      }
+    });
+  }
+
+  // Count rows per station
+  (function initCounts(){
+    var rows = document.querySelectorAll('#shop-table tbody tr');
+    var counts = {all:0, ninomiya:0, oiso:0, hiratsuka:0};
+    rows.forEach(function(r){
+      var s = r.getAttribute('data-station');
+      counts.all++;
+      if(counts[s] !== undefined) counts[s]++;
+    });
+    Object.keys(counts).forEach(function(k){
+      var el = document.getElementById('cnt-' + k);
+      if(el) el.textContent = counts[k];
+    });
+  })();
+</script>
+
+</body>
+</html>
