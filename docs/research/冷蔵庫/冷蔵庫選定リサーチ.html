@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>冷蔵庫 選定リサーチ（新生活・600L未満）</title>
+<style>
+  :root{
+    --bg:#faf6f4; --card:#ffffff; --ink:#3b3536; --muted:#7c7376;
+    --rose:#a85d6b; --rose-soft:#fdeef1; --rose-line:#e7cdd4;
+    --gold:#c79a52; --gold-soft:#fbf3e4;
+    --green:#3f8f6b; --green-soft:#e9f6ef;
+    --line:#ece4e2;
+    --gold-medal:#c9a227; --silver:#9aa0a6; --bronze:#b07a48;
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0; background:var(--bg); color:var(--ink);
+    font-family:system-ui,-apple-system,"Hiragino Sans","Hiragino Kaku Gothic ProN","Noto Sans JP",Meiryo,sans-serif;
+    line-height:1.8; font-size:16px; -webkit-font-smoothing:antialiased;
+  }
+  .wrap{max-width:980px; margin:0 auto; padding:0 20px 80px;}
+
+  header.hero{
+    text-align:center; padding:56px 20px 40px; margin-bottom:8px;
+    background:linear-gradient(180deg,#fff,#fbf1f3);
+    border-bottom:1px solid var(--rose-line);
+  }
+  .hero .eyebrow{letter-spacing:.3em; font-size:.72rem; color:var(--gold); font-weight:700; margin:0 0 10px;}
+  .hero h1{font-size:2rem; margin:0 0 14px; color:var(--rose); font-weight:800; letter-spacing:.02em;}
+  .hero p.lead{max-width:680px; margin:0 auto; color:var(--muted); font-size:.95rem;}
+  .meta-chips{display:flex; flex-wrap:wrap; gap:8px; justify-content:center; margin-top:18px;}
+  .chip{background:#fff; border:1px solid var(--rose-line); color:var(--rose);
+    border-radius:999px; padding:5px 14px; font-size:.8rem; font-weight:600;}
+
+  nav.toc{
+    background:var(--card); border:1px solid var(--line); border-radius:14px;
+    padding:18px 22px; margin:28px 0 40px; box-shadow:0 2px 10px rgba(168,93,107,.05);
+  }
+  nav.toc h2{margin:0 0 10px; font-size:.85rem; letter-spacing:.15em; color:var(--gold); border:0; padding:0;}
+  nav.toc ol{margin:0; padding-left:1.2em; columns:2; column-gap:30px;}
+  nav.toc li{margin:4px 0;}
+  nav.toc a{color:var(--ink); text-decoration:none; font-size:.9rem;}
+  nav.toc a:hover{color:var(--rose); text-decoration:underline;}
+
+  section{margin:0 0 44px; scroll-margin-top:16px;}
+  h2.sec{
+    font-size:1.35rem; color:var(--rose); margin:0 0 18px; padding-bottom:8px;
+    border-bottom:2px solid var(--rose-line); display:flex; align-items:center; gap:10px;
+  }
+  h2.sec .num{
+    background:var(--rose); color:#fff; font-size:.85rem; font-weight:700;
+    width:28px; height:28px; border-radius:50%; display:inline-flex; align-items:center; justify-content:center; flex:none;
+  }
+  h3{font-size:1.05rem; color:var(--ink); margin:26px 0 12px;}
+
+  .callout{
+    background:var(--rose-soft); border:1px solid var(--rose-line); border-left:5px solid var(--rose);
+    border-radius:12px; padding:20px 22px; margin:0 0 18px;
+  }
+  .callout.gold{background:var(--gold-soft); border-color:#ecdcb8; border-left-color:var(--gold);}
+  .callout.green{background:var(--green-soft); border-color:#bfe3cf; border-left-color:var(--green);}
+  .callout p{margin:8px 0;}
+  .callout strong{color:var(--rose);}
+
+  ol.lead-list{margin:14px 0; padding-left:1.3em;}
+  ol.lead-list li{margin:8px 0;}
+  ul.clean{list-style:none; padding:0; margin:14px 0;}
+  ul.clean>li{position:relative; padding-left:24px; margin:10px 0;}
+  ul.clean>li::before{content:"◆"; color:var(--gold); position:absolute; left:0; top:0; font-size:.8rem;}
+  ul.sub{margin:6px 0 6px 6px;}
+  ul.sub li{margin:4px 0;}
+
+  .recos{display:grid; gap:12px; margin:16px 0;}
+  .reco{display:flex; gap:14px; align-items:flex-start; background:#fff; border:1px solid var(--line);
+    border-radius:12px; padding:14px 16px;}
+  .medal{flex:none; width:34px; height:34px; border-radius:50%; display:flex; align-items:center; justify-content:center;
+    font-weight:800; color:#fff; font-size:.95rem;}
+  .m1{background:var(--gold-medal);} .m2{background:var(--silver);} .m3{background:var(--bronze);}
+  .reco .name{font-weight:800; color:var(--rose);}
+  .reco .why{color:var(--muted); font-size:.9rem;}
+
+  .tablewrap{overflow-x:auto; border:1px solid var(--line); border-radius:12px; margin:14px 0;
+    box-shadow:0 1px 6px rgba(168,93,107,.04);}
+  table{border-collapse:collapse; width:100%; min-width:640px; background:#fff; font-size:.9rem;}
+  thead th{background:var(--rose); color:#fff; font-weight:700; text-align:left; padding:11px 14px; white-space:nowrap;}
+  tbody th{background:var(--rose-soft); color:var(--ink); text-align:left; padding:10px 14px; font-weight:700; white-space:nowrap;}
+  tbody td{padding:10px 14px; border-top:1px solid var(--line); vertical-align:top;}
+  tbody tr:nth-child(even) td{background:#fcfaf9;}
+  table.compare td:first-child{font-weight:700; background:var(--rose-soft); white-space:nowrap;}
+  .hl{background:#fff6d9; padding:1px 6px; border-radius:5px; font-weight:700;}
+  .best{color:var(--green); font-weight:800;}
+  .yes{color:var(--green); font-weight:700;} .no{color:#c25b5b; font-weight:700;} .maybe{color:var(--gold); font-weight:700;}
+
+  .cards{display:grid; gap:16px; grid-template-columns:repeat(auto-fit,minmax(260px,1fr));}
+  .scard{background:#fff; border:1px solid var(--line); border-radius:14px; padding:18px 20px;
+    box-shadow:0 2px 10px rgba(168,93,107,.05);}
+  .scard h3{margin:0 0 6px; color:var(--rose);}
+  .scard .tag{display:inline-block; font-size:.72rem; font-weight:700; color:var(--gold);
+    background:var(--gold-soft); border-radius:6px; padding:2px 8px; margin-bottom:8px;}
+  .scard.win{border:1px solid var(--rose-line); box-shadow:0 4px 16px rgba(168,93,107,.12);}
+  .scard ul{margin:8px 0 0; padding-left:1.1em;} .scard li{margin:5px 0; font-size:.88rem;}
+
+  ul.check{list-style:none; padding:0; margin:14px 0;}
+  ul.check li{position:relative; padding:10px 12px 10px 40px; background:#fff; border:1px solid var(--line);
+    border-radius:10px; margin:8px 0; font-size:.92rem;}
+  ul.check li::before{content:"☐"; position:absolute; left:14px; top:9px; color:var(--rose); font-size:1.1rem; font-weight:700;}
+
+  ul.src{list-style:none; padding:0; margin:10px 0;}
+  ul.src li{margin:7px 0; padding-left:18px; position:relative; font-size:.88rem;}
+  ul.src li::before{content:"↗"; position:absolute; left:0; color:var(--gold);}
+  a{color:var(--rose);}
+
+  .pitfall{background:#fff; border:1px solid var(--line); border-left:5px solid #c25b5b;
+    border-radius:12px; padding:14px 18px; margin:12px 0;}
+  .pitfall h4{margin:0 0 6px; color:#c25b5b; font-size:1rem;}
+  .pitfall p{margin:0; font-size:.92rem;}
+
+  .refuted{list-style:none; padding:0; margin:12px 0;}
+  .refuted li{position:relative; padding:8px 12px 8px 30px; margin:6px 0; background:#fff;
+    border:1px solid var(--line); border-radius:8px; font-size:.88rem;}
+  .refuted li::before{content:"❌"; position:absolute; left:9px; top:8px; font-size:.8rem;}
+
+  .note{background:#fff8e6; border:1px dashed var(--gold); border-radius:10px; padding:12px 16px; font-size:.88rem; margin:14px 0; color:#7a6326;}
+  .archive{background:#f6f2f0; border:1px solid var(--line); border-radius:12px; padding:18px 22px; margin:14px 0;}
+  footer{text-align:center; color:var(--muted); font-size:.8rem; margin-top:50px; padding-top:24px; border-top:1px solid var(--line);}
+
+  @media (max-width:640px){
+    .hero h1{font-size:1.5rem;} nav.toc ol{columns:1;} body{font-size:15px;}
+  }
+  @media print{
+    body{background:#fff;} .tablewrap{overflow:visible; box-shadow:none;}
+    nav.toc{display:none;} header.hero{padding:20px;} section{page-break-inside:avoid;}
+  }
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <p class="eyebrow">NEW-LIFE RESEARCH</p>
+  <h1>冷蔵庫 選定リサーチ</h1>
+  <p class="lead">新婚2人＋数年内に子ども（実質3人）を見越した冷蔵庫選び。当初の600L級から「600Lは大きい」として <strong>600L未満（450〜550L中心）</strong> に絞り込み、判断軸 → 各社技術 → おすすめ機種までを裏取りしました。</p>
+  <div class="meta-chips">
+    <span class="chip">新婚2人＋将来3人</span>
+    <span class="chip">600L未満(450〜550L中心)</span>
+    <span class="chip">設置幅 60〜70cm</span>
+    <span class="chip">自炊・作り置き・冷凍多用</span>
+    <span class="chip">調査日 2026-06-15</span>
+  </div>
+</header>
+
+<div class="wrap">
+
+  <nav class="toc">
+    <h2>目次</h2>
+    <ol>
+      <li><a href="#s1">結論（3行）＋ 500L級で諦めるもの</a></li>
+      <li><a href="#s2">前提条件（確定分）</a></li>
+      <li><a href="#s3">適正容量の考え方</a></li>
+      <li><a href="#s4">判断軸 × 機種比較</a></li>
+      <li><a href="#s5">おすすめ機種（2系統）</a></li>
+      <li><a href="#s6">注意点（裏取りの限界・型落ち）</a></li>
+      <li><a href="#s7">透明性：検証で否決した説</a></li>
+      <li><a href="#s8">東芝について／未調査の論点</a></li>
+      <li><a href="#s9">主な出典</a></li>
+      <li><a href="#s10">参考（不採用）：600L級</a></li>
+    </ol>
+  </nav>
+
+  <!-- 1 -->
+  <section id="s1">
+    <h2 class="sec"><span class="num">1</span>結論（3行）</h2>
+    <ol class="lead-list">
+      <li><strong>3人世帯でも適正は約430〜530L</strong>（一般式 70L×人数＋常備品120〜170L＋予備100〜150L）。600Lは過剰で、<span class="hl">540L級がベストゾーン</span>。</li>
+      <li><strong>★500〜550L級でも主力技術はグレード落ちしない。</strong> 三菱WZ/MZ・パナWX/HY・日立まるごとチルド系とも、鮮度技術・大容量冷凍・スマート連携は540L級まで同等搭載。</li>
+      <li><strong>本命は2択</strong> → 冷凍量＆省エネ重視＝<strong>パナソニック</strong>、全室AI鮮度＆スリム＆プレミアム＝<strong>三菱MZ</strong>。</li>
+    </ol>
+    <div class="recos">
+      <div class="reco"><span class="medal m1">1</span><div><span class="name">三菱 MR-MZ54M</span> ／ 予算度外視のベスト<br><span class="why">540L・幅650mmスリム・全室AI鮮度・プレミアム。芸術家の感性×多忙な時短に最もはまる。</span></div></div>
+      <div class="reco"><span class="medal m1">1</span><div><span class="name">パナ NR-F54EY2</span> ／ コスパのベスト<br><span class="why">クラス最大の冷凍室112L・約19.8万円。冷凍多用のお二人には実利No.1。</span></div></div>
+    </div>
+    <div class="callout">
+      <p><strong>⚠️ 500L級で“諦めるもの”（唯一の重要な例外）：</strong></p>
+      <ul class="clean" style="margin-top:6px">
+        <li><strong>日立の最上位「真空チルド」は600L未満に降りてこない</strong>（555Lモデルの存在を検証できず＝事実上600L以上限定）。500L級の日立は「まるごとチルド＋特鮮氷温ルーム」になる。初回に「肉魚の鮮度最強」と評した真空チルドは600L未満では選べない。</li>
+        <li>日立498L級（R-KXCC50S）は新鮮スリープ野菜室・3段冷凍など一部上位装備が省かれ、<strong>冷凍室も小さい（2段）</strong>。まとめ買い・冷凍多用には不向き。</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- 2 -->
+  <section id="s2">
+    <h2 class="sec"><span class="num">2</span>前提条件（ヒアリング確定分）</h2>
+    <div class="tablewrap">
+      <table class="compare">
+        <thead><tr><th>項目</th><th>内容</th></tr></thead>
+        <tbody>
+          <tr><td>世帯</td><td>当面2人＋数年内に子ども想定 → 実質3人を見越した容量設計</td></tr>
+          <tr><td>使い方</td><td>自炊・作り置きが中心＋冷凍食品/ミールキット・宅配も多用。まとめ買い前提で買い物頻度は低い</td></tr>
+          <tr><td>重視軸</td><td>4本柱すべて（① 鮮度保持 ② 冷凍室 ③ デザイン ④ スマート・時短）</td></tr>
+          <tr><td>予算</td><td>こだわらない（コスパ妥当ラインも併記）</td></tr>
+          <tr><td>設置幅</td><td><b>60〜70cm</b>（この容量帯は幅650mmのスリム機が増える）</td></tr>
+          <tr><td>容量</td><td><b>600L未満（中心450〜550L）。600L以上は除外。</b></td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- 3 -->
+  <section id="s3">
+    <h2 class="sec"><span class="num">3</span>適正容量の考え方（3人見越し）</h2>
+    <div class="callout green">
+      <p>一般式：<strong>70L × 人数 ＋ 常備品120〜170L ＋ 予備100〜150L</strong>（JEMA系）</p>
+    </div>
+    <ul class="clean">
+      <li>3人 → 70×3=210 ＋ 常備120〜170 ＋ 予備100〜150 ＝ <strong>約430〜530L</strong></li>
+      <li>自炊・作り置き・冷凍多用・まとめ買いの使い方では冷凍と常備が膨らむため、<strong>上端の540L級が“ちょうど良い”</strong>。600L以上は過剰。</li>
+    </ul>
+    <p style="font-size:.85rem;color:var(--muted)">出典：<a href="https://www.softbank.jp/energy/saving/refrigerator-capacity/">SoftBank（JEMA式引用）</a></p>
+  </section>
+
+  <!-- 4 -->
+  <section id="s4">
+    <h2 class="sec"><span class="num">4</span>判断軸 × 機種比較（600L未満・検証済みモデル）</h2>
+    <div class="tablewrap">
+      <table class="compare">
+        <thead><tr><th>機種</th><th>容量</th><th>幅</th><th>冷凍室</th><th>年間電力</th><th>参考価格</th><th>主力鮮度/AI</th><th>位置づけ</th></tr></thead>
+        <tbody>
+          <tr><td>パナ NR-F55WX2/WX3</td><td>551L</td><td>685mm</td><td>103L＋急凍29</td><td class="best">245〜252kWh ⭐最省エネ</td><td>旗艦(高)</td><td>微凍結パーシャル/はやうま冷凍</td><td>予算度外視・冷凍&省エネ</td></tr>
+          <tr><td>三菱 MR-MZ54M</td><td>540L</td><td class="best">650mm ⭐スリム</td><td>91L＋切替29</td><td>276kWh</td><td>約27.6万</td><td>氷点下ストッカーD A.I.＋瞬冷凍A.I.＋全室AI</td><td>予算度外視・全室AI・プレミアム</td></tr>
+          <tr><td>パナ NR-F54EY2</td><td>542L</td><td>650mm</td><td class="best">112L ⭐冷凍最大</td><td>296kWh</td><td class="best">約19.8万 ⭐安</td><td>微凍結パーシャル系</td><td>コスパ・冷凍大</td></tr>
+          <tr><td>三菱 MR-WZ55K</td><td>547L</td><td>650mm</td><td>99L</td><td>266kWh</td><td>約21万（型落ち）</td><td>氷点下ストッカーD A.I.＋瞬冷凍A.I.＋朝どれ</td><td>コスパ・三菱鮮度</td></tr>
+          <tr><td>日立 R-HXCC54X</td><td>540L</td><td>650mm級</td><td>3段</td><td class="maybe">要確認</td><td>高</td><td>まるごとチルド＋<b>AIカメラ内蔵</b></td><td>在庫管理を“内蔵”で欲しいなら</td></tr>
+          <tr><td>日立 R-KXCC50S</td><td>498L</td><td>650mm</td><td class="no">小(26L表記/2段)</td><td>315kWh</td><td>（型落ち）</td><td>まるごとチルド＋特鮮氷温</td><td>鮮度OKだが冷凍小・装備簡素</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="note">冷凍室Lの定義は各社で異なる（パナ「クーリングアシスト」／三菱「瞬冷凍室・切替室」／日立「切替室」を本冷凍室と別カウント）。横並びは「実質冷凍可能容量」で見るのが安全。<strong>冷凍の大きさはパナ＞三菱</strong>。</div>
+
+    <h3>スマート/AIの実態（重要）</h3>
+    <ul class="clean">
+      <li>三菱 <strong>MyMU</strong> は機種別の機能差なし（公式明言）。450〜550L級まで全対応。</li>
+      <li>パナ <strong>KitchenPocket</strong> / 日立 <strong>冷蔵庫コンシェルジュ</strong> は基本のIoT（遠隔操作・通知・節電）は標準。ただし <strong>AIによる在庫管理・使い切りサポート・献立提案は別売AIカメラが前提</strong>（パナ NY-PCZE2等、日立はHXCC系のみカメラ内蔵）。</li>
+      <li>＝「AIで在庫・献立まで」を本気でやるなら、別売カメラ込みのパナ or 日立HXCCが現実解。</li>
+    </ul>
+  </section>
+
+  <!-- 5 -->
+  <section id="s5">
+    <h2 class="sec"><span class="num">5</span>おすすめ機種（2系統）</h2>
+    <div class="cards">
+      <div class="scard win">
+        <span class="tag">予算度外視のベスト</span>
+        <h3>三菱 MR-MZ54M</h3>
+        <ul>
+          <li>540L・幅650mm・年276kWh・<b>約27.6万円</b>。プレミアムフレンチ最上位。</li>
+          <li>氷点下ストッカーD A.I.＋切れちゃう瞬冷凍A.I.＋全室独立おまかせA.I.をフル搭載。</li>
+          <li>スリム650mm＋全室AI鮮度＋デザインで、<b>芸術家の感性×多忙な時短ニーズに最もはまる</b>。</li>
+          <li>内訳＝冷蔵298L/冷凍91L/野菜103L/切替29L/製氷19L。</li>
+        </ul>
+      </div>
+      <div class="scard">
+        <span class="tag">予算度外視・省エネ&amp;冷凍も両取り</span>
+        <h3>パナ NR-F55WX系</h3>
+        <ul>
+          <li>551L・685mm・<b>245〜252kWh</b>＝ラインアップ最省エネの旗艦。</li>
+          <li>冷凍103L＋クーリングアシスト29L＝実質約132L。</li>
+        </ul>
+      </div>
+      <div class="scard win">
+        <span class="tag">コスパのベスト</span>
+        <h3>パナ NR-F54EY2</h3>
+        <ul>
+          <li>542L・幅650mm・冷凍<b>112L（クラス最大）</b>・年296kWh・<b>約19.8万円</b>。</li>
+          <li>作り置き・冷凍食品・宅配のまとめ買いに最も強く、価格も約20万。</li>
+          <li><b>冷凍多用のお二人には実利No.1。</b></li>
+        </ul>
+      </div>
+      <div class="scard">
+        <span class="tag">コスパ・三菱鮮度</span>
+        <h3>三菱 MR-WZ55K</h3>
+        <ul>
+          <li>547L・幅650mm・冷凍99L・年266kWh・<b>約21万円</b>。三菱鮮度技術フル。</li>
+          <li>ただし2026年時点で型落ち（後継WZ55M/55N）。</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- 6 -->
+  <section id="s6">
+    <h2 class="sec"><span class="num">6</span>注意点（裏取りの限界・型落ち）</h2>
+    <ul class="clean">
+      <li><strong>型落ち</strong>：三菱WZ55K（2024-02発売）・日立KXCC50S（2022-02発売）。新品最新を求めるなら後継N/M世代・日立最新S/X世代を優先確認。</li>
+      <li><strong>価格</strong>は変動が大きく、引用はkakaku最安付近のスナップショット（約20万〜33.7万円のレンジ）。購入時に要再確認。</li>
+      <li><strong>冷凍室容量の定義差</strong>（前述）。日立498L級の「冷凍26L」表記は切替室を冷凍にしない場合の本冷凍室値とみられ、実運用はより大きくなり得る。</li>
+      <li><strong>デザイン軸（ガラス/マット/カラー）は今回も確証データが薄く未検証</strong>（パナWX3に石目調ガラス「Stone Black」の言及程度）。実物の質感は店頭確認推奨。</li>
+      <li><strong>日立真空チルドの600L未満非対応は反証ベースの推論</strong>（最新ラインの再確認が望ましい）。</li>
+    </ul>
+  </section>
+
+  <!-- 7 -->
+  <section id="s7">
+    <h2 class="sec"><span class="num">7</span>透明性：検証で否決した説（本報告に不採用）</h2>
+    <ul class="refuted">
+      <li>「日立R-WX5600G（555L）に真空チルド搭載／幅68.5cm」→ <span class="no">0-3</span>（555L真空チルドの存在を確認できず）</li>
+      <li>「三菱MR-WZ55Kは年270kWh」→ <span class="no">1-2</span>（正＝266kWh）</li>
+      <li>「日立コンシェルジュは740Lと500Lで完全同一」→ <span class="no">0-3</span>（HXCC系のみカメラ内蔵の階層差あり）</li>
+      <li>「2人360〜460L／3人430〜530L」の具体数値 → <span class="no">0-3</span>（一般式の方は3-0で確認）</li>
+    </ul>
+  </section>
+
+  <!-- 8 -->
+  <section id="s8">
+    <h2 class="sec"><span class="num">8</span>東芝について／未調査の論点</h2>
+    <h3>東芝について（前回ベストの扱い）</h3>
+    <p>初回1位の<strong>東芝VEGETA GR-Y640XFS（643L）</strong>には弟分の<strong>550L級（GR-V550FZ等）</strong>も存在するが、<strong>今回の裏取りでは東芝550L版に確証クレームが揃わなかった</strong>（検索網に十分かからず）。確証ベースで推すなら三菱/パナソニック。東芝550Lを本命候補に戻すなら追加でピンポイント調査が必要。</p>
+    <h3>未調査の論点（次の深掘り候補）</h3>
+    <ul class="check">
+      <li>東芝550L級（GR-V550FZ等）の確証スペック・位置づけ</li>
+      <li>急速冷凍の質の横断比較（パナはやうま vs 三菱瞬冷凍 vs 日立デリシャス）</li>
+      <li>デザイン・質感（ガラス/マット/カラー）の定性比較</li>
+      <li>静音性（dB）・保証年数の機種横断比較</li>
+    </ul>
+  </section>
+
+  <!-- 9 -->
+  <section id="s9">
+    <h2 class="sec"><span class="num">9</span>主な出典（600L未満・再検討）</h2>
+    <ul class="src">
+      <li><a href="https://www.softbank.jp/energy/saving/refrigerator-capacity/">適正容量（JEMA式）｜SoftBank</a></li>
+      <li><a href="https://www.mitsubishielectric.co.jp/home/reizouko/product/mr-wz55k/">三菱 MR-WZ55K 公式</a></li>
+      <li><a href="https://www.mitsubishielectric.co.jp/home/reizouko/product/mr-mz54m/index.html">三菱 MR-MZ54M 公式</a></li>
+      <li><a href="https://www.mitsubishielectric.co.jp/home/reizouko/function/remote/">三菱 つながるアプリ(MyMU)</a></li>
+      <li><a href="https://panasonic.jp/reizo/products/NR-F55WX1/spec.html">パナソニック NR-F55WX1 公式</a></li>
+      <li><a href="https://panasonic.jp/reizo/products/NR-F55HY3/spec.html">パナソニック NR-F55HY3 公式</a></li>
+      <li><a href="https://panasonic.jp/reizo/app/kitchen-pocket.html">パナソニック KitchenPocket</a> ／ <a href="https://panasonic.jp/reizo/feature/camera.html">AIカメラ</a></li>
+      <li><a href="https://kadenfan.hitachi.co.jp/rei/lineup/rkxcc50s/">日立 R-KXCC50S 公式</a></li>
+      <li><a href="https://kadenfan.hitachi.co.jp/app/rei/series01/">日立 冷蔵庫コンシェルジュ対応機種</a></li>
+      <li><a href="https://kakaku.com/kaden/freezer/itemlist.aspx?pdf_ma=65&pdf_Spec211=500-">価格.com（500L以上フレンチ一覧）</a></li>
+    </ul>
+    <p style="font-size:.82rem;color:var(--muted)">（鮮度保持の数値・省エネ%・AI機能はメーカー自社調べを含む。詳細は各「注意点」を参照）</p>
+  </section>
+
+  <!-- 10 -->
+  <section id="s10">
+    <h2 class="sec"><span class="num">10</span>参考（不採用）：初回検討の600L級</h2>
+    <div class="archive">
+      <p style="margin-top:0"><strong>「600Lは大きい」との判断で不採用。</strong>容量条件を緩めた場合の参考として残置。</p>
+      <ul class="clean">
+        <li><strong>設置幅フィルター</strong>：国内600L級フラッグシップは幅685mmが標準で60〜70cm枠に収まる。パナNR-F65WX2(750mm)・三菱MR-WXD70M(800mm)・日立R-WXC74系(880mm)は幅超過で除外。海外一体型（Gaggenau等）は最小76.2cmで全滅、単機能カラム61cm×2＝約122cm必要でビルトイン工事前提。</li>
+        <li><strong>当時の本命</strong>：東芝VEGETA <b>GR-Y640XFS</b>（643L・幅685mm・冷凍160L・野菜室約10日・IoLIFE連携・年296kWh・約34万円）。マイベスト独自検証36機種中1位。</li>
+        <li><strong>鮮度最優先</strong>：日立 真空チルド WXC系（0.8気圧・酸素20%減・マグロ/鶏ささみK値公表）。</li>
+        <li><strong>冷凍ストック最優先</strong>：シャープ メガフリーザー <b>SJ-MF50J</b>（504L・幅65cm・4段）／三菱 <b>MR-WZ61N</b>（608L・3段冷凍）。</li>
+        <li><strong>デザイン度外視</strong>：Gaggenau Vario 400（カラム構成・N・TEC正規輸入）。</li>
+      </ul>
+      <p style="font-size:.82rem;color:var(--muted);margin-bottom:0">主な出典：<a href="https://my-best.com/3237">my-best.com/3237</a> ／ <a href="https://kadenfan.hitachi.co.jp/rei/lineup/r-wxk/feature02.html">日立 R-WXK</a> ／ <a href="https://jp.sharp/reizo/feature/megafreezer/">シャープ メガフリーザー</a> ／ <a href="https://www.ntec.tv/products/cooling/">N・TEC</a></p>
+    </div>
+  </section>
+
+  <footer>
+    新生活リサーチ ／ 冷蔵庫 ／ 調査日 2026-06-15<br>
+    調査方法：deep-research（5角度に分解 → ソース取得 → 主張抽出 → 3票制で裏取り）。価格・仕様は変動するため、購入前に各公式/価格.comで最新をご確認ください。
+  </footer>
+
+</div>
+</body>
+</html>
