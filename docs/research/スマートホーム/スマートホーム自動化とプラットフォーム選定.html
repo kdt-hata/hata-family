@@ -1,0 +1,717 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>新婚生活スマートホーム 自動化 ＆ プラットフォーム選定</title>
+<style>
+:root{
+  --bg:#faf6f4; --card:#ffffff; --ink:#3b3536; --muted:#7c7376;
+  --rose:#a85d6b; --rose-soft:#fdeef1; --rose-line:#e7cdd4;
+  --gold:#c79a52; --gold-soft:#fbf3e4;
+  --green:#3f8f6b; --green-soft:#e9f6ef;
+  --line:#ece4e2;
+}
+*{box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{
+  margin:0; background:var(--bg); color:var(--ink);
+  font-family:system-ui,-apple-system,"Hiragino Sans","Hiragino Kaku Gothic ProN","Noto Sans JP",Meiryo,sans-serif;
+  line-height:1.85; font-size:16px; -webkit-font-smoothing:antialiased;
+}
+.wrap{max-width:1000px; margin:0 auto; padding:0 20px 90px;}
+
+/* タイトル(最初のh1)＝ヒーロー */
+h1:first-of-type{
+  text-align:center; color:var(--rose); font-weight:800; letter-spacing:.02em;
+  font-size:1.9rem; line-height:1.5;
+  background:linear-gradient(180deg,#fff,#fbf1f3);
+  border:1px solid var(--rose-line); border-radius:18px;
+  padding:40px 26px; margin:30px 0 26px;
+}
+/* 以降のh1＝大見出し（結論/第1部/第2部） */
+h1{
+  font-size:1.5rem; color:#fff; font-weight:800; letter-spacing:.04em;
+  background:linear-gradient(135deg,var(--rose),#c27d89);
+  border-radius:12px; padding:14px 20px; margin:54px 0 22px;
+  box-shadow:0 4px 14px rgba(168,93,107,.18);
+}
+h2{
+  font-size:1.28rem; color:var(--rose); margin:40px 0 16px; padding-bottom:8px;
+  border-bottom:2px solid var(--rose-line);
+}
+h3{
+  font-size:1.06rem; color:var(--ink); margin:28px 0 12px; padding-left:12px;
+  border-left:4px solid var(--gold);
+}
+p{margin:12px 0;}
+a{color:var(--rose); text-decoration:none; border-bottom:1px solid var(--rose-line);}
+a:hover{color:#8c4654; border-bottom-color:var(--rose);}
+strong{color:var(--rose);}
+
+/* blockquote -> callout */
+blockquote{
+  background:var(--gold-soft); border:1px solid #ecdcb8; border-left:5px solid var(--gold);
+  border-radius:12px; padding:14px 20px; margin:18px 0; color:#5f564a;
+}
+blockquote p{margin:7px 0;}
+blockquote strong{color:#9a7016;}
+blockquote a{color:#9a7016; border-bottom-color:#ecdcb8;}
+
+/* lists */
+ul,ol{padding-left:1.4em; margin:12px 0;}
+li{margin:7px 0;}
+li::marker{color:var(--gold);}
+
+/* tables */
+.table-scroll{overflow-x:auto; margin:18px 0; border-radius:12px;
+  box-shadow:0 2px 10px rgba(168,93,107,.06);}
+table{width:100%; border-collapse:collapse; background:var(--card); font-size:.92rem; min-width:520px;}
+thead th{
+  background:var(--rose-soft); color:var(--rose); font-weight:700;
+  text-align:left; padding:11px 13px; border-bottom:2px solid var(--rose-line); white-space:nowrap;
+}
+tbody td{padding:10px 13px; border-bottom:1px solid var(--line); vertical-align:top;}
+tbody tr:nth-child(even){background:#fdfafa;}
+tbody tr:hover{background:var(--rose-soft);}
+table strong{color:var(--rose);}
+
+/* inline code */
+code{background:#f3eceb; color:#8c4654; padding:2px 7px; border-radius:6px; font-size:.88em;
+  font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;}
+
+hr{border:0; border-top:1px dashed var(--rose-line); margin:46px 0;}
+
+@media(max-width:700px){
+  h1:first-of-type{font-size:1.45rem; padding:30px 18px;}
+  h1{font-size:1.25rem;}
+  h2{font-size:1.12rem;}
+  body{font-size:15px;}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+<h1
+id="新婚生活スマートホーム-①-自動化の対象--②-プラットフォーム選定">新婚生活スマートホーム
+① 自動化の対象 ＆ ② プラットフォーム選定</h1>
+<blockquote>
+<p>作成日：2026-06-16 / 対象：畑family
+新居（2人暮らし・<strong>IT/AIエンジニア ✕ 芸術家</strong>・SwitchBot
+利用中）
+目的：<strong>①「何を自動化するのが定番か」を棚卸し</strong>（SwitchBot等で電気・エアコン・カーテン…）＋<strong>②核となるプラットフォーム（Alexa
+/ Google Home / Apple Home / Matter /
+SwitchBot）の判断軸を設計して比較</strong>。
+方針：2026年6月時点の公式・一次情報＋国内レビューを横断。価格・対応状況は変動するため<strong>購入前に各公式で再確認</strong>。
+お二人の優先度（プロフィールから逆算）＝
+<strong>プライバシー/ローカル動作</strong> ・
+<strong>作り込みの自由度</strong> ・ <strong>佇まい（デザイン）</strong>
+・ <strong>既存SwitchBot資産との相性</strong> ・
+<strong>ロックイン回避（=Matter重視）</strong>。</p>
+</blockquote>
+<hr />
+<h1 id="結論先に要点">結論（先に要点）</h1>
+<h3 id="①-自動化の対象--まずこの6定番次に応用こだわりで制作環境">①
+自動化の対象 ――
+まずこの「6定番」、次に「応用」、こだわりで「制作環境」</h3>
+<p><strong>定番6つ＝ 照明 / エアコン / カーテン / 玄関の鍵 /
+テレビ等IR家電 / スマートプラグ。</strong> ここに
+<strong>温湿度・人感・開閉センサー</strong>を足して「人や時間で自動で動く」状態にするのが王道。お二人ならさらに
+<strong>アトリエの環境ログ（温湿度・CO2）と作品照明（調光調色）</strong>、<strong>制作/会議モードのシーン</strong>まで作ると“らしさ”が出ます（詳細は
+§1）。</p>
+<h3
+id="②-プラットフォーム--1つ選ぶより4レイヤーで組むのが2026年の正解">②
+プラットフォーム ――
+「1つ選ぶ」より「4レイヤーで組む」のが2026年の正解</h3>
+<div class="table-scroll"><table>
+<thead>
+<tr>
+<th>レイヤー</th>
+<th>役割</th>
+<th>お二人への推奨</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>🧠 <strong>母艦（ハブ/操作の顔）</strong></td>
+<td>音声・アプリ・オートメーションの中枢</td>
+<td><strong>Apple
+Home</strong>（プライバシー最良・佇まい・ローカル動作）※Androidなら<strong>Google
+Home</strong></td>
+</tr>
+<tr>
+<td>🔗 <strong>グルー（共通規格）</strong></td>
+<td>メーカー跨ぎの相互接続</td>
+<td><strong>Matter /
+Thread</strong>（ロックイン回避の保険。必ず効かせる）</td>
+</tr>
+<tr>
+<td>✋ <strong>手足（デバイス群）</strong></td>
+<td>実際に動くモノ</td>
+<td><strong>SwitchBot</strong>（既存資産＋日本の住宅に強い。Matterブリッジ兼用）</td>
+</tr>
+<tr>
+<td>🛠️ <strong>拡張（上級者の遊び場）</strong></td>
+<td>無制限の自動化・可視化</td>
+<td><strong>Home
+Assistant</strong>（エンジニアの本領。任意・後付けでOK）</td>
+</tr>
+</tbody>
+</table></div>
+<p><strong>👉
+本命構成：<code>Apple Home を母艦に、Matter で繋ぎ、SwitchBot を手足にする</code>。</strong>
+物足りなくなったら <strong>Home Assistant</strong>
+を一台足して青天井に。「今いちばん賢い会話AIで操作したい」なら、母艦はそのままに
+<strong>Echo（Alexa+）か Google スピーカー（Gemini for
+Home）を“声の窓口”として1台</strong>だけ併設するのが、ロックインせず良いとこ取りできる形です。</p>
+<blockquote>
+<p>⚠️ 分岐の鍵は <strong>スマホがiPhoneかAndroidか</strong>
+の1点。iPhone中心＝Apple Home、Android中心＝Google Home
+に母艦を置き替えるだけで、下の構成思想はそのまま使えます。</p>
+</blockquote>
+<hr />
+<h1
+id="第1部何を自動化するのが定番か">第1部：何を自動化するのが「定番」か</h1>
+<h2 id="11-自動化対象-早見表定番応用こだわり">1.1 自動化対象
+早見表（定番→応用→こだわり）</h2>
+<div class="table-scroll"><table>
+<thead>
+<tr>
+<th>ティア</th>
+<th>対象</th>
+<th>代表デバイス（SwitchBot中心）</th>
+<th>典型トリガー / 効果</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>🟢 定番</td>
+<td><strong>照明（リビング/寝室）</strong></td>
+<td>シーリングライト(Pro) / スマート電球 / テープライト /
+壁スイッチに「ボット」「スイッチ」</td>
+<td>時間・人感・「ただいま」で点灯。調光調色でシーン切替</td>
+</tr>
+<tr>
+<td>🟢 定番</td>
+<td><strong>エアコン</strong></td>
+<td>ハブ(2/3/ミニMatter)の赤外線 ＋ 温湿度計</td>
+<td>室温/湿度がしきい値で自動ON。帰宅前に予冷/予暖</td>
+</tr>
+<tr>
+<td>🟢 定番</td>
+<td><strong>カーテン / ロールスクリーン</strong></td>
+<td>カーテン3 / ロールスクリーン / ブラインドポール</td>
+<td>朝に自動オープン（光で起きる）・就寝で全閉・日射で自動調整</td>
+</tr>
+<tr>
+<td>🟢 定番</td>
+<td><strong>玄関の鍵</strong></td>
+<td>ロック / ロックPro / ロックUltra（＋指紋/NFCパッド）</td>
+<td>オートロック・解錠で点灯/解錠通知・合鍵をアプリ発行</td>
+</tr>
+<tr>
+<td>🟢 定番</td>
+<td><strong>テレビ等のIR家電</strong></td>
+<td>ハブ（学習リモコン）</td>
+<td>リモコン集約・「映画モード」で消灯＋TV＋エアコン一括</td>
+</tr>
+<tr>
+<td>🟢 定番</td>
+<td><strong>任意の家電ON/OFF</strong></td>
+<td>プラグミニ / ボット</td>
+<td>間接照明・加湿器・サーキュレーター・コーヒー等を時間/音声で</td>
+</tr>
+<tr>
+<td>🟡 応用</td>
+<td><strong>センサー連動</strong></td>
+<td>人感 / 開閉 / 水漏れ / CO2 / 照度</td>
+<td>「人がいなくなって5分で消灯」「ドア開→点灯」「CO2高→換気/通知」</td>
+</tr>
+<tr>
+<td>🟡 応用</td>
+<td><strong>掃除の自動化</strong></td>
+<td>ロボット掃除機（別途調査済※）</td>
+<td>外出を検知して自動清掃を起動</td>
+</tr>
+<tr>
+<td>🟡 応用</td>
+<td><strong>見守り・防犯</strong></td>
+<td>屋内/屋外カメラ・ビデオドアホン</td>
+<td>不在時のランダム点灯（在宅偽装）・施錠忘れ通知・来客録画</td>
+</tr>
+<tr>
+<td>🟡 応用</td>
+<td><strong>空気・温湿度の最適化</strong></td>
+<td>加湿器 / 空気清浄機 / 除湿（プラグ or 純正）</td>
+<td>湿度40〜60%キープ・就寝時に静音運転へ</td>
+</tr>
+<tr>
+<td>🔵 こだわり</td>
+<td><strong>制作/会議モードのシーン</strong></td>
+<td>照明色温度＋BGM＋エアコン＋「集中」表示の一括切替</td>
+<td>ワンタップ/音声で“環境”を切替（§1.3）</td>
+</tr>
+<tr>
+<td>🔵 こだわり</td>
+<td><strong>作品照明（ギャラリー化）</strong></td>
+<td>高演色スマート電球 / スポット / テープライト</td>
+<td>絵・作品が映える調光調色。時間で自然光に追従</td>
+</tr>
+<tr>
+<td>🔵 こだわり</td>
+<td><strong>アトリエ環境ログ</strong></td>
+<td>温湿度計プラス / CO2センサー（クラウド記録）</td>
+<td>作品保存に効く温湿度の見える化・記録・しきい値通知</td>
+</tr>
+</tbody>
+</table></div>
+<blockquote>
+<p>※ロボット掃除機は別ドキュメント <a
+href="../ロボット掃除機/">ロボット掃除機/</a> に詳細（推薦：Roborock
+Saros 10R）。</p>
+</blockquote>
+<h2 id="12-何を起点に動かすかトリガーの型ここが自動化の本体">1.2
+「何を起点に動かすか」＝トリガーの型（ここが自動化の本体）</h2>
+<p>デバイスより<strong>トリガー設計</strong>が肝。定番は5系統：</p>
+<ol type="1">
+<li><strong>時間</strong>：朝7時にカーテン開＋エアコン、24時に全消灯＋施錠。</li>
+<li><strong>人の在/不在（人感・位置情報）</strong>：帰宅で点灯・解錠・空調ON／全員外出で一括OFF＋掃除起動。</li>
+<li><strong>環境（温湿度・照度・CO2）</strong>：室温28℃で冷房、湿度70%で除湿、暗くなったら点灯、CO2高で換気喚起。</li>
+<li><strong>状態変化（開閉・施錠）</strong>：玄関ドア開→廊下点灯、窓開→その部屋の空調停止。</li>
+<li><strong>音声・手動シーン</strong>：「いってきます」「おやすみ」「制作モード」のひと声
+or ボタン一発。</li>
+</ol>
+<h2 id="13-お二人向けシーン例そのまま使えるレシピ">1.3
+お二人向けシーン例（そのまま使える“レシピ”）</h2>
+<ul>
+<li><strong>🌅 おはよう</strong>：7:00にカーテン自動オープン →
+寝室を暖色で徐々に点灯 → リビングのエアコンON →
+スピーカーが天気と予定を読み上げ。</li>
+<li><strong>🏠 ただいま</strong>（位置情報 or 解錠）：玄関＆廊下点灯 →
+エアコンを快適温度へ → 好きなプレイリスト。</li>
+<li><strong>🎨
+制作モード</strong>（アトリエ）：高演色で昼白色5000K・調光100% →
+余計な通知を抑制 → 換気/CO2監視ON → サーキュレーター弱。</li>
+<li><strong>💻 会議モード</strong>（在宅ワーク）：顔が明るく映る前面光 →
+「会議中」をディスプレイ/ライトで家庭内に表示 →
+生活音家電（掃除機等）を一時停止。</li>
+<li><strong>🌙 おやすみ</strong>：全消灯（寝室だけ暖色1%常夜灯）→
+玄関施錠 → 戸締り未施錠を通知 → 空調を就寝・静音モードへ →
+カーテン全閉。</li>
+<li><strong>🚪 いってきます</strong>：全消灯＋施錠＋空調OFF →
+ロボット掃除機起動 → 防犯（在宅偽装のランダム点灯を夕方に）。</li>
+</ul>
+<h2 id="14-it芸術家ならではの伸びしろ">1.4
+IT/芸術家“ならでは”の伸びしろ</h2>
+<ul>
+<li><strong>作品が主役の照明</strong>：演色性(Ra/CRI)の高い電球＋スポットで“ギャラリー化”。時間帯で色温度を自然光に追従させると作品の見え方が安定。</li>
+<li><strong>アトリエの環境管理＝作品保存</strong>：温湿度・CO2を<strong>記録</strong>し、しきい値で通知/換気。紙・絵具・楽器・機材の保管に効く。</li>
+<li><strong>ダッシュボード/ログの可視化</strong>：Home Assistant
+で全センサーを1画面に。電力・室温・在室の推移をグラフ化＝エンジニアの遊び場かつ実益（光熱費の最適化）。</li>
+<li><strong>自然言語で操作</strong>：2026年は各社が会話AIを搭載（§2）。「寒いから少し暖めて」レベルの曖昧な指示が通り始めた年。</li>
+</ul>
+<h2 id="15-落とし穴先に知っておくと事故らない">1.5
+落とし穴（先に知っておくと事故らない）</h2>
+<ol type="1">
+<li><strong>賃貸/原状回復</strong>：SwitchBotのロック・スイッチ・カーテンは概ね<strong>両面テープで後付け（穴あけ不要）</strong>。退去時に剥がせるか粘着跡の可否を確認。新築持ち家でも、壁スイッチ系は配線を傷めない後付け型が無難。</li>
+<li><strong>赤外線は“見通し・1方向”が弱点</strong>：ハブとエアコン/TVの間に遮蔽物があると届かない。家具レイアウト前に<strong>ハブの定位置</strong>を決める。広い家は階・部屋ごとにハブ複数。</li>
+<li><strong>電波の前提</strong>：多くが<strong>2.4GHz
+Wi-Fi＋Bluetooth</strong>。Matterの真価を出すなら
+<strong>Thread（メッシュ）対応のボーダールーター</strong>（HomePod/Apple
+TV/対応ハブ）があると安定。新居のルーター/メッシュ計画とセットで。</li>
+<li><strong>“全自動”の言葉に注意</strong>：センサー連動は便利だが、誤作動（人感の死角・ペット・来客）も起きる。<strong>まず手動シーン→慣れたら自動化</strong>の順が安全。</li>
+<li><strong>マイク/カメラの置き場所</strong>：寝室・アトリエに常時マイク/カメラを置くかは方針を決める（§2.7
+プライバシー）。</li>
+</ol>
+<hr />
+<h1
+id="第2部核となるプラットフォームの選定">第2部：核となるプラットフォームの選定</h1>
+<h2 id="21-結論本命構成">2.1 結論（本命構成）</h2>
+<p><strong><code>母艦=Apple Home / グルー=Matter・Thread / 手足=SwitchBot / 拡張=Home Assistant</code>。</strong>
+理由は、お二人の優先度（プライバシー・佇まい・自由度・既存資産・ロックイン回避）に最も多く当たるから。<strong>Androidが主</strong>なら母艦を
+<strong>Google Home</strong> に置き替え（Gemini for Home
+が国内早期アクセス開始済で会話AIが強い）。<strong>今いちばん賢い会話AIを声で使いたい</strong>なら、母艦はそのままに
+<strong>Echo(Alexa+) か Google
+スピーカー</strong>を“声の窓口”として1台だけ足すのが、ロックインせず良いとこ取りできる構成です。</p>
+<h2 id="22-まず地図4レイヤーで考える1社に全部寄せない">2.2
+まず地図：4レイヤーで考える（“1社に全部寄せない”）</h2>
+<p>2026年は <strong>Matter</strong>
+のおかげで「<strong>母艦は1つに決めつつ、デバイスはメーカー横断で選べる</strong>」のが当たり前に。だから選択は「どれか1つ」ではなく<strong>役割分担</strong>で考えるのが正解。</p>
+<ul>
+<li>🧠 <strong>母艦（エコシステム）</strong>：Alexa / Google Home /
+Apple Home
+から<strong>主に使う1つ</strong>。音声・アプリ・オートメーションの“顔”。</li>
+<li>🔗
+<strong>グルー（共通規格）</strong>：<strong>Matter</strong>（接続規格）と
+<strong>Thread</strong>（省電力メッシュ通信）。これを効かせておけば、後で母艦を乗り換えてもデバイスは生き残る＝<strong>保険</strong>。</li>
+<li>✋ <strong>手足（デバイス）</strong>：<strong>SwitchBot</strong>
+が日本の住宅（赤外線家電・後付けカーテン/ロック）に圧倒的に強い。ハブが
+<strong>Matterブリッジ</strong>を兼ねる。</li>
+<li>🛠️ <strong>拡張</strong>：<strong>Home
+Assistant</strong>（OSS・完全ローカル）。母艦の自動化が物足りなくなった時に“青天井”を足す層。エンジニア向け。</li>
+</ul>
+<h2 id="23-判断軸の設計なぜこの軸か太字お二人の最優先">2.3
+判断軸の設計（なぜこの軸か／太字＝お二人の最優先）</h2>
+<div class="table-scroll"><table>
+<thead>
+<tr>
+<th>#</th>
+<th>判断軸</th>
+<th>なぜ重要か（お二人にとって）</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>①</td>
+<td><strong>プライバシー / ローカル動作</strong></td>
+<td>AI当事者。音声・在室・間取り・施解錠ログを誰がどこに持つか。クラウド依存度と広告/商流との距離</td>
+</tr>
+<tr>
+<td>②</td>
+<td><strong>オートメーションの自由度</strong></td>
+<td>エンジニア。条件分岐・変数・スクリプト・APIまで作り込めるか（“できることの天井”）</td>
+</tr>
+<tr>
+<td>③</td>
+<td><strong>デザイン / UI・佇まい</strong></td>
+<td>芸術家＆新居。アプリの美しさ、ハブ/スピーカーの存在感、表示の上品さ</td>
+</tr>
+<tr>
+<td>④</td>
+<td><strong>既存SwitchBot資産との相性</strong></td>
+<td>既に運用中。ハブ・ロック・カーテン等がそのまま活きるか</td>
+</tr>
+<tr>
+<td>⑤</td>
+<td>日本語＆音声AIの賢さ（2026）</td>
+<td>曖昧な自然言語をどれだけ理解するか。国内対応の早さ</td>
+</tr>
+<tr>
+<td>⑥</td>
+<td>将来の拡張性 / ロックイン回避</td>
+<td>Matter成熟度・乗り換え耐性。長く住む前提での投資保護</td>
+</tr>
+<tr>
+<td>⑦</td>
+<td>入口コスト / 学習コスト</td>
+<td>始めやすさ、家族（将来含む）が使えるシンプルさ</td>
+</tr>
+</tbody>
+</table></div>
+<h2 id="24-横並び比較母艦3候補--拡張">2.4 横並び比較（母艦3候補 ＋
+拡張）</h2>
+<div class="table-scroll"><table>
+<thead>
+<tr>
+<th>観点</th>
+<th><strong>Amazon Alexa</strong>（+Alexa+）</th>
+<th><strong>Google Home</strong>（+Gemini for Home）</th>
+<th><strong>Apple Home</strong>（+homeOS/HomePad）</th>
+<th><strong>Home Assistant</strong>（拡張）</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>位置づけ</td>
+<td>対応の広さNo.1・買い物に強い</td>
+<td>検索/AIに強い・自然言語◎</td>
+<td>プライバシー＆統合の美しさ</td>
+<td>自由度の王様（OSS・自前運用）</td>
+</tr>
+<tr>
+<td>対応デバイス数(目安)</td>
+<td>約30万</td>
+<td>約10万</td>
+<td>約5千（Matterで実質拡大）</td>
+<td>事実上無制限（連携2000+)</td>
+</tr>
+<tr>
+<td>会話AIの賢さ(2026)</td>
+<td><strong>Alexa+（LLM）が頭一つ抜ける</strong></td>
+<td><strong>Gemini で急伸</strong>・文脈理解◎</td>
+<td>Siri刷新待ち（homeOS/2026秋が本番）</td>
+<td>任意（外部LLMを接続可）</td>
+</tr>
+<tr>
+<td>日本語対応</td>
+<td>Alexa+本体は<strong>国内未提供</strong>（無印は対応）</td>
+<td><strong>早期アクセス開始済</strong>(2026/4)</td>
+<td>日本語Siri対応・AI刷新は2026後半</td>
+<td>自分次第（UIは日本語可）</td>
+</tr>
+<tr>
+<td><strong>プライバシー</strong></td>
+<td>クラウド寄り・商流に近い（要設定）</td>
+<td>クラウド寄り・Google経済圏</td>
+<td><strong>最良</strong>（オンデバイス/ローカル志向）</td>
+<td><strong>完全ローカル可（最強）</strong></td>
+</tr>
+<tr>
+<td><strong>デザイン/UI</strong></td>
+<td>実用的だが雑多になりがち</td>
+<td>刷新で改善・無難</td>
+<td><strong>最も洗練・統一感</strong></td>
+<td>自由（作り込み次第・玄人向け）</td>
+</tr>
+<tr>
+<td><strong>自動化の自由度</strong></td>
+<td>ルーティン充実・上限あり</td>
+<td>ルーティン＋スクリプト</td>
+<td>個人/条件は可・凝ると窮屈</td>
+<td><strong>無制限（条件分岐/変数/API）</strong></td>
+</tr>
+<tr>
+<td>ローカル動作</td>
+<td>一部ローカル・基本クラウド</td>
+<td>同左</td>
+<td><strong>Home Hubでローカル実行</strong></td>
+<td><strong>完全ローカル</strong></td>
+</tr>
+<tr>
+<td>入口コスト/手軽さ</td>
+<td><strong>安い・最も簡単</strong></td>
+<td>安い・簡単</td>
+<td>端末はやや高・素直</td>
+<td>機材(Pi/NUC)＋学習コスト</td>
+</tr>
+<tr>
+<td>お二人との相性</td>
+<td>“声の窓口/サブ”に最適</td>
+<td>Android主ならコレ</td>
+<td><strong>iPhone主なら本命</strong></td>
+<td><strong>②自由度を満たす拡張に最適</strong></td>
+</tr>
+</tbody>
+</table></div>
+<blockquote>
+<p>凡例：太字＝その観点で優位。対応数は各社公表ベースの目安で変動。<strong>Matter対応デバイスは母艦を問わず動く</strong>ため、Appleの「5千」は実数より不利に見える点に注意。</p>
+</blockquote>
+<h2 id="25-各プラットフォーム詳細">2.5 各プラットフォーム詳細</h2>
+<h3 id="blue_square-apple-homehomeos--homepad本命の母艦iphone前提">🟦
+Apple Home（＋homeOS / HomePad）――【本命の母艦・iPhone前提】</h3>
+<ul>
+<li><strong>強み</strong>：プライバシー最良（ローカル/オンデバイス志向）、<strong>Homeアプリの統一感・佇まい</strong>が芸術家・新居に好相性、オートメーションは
+<strong>Home Hub（HomePod/Apple
+TV）上でローカル実行</strong>＝ネット断でも動く堅さ。Matterコントローラ＆Threadボーダールーターも兼ねる。</li>
+<li><strong>2026の動き</strong>：WWDC 2026で <strong>homeOS</strong>
+と新ハブ <strong>「HomePad」</strong>（約7インチ画面・A18・Face
+IDで“誰が部屋にいるか”認識）をプレビュー、<strong>2026年秋（〜9月）想定</strong>。次世代Siriの仕上がりが発売の鍵（Siri刷新はこの構成の“弱点である会話力”を一気に底上げする本命イベント）。</li>
+<li><strong>弱点</strong>：ネイティブ対応デバイスは最少（→<strong>Matter＋SwitchBotブリッジで補う</strong>前提）。<strong>オートメーションには家に常時稼働のHome
+Hubが必須</strong>。現状のSiriは会話力で他社に劣る（2026後半に改善見込み）。</li>
+<li>出典：<a
+href="https://www.macworld.com/article/3011651/2026-preview-these-4-rumored-devices-point-to-a-major-apple-smart-home-push.html">Macworld:
+2026 Apple smart home</a> ／ <a
+href="https://www.macobserver.com/tips/round-ups/everything-we-know-about-the-smart-touch-display-homepad/">MacObserver:
+HomePad</a> ／ <a
+href="https://www.techtimes.com/articles/317985/20260608/apple-wwdc-2026-siri-rebuilt-gemini-homeos-previewed-cook-farewell-keynote.htm">TechTimes:
+WWDC2026 homeOS</a></li>
+</ul>
+<h3 id="orange_square-amazon-alexaalexa声とaiの窓口に最適サブ推奨">🟧
+Amazon Alexa（＋Alexa+）――【“声とAI”の窓口に最適・サブ推奨】</h3>
+<ul>
+<li><strong>強み</strong>：対応デバイス
+<strong>約30万</strong>で最広、入口が<strong>最も安く簡単</strong>。<strong>Alexa+（LLM搭載）は2026年時点で会話AIの完成度が頭一つ抜けている</strong>（曖昧/複数指示に強い）。</li>
+<li><strong>2026の動き</strong>：Alexa+は
+<strong>$19.99/月（Prime会員は追加無料）</strong>。ただし<strong>本格版は米国先行で、日本は未提供</strong>（無印Alexaは日本語対応）。国内提供は<strong>2026年半ば〜2027年初</strong>が目安。</li>
+<li><strong>弱点</strong>：クラウド寄りで<strong>広告/購買の商流に近い</strong>＝プライバシー軸②③を最優先するお二人には“母艦”より**“声の窓口/サブ”**が妥当。UIは多機能ゆえ雑多になりがち。</li>
+<li>出典：<a
+href="https://note.com/super_phlox114/n/n35a9f1f2c090">note: Alexa+
+全貌(2026)</a> ／ <a href="https://ai-bo.jp/alexa/">Ai-Bo: Alexa+
+日本導入・料金</a></li>
+</ul>
+<h3
+id="green_square-google-homegemini-for-homeandroid主なら本命の母艦">🟩
+Google Home（＋Gemini for Home）――【Android主なら本命の母艦】</h3>
+<ul>
+<li><strong>強み</strong>：自然言語の理解が良く、<strong>Gemini for Home
+で急伸</strong>。検索/予定/地図などGoogle経済圏と滑らか。価格も手頃。</li>
+<li><strong>2026の動き</strong>：<strong>Gemini for Home
+の早期アクセスが日本でも開始（2026/4/8〜、Google Homeアプリ
+v4.12+）</strong>。16カ国・7言語（日本語含む）。よく使う照明操作など<strong>応答を最大40%高速化</strong>。一部高度機能（Gemini
+Live・カメラ履歴検索等）は <strong>Google Home
+Premium（有料）</strong>。春に新Nest Cam／新スピーカー。</li>
+<li><strong>弱点</strong>：プライバシーはクラウド寄り（Google経済圏）。母艦をAppleにする場合は“声の窓口/サブ”として1台併設が無難。</li>
+<li>出典：<a
+href="https://blog.google/intl/ja-jp/products/devices-services/gemini-for-home/">Google
+Japan: Gemini for Home 早期アクセス</a> ／ <a
+href="https://www.sbbit.jp/article/cont1/184152">SBビット:
+国内アクセス開始</a></li>
+</ul>
+<h3 id="link-matter--thread-グルー必ず効かせる保険">🔗 Matter / Thread
+――【グルー＝必ず効かせる“保険”】</h3>
+<ul>
+<li><strong>何者か</strong>：Amazon/Google/Apple/Samsung等が策定した<strong>共通接続規格(Matter)<strong>と</strong>省電力メッシュ通信(Thread)</strong>。Matter対応なら<strong>母艦を問わず</strong>基本操作が通る＝<strong>ロックイン回避</strong>の本命。</li>
+<li><strong>2026の現状</strong>：Matter認証
+<strong>700製品超</strong>、Thread認証
+<strong>1000製品超</strong>へ拡大。<strong>Thread
+1.4</strong>で複数ボーダールーターの相互運用が前進、<strong>Matter
+1.5でカメラ対応</strong>追加。ただし<strong>各社の実装は足並みが不揃い</strong>（1.2止まりのプラットフォームも）で「全機器が完璧に繋がる」段階ではない＝<strong>“繋がる保険”として使いつつ、肝心デバイスは母艦ネイティブ対応も確認</strong>が現実解。</li>
+<li>出典：<a
+href="https://matter-smarthome.de/en/development/the-matter-standard-in-2026-a-status-review/">matter-smarthome:
+2026 Status</a> ／ <a
+href="https://www.makeuseof.com/what-matter-and-thread-mean-smart-home/">MakeUseOf:
+Matter &amp; Thread 2026</a></li>
+</ul>
+<h3
+id="raised_hand-switchbot-手足既存資産日本の住宅に最強matterブリッジ兼用">✋
+SwitchBot
+――【手足＝既存資産・日本の住宅に最強・Matterブリッジ兼用】</h3>
+<ul>
+<li><strong>強み</strong>：<strong>赤外線家電（エアコン/TV）・後付けカーテン・スマートロック</strong>など“日本の賃貸/既設住宅で効く”製品が網羅的。国内サポートも手厚い。<strong>ハブが
+Matterブリッジ</strong>を兼ね、SwitchBotデバイスを Apple
+Home/Google/Alexa/SmartThings へ橋渡しできる。</li>
+<li><strong>Matterで“外”に出せるもの（公式）</strong>：カーテン/ロールスクリーン、ロック全シリーズ、ボット/リモートボタン、温湿度計/CO2、人感/開閉/水漏れセンサー、照明（シーリング/電球/テープ）、プラグミニ、学習リモコン、ロボット掃除機。<strong>ブリッジに登録した赤外線家電（エアコン等）もMatter経由で公開可</strong>。
+<ul>
+<li>⚠️
+ただし<strong>Matter経由の操作は粒度が粗くなりがち</strong>（エアコンの全モード・IRの全ボタン・複雑シーンは結局<strong>SwitchBotアプリ側</strong>が前提）。“細かい作り込みはSwitchBotアプリ、横断のON/OFFはMatter”の二段構えで考える。</li>
+</ul></li>
+<li><strong>ハブの選び方</strong>：<strong>ハブ3</strong>（2025/5/16発売・実勢
+約1万円前後※要確認）が現行の中核。2.4型カラー液晶＋物理ダイヤル「Dial
+Master」、<strong>温湿度・照度に加え人感センサー内蔵</strong>、赤外線学習、Bluetoothブリッジ、<strong>Matter対応</strong>。スマホを開かず本体だけで家電/シーンを切替できるのが新点。<strong>ハブ2／ハブミニ(Matter対応)</strong>
+も引き続きMatterブリッジ可。</li>
+<li>出典：<a
+href="https://www.switchbot.jp/pages/switchbot-matter">SwitchBot:
+Matter対応</a> ／ <a
+href="https://www.switchbot.jp/products/switchbot-hub3">SwitchBot
+ハブ3</a> ／ <a
+href="https://smhn.info/202505-switchbot-hub3-review">すまほん:
+ハブ3レビュー</a></li>
+</ul>
+<h3 id="hammer_and_wrench-home-assistant-拡張エンジニアの青天井任意">🛠️
+Home Assistant ――【拡張＝エンジニアの“青天井”・任意】</h3>
+<ul>
+<li><strong>強み</strong>：OSSで<strong>完全ローカル可＝プライバシー最強</strong>、連携2000以上、<strong>条件分岐・変数・スクリプト・API</strong>まで作り込み自由（②軸の天井がない）。<strong>HomeKit
+Bridge</strong> 経由で自作自動化を Apple Home
+にも露出できる＝母艦と共存。</li>
+<li><strong>弱点</strong>：Raspberry Pi/Mini
+PC等の<strong>機材と学習コスト</strong>。家族全員が触る“顔”には不向き（顔はApple
+Home、裏方をHome Assistant、が綺麗）。</li>
+<li><strong>位置づけ</strong>：最初は不要。SwitchBot＋Apple Homeで運用 →
+「もっと凝りたい」となったら<strong>後から1台足す</strong>のが最適。IT/AIエンジニアの趣味と実益（光熱費可視化・独自AI連携）が両立。</li>
+</ul>
+<h2 id="26-お二人のケースへの当てはめ最終提案">2.6
+お二人のケースへの当てはめ／最終提案</h2>
+<ol type="1">
+<li><strong>プライバシー最優先（AI当事者）</strong> → 母艦は
+<strong>Apple Home</strong>（ローカル/オンデバイス）。突き詰めたい裏方は
+<strong>Home
+Assistant</strong>（完全ローカル）。声の窓口を足すなら設定でデータ共有を絞る。</li>
+<li><strong>作り込みたい（エンジニア）</strong> →
+まずは母艦のオートメーション、足りなくなったら <strong>Home
+Assistant</strong> で青天井。</li>
+<li><strong>佇まい（芸術家・新居）</strong> →
+Homeアプリ＆Apple端末の統一感、SwitchBotの白基調がインテリアに馴染む。</li>
+<li><strong>既存SwitchBot＋日本の家</strong> → 手足は <strong>SwitchBot
+継続</strong>。ハブを
+<strong>Matterブリッジ</strong>として効かせる。</li>
+<li><strong>ロックイン回避</strong> → <strong>Matter/Thread
+を必ず有効化</strong>。母艦を将来乗り換えてもデバイスは生存。</li>
+</ol>
+<p><strong>最終提案（本命）</strong></p>
+<ul>
+<li>🥇 <strong>母艦：Apple Home</strong>（iPhone中心の前提）。Home Hubに
+<strong>HomePod系 or Apple TV</strong>。秋の
+<strong>HomePad/homeOS</strong> は“買い増し候補”として注視。</li>
+<li>🔗 <strong>グルー：Matter / Thread
+を必ず有効化</strong>（保険）。</li>
+<li>✋
+<strong>手足：SwitchBot（ハブ3を中核）</strong>＋必要に応じ高演色照明・カーテン・ロック。</li>
+<li>🛠️ <strong>拡張：Home Assistant
+は「物足りなくなったら」後付け</strong>（最初は無くてよい）。</li>
+<li>🗣️
+<strong>声/AIの窓口（任意）</strong>：会話AIを今すぐ堪能したいなら
+<strong>Echo(Alexa+※国内提供待ち) か Google スピーカー(Gemini for
+Home/国内開始済)</strong>
+を1台。<strong>母艦は替えずサブ</strong>として。</li>
+</ul>
+<p><strong>分岐（Android中心の場合）</strong>：🥇母艦を <strong>Google
+Home</strong> に置換（Gemini for
+Homeが国内で強い）。残り（Matter/SwitchBot/Home
+Assistant）の思想はそのまま流用可。</p>
+<h2 id="27-落とし穴買う前に必ず">2.7 落とし穴（買う前に必ず）</h2>
+<ol type="1">
+<li><strong>Apple Homeはオートメーションに“常時稼働のHome
+Hub”が必須</strong>（HomePod/Apple
+TV）。これが無いと自動化・外出先操作・Matter制御ができない。母艦をAppleにするなら<strong>ハブ端末を1つ確保</strong>。</li>
+<li><strong>Matter経由＝基本操作のみになりがち</strong>。エアコンの全モード・IR全ボタン・複雑シーンは結局<strong>各社純正アプリ</strong>（SwitchBotアプリ等）が要る。「横断はMatter、作り込みは純正」の二段構え前提。</li>
+<li><strong>会話AIの“本番”はこれから</strong>：Alexa+は<strong>国内未提供</strong>、AppleのSiri刷新は<strong>2026後半</strong>。今すぐ最強の会話AIが要るなら**Gemini
+for
+Home（国内開始済）**が一歩先。ただし母艦選定を会話AIだけで決めない（数ヶ月で勢力図が動く領域）。</li>
+<li><strong>プライバシーの実運用</strong>：寝室/アトリエに常時マイク・カメラを置くか方針決め。Alexa/Googleはクラウド寄り＝<strong>データ共有設定の見直し</strong>を。最重視なら**Apple
+Home＋Home Assistant（ローカル）**に寄せる。</li>
+<li><strong>電波・設置</strong>：赤外線は見通し1方向、Thread/Matterはボーダールーター（HomePod/Apple
+TV/対応ハブ）があると安定。<strong>新居のWi-Fi/メッシュ計画とハブ定位置を間取り段階で決める</strong>。</li>
+<li><strong>賃貸/原状回復</strong>：ロック・スイッチ・カーテンは後付け（粘着）可否と退去時の剥がしやすさを事前確認。</li>
+</ol>
+<h2 id="28-次のアクションチェックリスト">2.8
+次のアクション（チェックリスト）</h2>
+<ul class="task-list">
+<li><label><input
+type="checkbox" /><strong>スマホ確認</strong>：二人ともiPhoneか？（→母艦
+Apple/Google を確定）</label></li>
+<li><label><input type="checkbox" /><strong>Home Hub端末</strong>：Apple
+Homeなら HomePod系 or Apple TV を1つ用意（常時稼働）。</label></li>
+<li><label><input type="checkbox" /><strong>ハブ更新</strong>：SwitchBot
+ハブ3（or 既存ハブ2/ハブミニMatter）で
+<strong>Matterブリッジ</strong>を有効化。</label></li>
+<li><label><input
+type="checkbox" /><strong>定番6つから着手</strong>：照明→エアコン→カーテン→ロック→IR家電→プラグの順で。</label></li>
+<li><label><input
+type="checkbox" /><strong>トリガー設計</strong>：まず手動シーン（おはよう/ただいま/おやすみ/制作/会議）→慣れたら人感・時間で自動化。</label></li>
+<li><label><input
+type="checkbox" /><strong>高演色照明</strong>：作品が映えるCRI高めの電球/スポットを選定（別途比較可）。</label></li>
+<li><label><input
+type="checkbox" /><strong>アトリエ環境ログ</strong>：温湿度計プラス/CO2を設置し記録・通知を設定。</label></li>
+<li><label><input type="checkbox" /><strong>（任意）Home
+Assistant</strong>：物足りなくなったら Mini PC/Pi
+で導入し可視化・独自自動化。</label></li>
+<li><label><input type="checkbox" /><strong>会話AI</strong>：欲しければ
+Gemini for Home（国内可）/将来の
+Alexa+・Siri刷新を様子見で1台。</label></li>
+</ul>
+<h2 id="29-出典主要">2.9 出典（主要）</h2>
+<ul>
+<li>SwitchBot：<a
+href="https://www.switchbot.jp/pages/switchbot-matter">Matter対応</a> ／
+<a href="https://www.switchbot.jp/products/switchbot-hub3">ハブ3</a> ／
+<a href="https://www.switchbot.jp/pages/switchbot-hub2">ハブ2</a> ／ <a
+href="https://www.switchbot.jp/products/switchbot-hub-mini-matter">ハブミニ(Matter)</a>
+／ <a
+href="https://smhn.info/202505-switchbot-hub3-review">すまほん:ハブ3レビュー</a>
+／ <a
+href="https://www.gizmodo.jp/2026/01/switchbot-ces2026.html">ギズモード:CES2026</a></li>
+<li>プラットフォーム比較：<a
+href="https://smarthomenavi.com/post-4651/">Smart Home Navi 2026</a> ／
+<a href="https://www.ai-trendlab.com/blog/ai-smart-home-2026/">AI Trend
+Lab 2026</a> ／ <a
+href="https://hitorigoto-lab.jp/smart-speaker-comparison-recommended-2026/">ひとりごとラボ:スピーカー比較2026</a></li>
+<li>Alexa+：<a
+href="https://note.com/super_phlox114/n/n35a9f1f2c090">note:全貌(2026)</a>
+／ <a href="https://ai-bo.jp/alexa/">Ai-Bo:日本導入・料金</a> ／ <a
+href="https://weel.co.jp/media/innovator/alexa-plus/">WEEL:Alexa+</a></li>
+<li>Google/Gemini for Home：<a
+href="https://blog.google/intl/ja-jp/products/devices-services/gemini-for-home/">Google
+Japan:早期アクセス</a> ／ <a
+href="https://www.sbbit.jp/article/cont1/184152">SBビット:国内開始</a>
+／ <a
+href="https://smhn.info/202604-google-gemini-for-home-japan-early-access">すまほん:国内早期アクセス</a></li>
+<li>Apple Home/homeOS/HomePad：<a
+href="https://www.macworld.com/article/3011651/2026-preview-these-4-rumored-devices-point-to-a-major-apple-smart-home-push.html">Macworld:2026
+push</a> ／ <a
+href="https://www.macobserver.com/tips/round-ups/everything-we-know-about-the-smart-touch-display-homepad/">MacObserver:HomePad</a>
+／ <a
+href="https://www.techtimes.com/articles/317985/20260608/apple-wwdc-2026-siri-rebuilt-gemini-homeos-previewed-cook-farewell-keynote.htm">TechTimes:WWDC2026</a></li>
+<li>Matter/Thread：<a
+href="https://matter-smarthome.de/en/development/the-matter-standard-in-2026-a-status-review/">matter-smarthome:2026
+Status</a> ／ <a
+href="https://www.makeuseof.com/what-matter-and-thread-mean-smart-home/">MakeUseOf:Matter
+&amp; Thread 2026</a></li>
+</ul>
+<blockquote>
+<p>※会話AI（Alexa+/Gemini/Siri刷新）と Matter 実装状況、HomePad/homeOS
+は<strong>2026年に動きが速い領域</strong>。価格・国内提供・対応可否は<strong>導入直前に各公式で再確認</strong>してください。本書の「最大」「対応」表記はメーカー一次情報に基づく方向性で、実機の操作粒度（特にMatter経由）は割り引いて評価しています。</p>
+</blockquote>
+
+</div>
+</body>
+</html>

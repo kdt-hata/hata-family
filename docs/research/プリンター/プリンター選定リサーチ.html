@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>家庭用カラープリンター 比較（書類カラー・Apple無線印刷）</title>
+<style>
+  :root{
+    --bg:#faf6f4; --card:#ffffff; --ink:#3b3536; --muted:#7c7376;
+    --rose:#a85d6b; --rose-soft:#fdeef1; --rose-line:#e7cdd4;
+    --gold:#c79a52; --gold-soft:#fbf3e4;
+    --green:#3f8f6b; --green-soft:#e9f6ef;
+    --line:#ece4e2;
+    --gold-medal:#c9a227; --silver:#9aa0a6; --bronze:#b07a48;
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0; background:var(--bg); color:var(--ink);
+    font-family:system-ui,-apple-system,"Hiragino Sans","Hiragino Kaku Gothic ProN","Noto Sans JP",Meiryo,sans-serif;
+    line-height:1.8; font-size:16px; -webkit-font-smoothing:antialiased;
+  }
+  .wrap{max-width:980px; margin:0 auto; padding:0 20px 80px;}
+
+  header.hero{
+    text-align:center; padding:56px 20px 40px; margin-bottom:8px;
+    background:linear-gradient(180deg,#fff,#fbf1f3);
+    border-bottom:1px solid var(--rose-line);
+  }
+  .hero .eyebrow{letter-spacing:.3em; font-size:.72rem; color:var(--gold); font-weight:700; margin:0 0 10px;}
+  .hero h1{font-size:2rem; margin:0 0 14px; color:var(--rose); font-weight:800; letter-spacing:.02em;}
+  .hero p.lead{max-width:680px; margin:0 auto; color:var(--muted); font-size:.95rem;}
+  .meta-chips{display:flex; flex-wrap:wrap; gap:8px; justify-content:center; margin-top:18px;}
+  .chip{background:#fff; border:1px solid var(--rose-line); color:var(--rose);
+    border-radius:999px; padding:5px 14px; font-size:.8rem; font-weight:600;}
+
+  nav.toc{
+    background:var(--card); border:1px solid var(--line); border-radius:14px;
+    padding:18px 22px; margin:28px 0 40px; box-shadow:0 2px 10px rgba(168,93,107,.05);
+  }
+  nav.toc h2{margin:0 0 10px; font-size:.85rem; letter-spacing:.15em; color:var(--gold); border:0; padding:0;}
+  nav.toc ol{margin:0; padding-left:1.2em; columns:2; column-gap:30px;}
+  nav.toc li{margin:4px 0;}
+  nav.toc a{color:var(--ink); text-decoration:none; font-size:.9rem;}
+  nav.toc a:hover{color:var(--rose); text-decoration:underline;}
+
+  section{margin:0 0 44px; scroll-margin-top:16px;}
+  h2.sec{
+    font-size:1.35rem; color:var(--rose); margin:0 0 18px; padding-bottom:8px;
+    border-bottom:2px solid var(--rose-line); display:flex; align-items:center; gap:10px;
+  }
+  h2.sec .num{
+    background:var(--rose); color:#fff; font-size:.85rem; font-weight:700;
+    width:28px; height:28px; border-radius:50%; display:inline-flex; align-items:center; justify-content:center; flex:none;
+  }
+  h3{font-size:1.05rem; color:var(--ink); margin:26px 0 12px;}
+
+  .callout{
+    background:var(--rose-soft); border:1px solid var(--rose-line); border-left:5px solid var(--rose);
+    border-radius:12px; padding:20px 22px; margin:0 0 18px;
+  }
+  .callout.gold{background:var(--gold-soft); border-color:#ecdcb8; border-left-color:var(--gold);}
+  .callout.green{background:var(--green-soft); border-color:#bfe3cf; border-left-color:var(--green);}
+  .callout p{margin:8px 0;}
+  .callout strong{color:var(--rose);}
+
+  ul.clean{list-style:none; padding:0; margin:14px 0;}
+  ul.clean>li{position:relative; padding-left:24px; margin:10px 0;}
+  ul.clean>li::before{content:"◆"; color:var(--gold); position:absolute; left:0; top:0; font-size:.8rem;}
+  ul.sub{margin:6px 0 6px 6px;}
+  ul.sub li{margin:4px 0;}
+
+  .recos{display:grid; gap:12px; margin:16px 0;}
+  .reco{display:flex; gap:14px; align-items:flex-start; background:#fff; border:1px solid var(--line);
+    border-radius:12px; padding:14px 16px;}
+  .medal{flex:none; width:34px; height:34px; border-radius:50%; display:flex; align-items:center; justify-content:center;
+    font-weight:800; color:#fff; font-size:.95rem;}
+  .m1{background:var(--gold-medal);} .m2{background:var(--silver);} .m3{background:var(--bronze);}
+  .reco .name{font-weight:800; color:var(--rose);}
+  .reco .why{color:var(--muted); font-size:.9rem;}
+
+  .tablewrap{overflow-x:auto; border:1px solid var(--line); border-radius:12px; margin:14px 0;
+    box-shadow:0 1px 6px rgba(168,93,107,.04);}
+  table{border-collapse:collapse; width:100%; min-width:600px; background:#fff; font-size:.9rem;}
+  thead th{background:var(--rose); color:#fff; font-weight:700; text-align:left; padding:11px 14px; white-space:nowrap;}
+  tbody th{background:var(--rose-soft); color:var(--ink); text-align:left; padding:10px 14px; font-weight:700; white-space:nowrap;}
+  tbody td{padding:10px 14px; border-top:1px solid var(--line); vertical-align:top;}
+  tbody tr:nth-child(even) td{background:#fcfaf9;}
+  table.compare td:first-child{font-weight:700; background:var(--rose-soft); white-space:nowrap;}
+  .hl{background:#fff6d9; padding:1px 6px; border-radius:5px; font-weight:700;}
+  .best{color:var(--green); font-weight:800;}
+  .yes{color:var(--green); font-weight:700;} .no{color:#c25b5b; font-weight:700;} .maybe{color:var(--gold); font-weight:700;}
+  .strike{text-decoration:line-through; color:var(--muted);}
+
+  .cards{display:grid; gap:16px; grid-template-columns:repeat(auto-fit,minmax(260px,1fr));}
+  .scard{background:#fff; border:1px solid var(--line); border-radius:14px; padding:18px 20px;
+    box-shadow:0 2px 10px rgba(168,93,107,.05);}
+  .scard h3{margin:0 0 6px; color:var(--rose);}
+  .scard .tag{display:inline-block; font-size:.72rem; font-weight:700; color:var(--gold);
+    background:var(--gold-soft); border-radius:6px; padding:2px 8px; margin-bottom:8px;}
+  .scard.win{border:1px solid var(--rose-line); box-shadow:0 4px 16px rgba(168,93,107,.12);}
+  .scard ul{margin:8px 0 0; padding-left:1.1em;} .scard li{margin:5px 0; font-size:.88rem;}
+
+  ul.check{list-style:none; padding:0; margin:14px 0;}
+  ul.check li{position:relative; padding:10px 12px 10px 40px; background:#fff; border:1px solid var(--line);
+    border-radius:10px; margin:8px 0; font-size:.92rem;}
+  ul.check li::before{content:"☐"; position:absolute; left:14px; top:9px; color:var(--rose); font-size:1.1rem; font-weight:700;}
+
+  ul.src{list-style:none; padding:0; margin:10px 0;}
+  ul.src li{margin:7px 0; padding-left:18px; position:relative; font-size:.88rem;}
+  ul.src li::before{content:"↗"; position:absolute; left:0; color:var(--gold);}
+  a{color:var(--rose);}
+
+  .pitfall{background:#fff; border:1px solid var(--line); border-left:5px solid #c25b5b;
+    border-radius:12px; padding:14px 18px; margin:12px 0;}
+  .pitfall h4{margin:0 0 6px; color:#c25b5b; font-size:1rem;}
+  .pitfall p{margin:0; font-size:.92rem;}
+
+  .note{background:#fff8e6; border:1px dashed var(--gold); border-radius:10px; padding:12px 16px; font-size:.88rem; margin:14px 0; color:#7a6326;}
+  .prevbar{background:#eef3f8; border:1px solid #cfe0ee; border-left:5px solid #5f86b0; border-radius:10px;
+    padding:12px 16px; font-size:.86rem; margin:18px 0 0; color:#3f5a73;}
+  .prevbar a{color:#2f5e8c; font-weight:700;}
+  footer{text-align:center; color:var(--muted); font-size:.8rem; margin-top:50px; padding-top:24px; border-top:1px solid var(--line);}
+
+  @media (max-width:640px){
+    .hero h1{font-size:1.5rem;} nav.toc ol{columns:1;} body{font-size:15px;}
+  }
+  @media print{
+    body{background:#fff;} .tablewrap{overflow:visible; box-shadow:none;}
+    nav.toc{display:none;} header.hero{padding:20px;} section{page-break-inside:avoid;}
+  }
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <p class="eyebrow">NEW-LIFE RESEARCH</p>
+  <h1>家庭用カラープリンター 比較</h1>
+  <p class="lead">書類メイン＋カラーも必要（写真の高画質は不要）な2人世帯を前提に、「iPhone / iPad / MacBook から無線（AirPrint）で刷れること」をマスト要件として、本体〜1.5万円・カラー対応・セットアップの簡単さで横並び検証しました。</p>
+  <div class="meta-chips">
+    <span class="chip">畑family 新居</span>
+    <span class="chip">書類＋カラー</span>
+    <span class="chip">〜1.5万円 死守</span>
+    <span class="chip">AirPrint必須</span>
+    <span class="chip">写真高画質は不要</span>
+    <span class="chip">調査日 2026-06-17</span>
+  </div>
+  <div class="prevbar">前回の「カラー不要・モノクロレーザー版（本命 HL-L2460DW）」は <a href="参考_モノクロレーザー版_カラー不要時.html">参考_モノクロレーザー版_カラー不要時.html</a> に保存。今回は<b>カラー必須</b>のため前提が変わっています。</div>
+</header>
+
+<div class="wrap">
+
+  <nav class="toc">
+    <h2>目次</h2>
+    <ol>
+      <li><a href="#s1">結論（先に要点）</a></li>
+      <li><a href="#s2">大前提：カラーインクジェット一択</a></li>
+      <li><a href="#s3">横並び比較表</a></li>
+      <li><a href="#s4">各機種の詳細</a></li>
+      <li><a href="#s5">Apple機器からの印刷</a></li>
+      <li><a href="#s6">買う前の“落とし穴”</a></li>
+      <li><a href="#s7">お二人のケースへの当てはめ</a></li>
+      <li><a href="#s8">注意点・次のアクション</a></li>
+      <li><a href="#s9">出典</a></li>
+    </ol>
+  </nav>
+
+  <!-- 1 -->
+  <section id="s1">
+    <h2 class="sec"><span class="num">1</span>結論（先に要点だけ）</h2>
+    <div class="callout">
+      <p><strong>本命は実売 約¥7,900 の キヤノン PIXUS TS3730（カラーインクジェット複合機）。</strong> わずか8千円弱でマスト要件（AirPrint＋カラー）を全部満たし、予算1.5万円に対して<b>7,000円以上のお釣り</b>が来ます。顔料ブラック採用で書類の黒文字・罫線もくっきり。<b>唯一の弱点は自動両面が無い</b>こと。</p>
+      <p>両面印刷を自動でやりたいなら <strong>エプソン EW-456A</strong>（安価帯で珍しく自動両面を標準装備）。「印刷だけの単機能がいい」なら PX-S505 ですが、<b>AirPrint対応が公式に明記されておらず</b>マスト要件を確実に満たすか不明なので、AirPrint最優先なら複合機の TS3730 が安全です。</p>
+    </div>
+    <div class="recos">
+      <div class="reco"><span class="medal m1">1</span><div><span class="name">キヤノン PIXUS TS3730</span>（複合機）<br><span class="why">約¥7,900。4色（顔料黒）でAirPrint確実・5GHz Wi-Fi・iPhone/iPad用セットアップ動画あり。予算に大余裕。<b>自動両面なし</b>。迷ったらこれ。</span></div></div>
+      <div class="reco"><span class="medal" style="background:var(--rose)">🔁</span><div><span class="name">エプソン Colorio EW-456A</span>（複合機）<br><span class="why">安価帯で珍しい<b>自動両面を標準装備</b>。4色(顔料黒)・AirPrint対応（Apple公式リスト掲載）。実売1万円台前半（要確認）。</span></div></div>
+      <div class="reco"><span class="medal" style="background:var(--gold)">📄</span><div><span class="name">エプソン PX-S505</span>（単機能）<br><span class="why">数少ない単機能カラー機。全色顔料で書類くっきり。ただし<b>AirPrintが不確実</b>（公式記載なし・要確認）→次点。約¥9,660〜。</span></div></div>
+      <div class="reco"><span class="medal" style="background:#c25b5b">❌</span><div><span class="name">カラーレーザー（該当なし）</span><br><span class="why">1.5万円では買えない。最安でも Satera LBP621C ¥17,632 / NEC 4C150 ¥19,206。エントリー機は約2万円〜。</span></div></div>
+    </div>
+  </section>
+
+  <!-- 2 -->
+  <section id="s2">
+    <h2 class="sec"><span class="num">2</span>大前提：この条件では「カラーインクジェット一択」</h2>
+    <ul class="clean">
+      <li><b>カラーレーザーは予算外</b>：最安でも キヤノン Satera LBP621C ¥17,632 / NEC Color MultiWriter 4C150 ¥19,206。エントリー機は概ね2万円〜（ブラザー HL-L3240CDW ¥25,300）。<b>1.5万円以下のカラーレーザーは存在しません。</b></li>
+      <li><b>→ カラー＋1.5万円なら、自動的にカラーインクジェット</b>になります。しかも書類カラー（図表・グラフ・地図・ロゴ）用途には十分。</li>
+      <li><b>単機能カラーは選択肢が少ない</b>：現行で実在するのは エプソン PX-S505 くらい。多くは複合機なので、<b>安いカラー複合機を「印刷専用」として使うのが現実的</b>（コピー/スキャンは使わなければいいだけ）。</li>
+    </ul>
+    <div class="note">💡 前回の「カラー不要なら本命＝モノクロレーザー HL-L2460DW」という結論は別ファイルに保存していますが、<b>今回はカラー必須なので前提が変わります</b>。レーザーは色が出せないため対象外です。</div>
+  </section>
+
+  <!-- 3 -->
+  <section id="s3">
+    <h2 class="sec"><span class="num">3</span>横並び比較表</h2>
+    <div class="tablewrap">
+      <table class="compare">
+        <thead><tr><th>機種</th><th>タイプ</th><th>実売</th><th>AirPrint</th><th>カラー方式</th><th>顔料黒</th><th>無線</th><th>自動両面</th></tr></thead>
+        <tbody>
+          <tr><td>キヤノン PIXUS TS3730</td><td>複合機</td><td><span class="best">約¥7,900</span></td><td class="yes">✅ ほぼ確実</td><td>4色ハイブリッド</td><td class="yes">✅</td><td>Wi-Fi(2.4/5GHz)</td><td class="no">✗</td></tr>
+          <tr><td>エプソン EW-456A</td><td>複合機</td><td>1万円台前半<br>（要確認）</td><td class="yes">✅ 公式リスト掲載</td><td>4色(染料3＋顔料黒)</td><td class="yes">✅</td><td>Wi-Fi＋Direct</td><td class="best">✅ 標準装備</td></tr>
+          <tr><td>エプソン PX-S505</td><td>単機能</td><td>約¥9,660〜</td><td class="maybe">⚠️ 不明(要確認)</td><td>全色顔料4色</td><td class="yes">✅</td><td>Wi-Fi(b/g/n)</td><td class="no">✗</td></tr>
+          <tr><td>キヤノン TS3730WH（白）</td><td>複合機</td><td>約¥7,680〜</td><td class="yes">✅</td><td>4色ハイブリッド</td><td class="yes">✅</td><td>Wi-Fi(2.4/5GHz)</td><td class="no">✗</td></tr>
+          <tr><td class="strike">エプソン EW-056A</td><td>複合機</td><td>約¥8,433</td><td class="no">❌ 非対応</td><td>4色</td><td class="yes">✅</td><td>Wi-Fi</td><td class="no">✗</td></tr>
+          <tr><td class="strike">ブラザー DCP-J528N</td><td>複合機</td><td>約¥1.6〜1.8万</td><td class="yes">✅</td><td>4色</td><td class="yes">✅</td><td>Wi-Fi(2.4/5GHz)</td><td class="yes">✅</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p style="font-size:.82rem;color:var(--muted)">凡例：<span class="yes">✅=対応/確認</span> / <span class="maybe">⚠️=不確実</span> / <span class="no">❌=非対応・✗=機能なし</span>。<span class="strike">取り消し線</span>＝<b>今回の条件から外れる</b>（EW-056A＝AirPrint非対応でマスト不適合／DCP-J528N＝予算1.5万円を超過）。価格は価格.com当日(2026/6/17)最安。</p>
+    <div class="note">安価帯のカラー機は<b>自動両面が非対応なのが普通</b>です（自動両面はキヤノン TS5430クラス＝1.5万円超が一般的）。1.5万円以内で自動両面が欲しいなら エプソン EW-456A が数少ない選択肢。</div>
+  </section>
+
+  <!-- 4 -->
+  <section id="s4">
+    <h2 class="sec"><span class="num">4</span>各機種の詳細</h2>
+    <div class="cards">
+      <div class="scard win">
+        <span class="tag">🥇 本命</span>
+        <h3>キヤノン PIXUS TS3730</h3>
+        <ul>
+          <li><b>マスト要件を全部満たして激安</b>：カラーインクジェット複合機。実売 <b>約¥7,680〜7,920</b>（価格.com）。2024年9月発売の現行。予算1.5万円に大きく余る。</li>
+          <li><b>カラー＋書類向き</b>：4色ハイブリッド＝<b>顔料ブラック＋染料CMY</b>。公式「文字に強い顔料ブラック…細かな文字や罫線までくっきりシャープ」＝黒文字がにじまず書類に強い。</li>
+          <li><b>無線（マスト）</b>：AirPrint対応、Wi-Fi <b>2.4GHz＋5GHz</b>。iPhone/iPad/Mac からドライバ不要。</li>
+          <li><b>セットアップ手厚い</b>：キヤノン公式が <b>iPhone/iPad専用のセットアップ動画</b>を提供。つまずきにくい。</li>
+          <li><span class="no">弱点</span>：自動両面プリント非対応（公式で「×」）。両面は手動。</li>
+          <li>複合機だがコピー/スキャンを使わなければ「印刷専用」として問題なし。</li>
+        </ul>
+      </div>
+      <div class="scard">
+        <span class="tag">🔁 自動両面が欲しいなら</span>
+        <h3>エプソン Colorio EW-456A</h3>
+        <ul>
+          <li><b>安価帯で珍しい自動両面</b>：公式「自動両面プリントユニットを標準装備」「ハガキの自動両面にも対応」。1.5万円以下で自動両面が要るならこれが有力。</li>
+          <li>カラー：4色（染料CMY＋<b>顔料黒1色</b>）＝黒文字くっきり。2024年モデル。</li>
+          <li><b>無線</b>：Wi-Fi・Wi-Fi Direct・WPS。Epson Smart Panelで<b>チャット形式の案内セットアップ</b>。AirPrintは<b>Apple公式のAirPrint対応リストに掲載</b>あり。</li>
+          <li>価格：実売おおむね1万円台前半（<b>最安は要確認</b>）。</li>
+        </ul>
+      </div>
+      <div class="scard">
+        <span class="tag">📄 単機能が理想なら（注意あり）</span>
+        <h3>エプソン PX-S505</h3>
+        <ul>
+          <li><b>数少ない単機能カラー機</b>：A4カラーの単機能（スキャン/コピー/FAXなし）。実売 約¥9,660〜（エプソンダイレクト¥11,000）。2023年2月発売。</li>
+          <li><b>全色顔料4色</b>＝普通紙でも鮮明・黒もにじみにくく書類向き。</li>
+          <li><span class="no">⚠️ 最大の注意点</span>：<b>AirPrint が公式仕様に明記されていない</b>。スマホ印刷は Epson Smart Panelアプリ/Wi-Fi Direct経由の案内。マスト要件のAirPrintを確実に満たす保証がなく、第一推奨にはしづらい。</li>
+        </ul>
+      </div>
+      <div class="scard">
+        <span class="tag">参考：その他＆“地雷”</span>
+        <h3>安価候補の注意点</h3>
+        <ul>
+          <li><b>キヤノン TS3730WH（白）</b>：実質TS3730の色違い（約¥7,680〜、同仕様、自動両面×）。</li>
+          <li><span class="no">❌ エプソン EW-056A（約¥8,433）</span>：安いが<b>AirPrint非対応</b>（iOS印刷はアプリのみ）。マスト不適合で除外。「対応で1位」の記事は検証で<b>誤りと判明・棄却</b>。</li>
+          <li><span class="maybe">⚠️ ブラザー DCP-J528N</span>：自動両面＋AirPrint＋顔料黒と良いが、<b>実売 約¥1.6〜1.8万で予算超過</b>。両面必須で予算を上げられるなら。</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- 5 -->
+  <section id="s5">
+    <h2 class="sec"><span class="num">5</span>🍎 Apple機器からの印刷（マスト要件の検証）</h2>
+    <div class="callout green"><p><strong>AirPrint は iPhone/iPad（印刷）と Mac/MacBook（印刷・スキャン等）をドライバ不要で繋ぐApple標準機能。</strong> お二人の対象3機種（iPhone・iPad・MacBook）をすべてカバーします。</p></div>
+    <ul class="clean">
+      <li><b>TS3730</b>：AirPrint対応がほぼ確実（キヤノン公式＋価格.com仕様）。iPhone/iPad専用のセットアップ動画もあり<b>接続でつまずきにくい</b>＝「セットアップの簡単さ」重視にも合致。</li>
+      <li><b>⚠️ AirPrint対応は機種ごとに必ず確認を</b>：同じ安価カラー機でも <b>EW-056AはAirPrint非対応</b>、<b>PX-S505は不明</b>といった差があります。AirPrintが絶対条件なので、購入直前に <b>Apple公式のAirPrint対応プリンター一覧</b> で最終確認するのが安全。</li>
+    </ul>
+  </section>
+
+  <!-- 6 -->
+  <section id="s6">
+    <h2 class="sec"><span class="num">6</span>🚨 買う前に知っておきたい “落とし穴”</h2>
+    <div class="pitfall"><h4>① 「安いカラー機＝AirPrint対応」とは限らない</h4><p>今回の調査でも EW-056A はAirPrint非対応、PX-S505は公式に記載なし。型番ごとにApple公式リストで要確認。本命の TS3730 は対応がほぼ確実。</p></div>
+    <div class="pitfall"><h4>② この価格帯は「自動両面」が非対応なのが普通</h4><p>TS3730・PX-S505・TS3730WH はいずれも手動両面。自動両面が要るなら EW-456A（標準装備）か、予算を少し上げて DCP-J528N。</p></div>
+    <div class="pitfall"><h4>③ 「単機能が理想」と「AirPrint必須」は今回ややトレードオフ</h4><p>単機能カラーの PX-S505 はAirPrintが不確実。AirPrintを優先するなら、複合機の TS3730 を“印刷専用”として使うのが現実解。</p></div>
+    <div class="pitfall"><h4>④ 価格は変動する</h4><p>TS3730 の ¥7,900 等は2026/6/17時点の最安。購入直前に価格.com / 各店で再確認を。</p></div>
+    <div class="pitfall"><h4>⑤ ランニングコスト（インク代）は今回“重視しない”前提だが…</h4><p>カートリッジ式（TS3730等）は1枚単価が高めの傾向。将来「やっぱりインク代が気になる」となったら、エコタンク等の大容量インク機（本体2万円台〜）への乗り換えも視野に。</p></div>
+  </section>
+
+  <!-- 7 -->
+  <section id="s7">
+    <h2 class="sec"><span class="num">7</span>お二人のケースへの当てはめ／最終提案</h2>
+    <div class="tablewrap">
+      <table>
+        <thead><tr><th>お二人の条件</th><th>当てはめ</th></tr></thead>
+        <tbody>
+          <tr><th>カラー必須・写真は重視しない</th><td>顔料黒の4色機で<b>書類カラーに必要十分</b>。高画質6色機は不要。</td></tr>
+          <tr><th>本体の安さ重視＋1.5万円死守</th><td>TS3730 は<b>約¥7,900で大幅に予算内</b>。お釣りで用紙やインク予備も買える。</td></tr>
+          <tr><th>セットアップの簡単さ＋AirPrint</th><td>TS3730 は iPhone/iPad専用セットアップ動画があり、AirPrintも確実。</td></tr>
+          <tr><th>単機能が理想</th><td>該当は PX-S505 だが<b>AirPrintが不確実</b>。AirPrint優先なら複合機を印刷専用に使う割り切りがおすすめ。</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="recos">
+      <div class="reco"><span class="medal m1">1</span><div><span class="name">キヤノン PIXUS TS3730</span><br><span class="why">迷ったらこれ。約¥7,900・カラー・AirPrint確実・顔料黒で書類くっきり・5GHz・セットアップ動画。唯一の妥協は自動両面なし。</span></div></div>
+      <div class="reco"><span class="medal" style="background:var(--rose)">🔁</span><div><span class="name">エプソン EW-456A</span><br><span class="why">両面印刷を自動でやりたいなら。安価帯で珍しい自動両面標準＋AirPrint。</span></div></div>
+      <div class="reco"><span class="medal" style="background:var(--gold)">📄</span><div><span class="name">エプソン PX-S505</span><br><span class="why">どうしても単機能がいい場合のみ。ただし購入前にAirPrint対応をApple公式リストで必ず確認。</span></div></div>
+    </div>
+    <div class="callout"><p><strong>一言でいうと：</strong>安く済ませてカラー＋AirPrintを確実に満たすなら <b>TS3730（約¥7,900）</b>。自動両面が欲しいなら <b>EW-456A</b>。この2択でほぼ正解です。</p></div>
+  </section>
+
+  <!-- 8 -->
+  <section id="s8">
+    <h2 class="sec"><span class="num">8</span>注意点・次のアクション</h2>
+    <ul class="check">
+      <li><b>AirPrint最終確認</b>：候補機の型番を Apple公式「AirPrint対応プリンター」一覧で確認（特に PX-S505 / EW-456A）。</li>
+      <li><b>自動両面が要るか決める</b>：要るなら EW-456A、不要なら TS3730。</li>
+      <li><b>EW-456Aの実売最安</b>を価格.comで確認（1.5万円以内か）。</li>
+      <li><b>実勢価格を再確認</b>（TS3730 約¥7,900 等は変動）。</li>
+      <li>（任意）<b>インク1枚単価</b>を純正カートリッジ価格から概算（今回は重視しないが、気になるなら）。</li>
+      <li>置き場所の寸法・給紙トレイの向き（背面給紙か）を確認。</li>
+    </ul>
+  </section>
+
+  <!-- 9 -->
+  <section id="s9">
+    <h2 class="sec"><span class="num">9</span>出典（主要）</h2>
+    <ul class="src">
+      <li><b>キヤノン PIXUS TS3730</b>：<a href="https://personal.canon.jp/product/printer/pixus/lineup/ts3730/spec">仕様</a> ／ <a href="https://personal.canon.jp/product/printer/pixus/lineup/ts3730/feature/beautyprint">印刷品質(顔料黒)</a> ／ <a href="https://faq.canon.jp/app/answers/detail/a_id/105223/">iPhone/iPadセットアップ動画</a> ／ <a href="https://kakaku.com/item/J0000045647/">価格.com J0000045647</a> ／ <a href="https://corporate.jp.canon/newsrelease/2024/pr-0829a">発売プレスリリース</a></li>
+      <li><b>エプソン Colorio EW-456A</b>：<a href="https://www.epson.jp/products/colorio/ew456a/feature.htm">feature(自動両面)</a> ／ <a href="https://www.epson.jp/products/colorio/ew456a/spec.htm">spec</a></li>
+      <li><b>エプソン PX-S505（単機能）</b>：<a href="https://www.epson.jp/products/bizprinter/pxs505/">製品ページ</a> ／ <a href="https://www.epson.jp/products/bizprinter/pxs505/spec.htm">spec</a> ／ <a href="https://kakaku.com/item/K0001513525/">価格.com K0001513525</a></li>
+      <li><b>AirPrint / カラーレーザー価格</b>：<a href="https://support.apple.com/en-us/102895">Apple AirPrint</a> ／ <a href="https://kakaku.com/pc/color-laser-printer/">価格.com カラーレーザー</a> ／ <a href="https://www.nojima.co.jp/support/koneta/218389/">Nojima プリンター解説</a></li>
+    </ul>
+    <div class="note">※スペック（インク色数・顔料黒・Wi-Fi・自動両面）はメーカー公式一次情報で確認済み。価格・ランキングは価格.com / Nojima 等の二次情報（変動するため購入直前に再確認）。<br>※検証で<b>棄却</b>した主張：「PX-S505が自動両面対応(0-3)」「EW-056AがAirPrint対応で¥8,433・ランキング1位(0-3)」。本レポートはこれらを採用していません。</div>
+  </section>
+
+  <footer>
+    調査方法：24ソース取得 → 107の主張を抽出 → 25件を「3票の敵対的検証」にかけ 23件確証・2件棄却（2026-06-17時点）。<br>
+    家庭用カラープリンター選定リサーチ ／ 畑family ／ 前回のモノクロ版は <a href="参考_モノクロレーザー版_カラー不要時.html">こちら</a>
+  </footer>
+
+</div>
+</body>
+</html>

@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>家庭用プリンター 比較（書類メイン・Apple無線印刷）</title>
+<style>
+  :root{
+    --bg:#faf6f4; --card:#ffffff; --ink:#3b3536; --muted:#7c7376;
+    --rose:#a85d6b; --rose-soft:#fdeef1; --rose-line:#e7cdd4;
+    --gold:#c79a52; --gold-soft:#fbf3e4;
+    --green:#3f8f6b; --green-soft:#e9f6ef;
+    --line:#ece4e2;
+    --gold-medal:#c9a227; --silver:#9aa0a6; --bronze:#b07a48;
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0; background:var(--bg); color:var(--ink);
+    font-family:system-ui,-apple-system,"Hiragino Sans","Hiragino Kaku Gothic ProN","Noto Sans JP",Meiryo,sans-serif;
+    line-height:1.8; font-size:16px; -webkit-font-smoothing:antialiased;
+  }
+  .wrap{max-width:980px; margin:0 auto; padding:0 20px 80px;}
+
+  header.hero{
+    text-align:center; padding:56px 20px 40px; margin-bottom:8px;
+    background:linear-gradient(180deg,#fff,#fbf1f3);
+    border-bottom:1px solid var(--rose-line);
+  }
+  .hero .eyebrow{letter-spacing:.3em; font-size:.72rem; color:var(--gold); font-weight:700; margin:0 0 10px;}
+  .hero h1{font-size:2rem; margin:0 0 14px; color:var(--rose); font-weight:800; letter-spacing:.02em;}
+  .hero p.lead{max-width:680px; margin:0 auto; color:var(--muted); font-size:.95rem;}
+  .meta-chips{display:flex; flex-wrap:wrap; gap:8px; justify-content:center; margin-top:18px;}
+  .chip{background:#fff; border:1px solid var(--rose-line); color:var(--rose);
+    border-radius:999px; padding:5px 14px; font-size:.8rem; font-weight:600;}
+
+  nav.toc{
+    background:var(--card); border:1px solid var(--line); border-radius:14px;
+    padding:18px 22px; margin:28px 0 40px; box-shadow:0 2px 10px rgba(168,93,107,.05);
+  }
+  nav.toc h2{margin:0 0 10px; font-size:.85rem; letter-spacing:.15em; color:var(--gold); border:0; padding:0;}
+  nav.toc ol{margin:0; padding-left:1.2em; columns:2; column-gap:30px;}
+  nav.toc li{margin:4px 0;}
+  nav.toc a{color:var(--ink); text-decoration:none; font-size:.9rem;}
+  nav.toc a:hover{color:var(--rose); text-decoration:underline;}
+
+  section{margin:0 0 44px; scroll-margin-top:16px;}
+  h2.sec{
+    font-size:1.35rem; color:var(--rose); margin:0 0 18px; padding-bottom:8px;
+    border-bottom:2px solid var(--rose-line); display:flex; align-items:center; gap:10px;
+  }
+  h2.sec .num{
+    background:var(--rose); color:#fff; font-size:.85rem; font-weight:700;
+    width:28px; height:28px; border-radius:50%; display:inline-flex; align-items:center; justify-content:center; flex:none;
+  }
+  h3{font-size:1.05rem; color:var(--ink); margin:26px 0 12px;}
+
+  .callout{
+    background:var(--rose-soft); border:1px solid var(--rose-line); border-left:5px solid var(--rose);
+    border-radius:12px; padding:20px 22px; margin:0 0 18px;
+  }
+  .callout.gold{background:var(--gold-soft); border-color:#ecdcb8; border-left-color:var(--gold);}
+  .callout.green{background:var(--green-soft); border-color:#bfe3cf; border-left-color:var(--green);}
+  .callout p{margin:8px 0;}
+  .callout strong{color:var(--rose);}
+
+  ul.clean{list-style:none; padding:0; margin:14px 0;}
+  ul.clean>li{position:relative; padding-left:24px; margin:10px 0;}
+  ul.clean>li::before{content:"◆"; color:var(--gold); position:absolute; left:0; top:0; font-size:.8rem;}
+  ul.sub{margin:6px 0 6px 6px;}
+  ul.sub li{margin:4px 0;}
+
+  .recos{display:grid; gap:12px; margin:16px 0;}
+  .reco{display:flex; gap:14px; align-items:flex-start; background:#fff; border:1px solid var(--line);
+    border-radius:12px; padding:14px 16px;}
+  .medal{flex:none; width:34px; height:34px; border-radius:50%; display:flex; align-items:center; justify-content:center;
+    font-weight:800; color:#fff; font-size:.95rem;}
+  .m1{background:var(--gold-medal);} .m2{background:var(--silver);} .m3{background:var(--bronze);}
+  .reco .name{font-weight:800; color:var(--rose);}
+  .reco .why{color:var(--muted); font-size:.9rem;}
+
+  .tablewrap{overflow-x:auto; border:1px solid var(--line); border-radius:12px; margin:14px 0;
+    box-shadow:0 1px 6px rgba(168,93,107,.04);}
+  table{border-collapse:collapse; width:100%; min-width:600px; background:#fff; font-size:.9rem;}
+  thead th{background:var(--rose); color:#fff; font-weight:700; text-align:left; padding:11px 14px; white-space:nowrap;}
+  tbody th{background:var(--rose-soft); color:var(--ink); text-align:left; padding:10px 14px; font-weight:700; white-space:nowrap;}
+  tbody td{padding:10px 14px; border-top:1px solid var(--line); vertical-align:top;}
+  tbody tr:nth-child(even) td{background:#fcfaf9;}
+  table.compare td:first-child{font-weight:700; background:var(--rose-soft); white-space:nowrap;}
+  .hl{background:#fff6d9; padding:1px 6px; border-radius:5px; font-weight:700;}
+  .best{color:var(--green); font-weight:800;}
+  .yes{color:var(--green); font-weight:700;} .no{color:#c25b5b; font-weight:700;} .maybe{color:var(--gold); font-weight:700;}
+
+  .cards{display:grid; gap:16px; grid-template-columns:repeat(auto-fit,minmax(260px,1fr));}
+  .scard{background:#fff; border:1px solid var(--line); border-radius:14px; padding:18px 20px;
+    box-shadow:0 2px 10px rgba(168,93,107,.05);}
+  .scard h3{margin:0 0 6px; color:var(--rose);}
+  .scard .tag{display:inline-block; font-size:.72rem; font-weight:700; color:var(--gold);
+    background:var(--gold-soft); border-radius:6px; padding:2px 8px; margin-bottom:8px;}
+  .scard.win{border:1px solid var(--rose-line); box-shadow:0 4px 16px rgba(168,93,107,.12);}
+  .scard ul{margin:8px 0 0; padding-left:1.1em;} .scard li{margin:5px 0; font-size:.88rem;}
+
+  ul.check{list-style:none; padding:0; margin:14px 0;}
+  ul.check li{position:relative; padding:10px 12px 10px 40px; background:#fff; border:1px solid var(--line);
+    border-radius:10px; margin:8px 0; font-size:.92rem;}
+  ul.check li::before{content:"☐"; position:absolute; left:14px; top:9px; color:var(--rose); font-size:1.1rem; font-weight:700;}
+
+  ul.src{list-style:none; padding:0; margin:10px 0;}
+  ul.src li{margin:7px 0; padding-left:18px; position:relative; font-size:.88rem;}
+  ul.src li::before{content:"↗"; position:absolute; left:0; color:var(--gold);}
+  a{color:var(--rose);}
+
+  .pitfall{background:#fff; border:1px solid var(--line); border-left:5px solid #c25b5b;
+    border-radius:12px; padding:14px 18px; margin:12px 0;}
+  .pitfall h4{margin:0 0 6px; color:#c25b5b; font-size:1rem;}
+  .pitfall p{margin:0; font-size:.92rem;}
+
+  .note{background:#fff8e6; border:1px dashed var(--gold); border-radius:10px; padding:12px 16px; font-size:.88rem; margin:14px 0; color:#7a6326;}
+  footer{text-align:center; color:var(--muted); font-size:.8rem; margin-top:50px; padding-top:24px; border-top:1px solid var(--line);}
+
+  @media (max-width:640px){
+    .hero h1{font-size:1.5rem;} nav.toc ol{columns:1;} body{font-size:15px;}
+  }
+  @media print{
+    body{background:#fff;} .tablewrap{overflow:visible; box-shadow:none;}
+    nav.toc{display:none;} header.hero{padding:20px;} section{page-break-inside:avoid;}
+  }
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <p class="eyebrow">NEW-LIFE RESEARCH</p>
+  <h1>家庭用プリンター 比較</h1>
+  <p class="lead">書類メイン・写真は重視しない2人世帯を前提に、「iPhone / iPad / MacBook から無線（AirPrint）で刷れること」をマスト要件として、本体〜1.5万円・単機能・コスト重視で横並び検証しました。</p>
+  <div class="meta-chips">
+    <span class="chip">畑family 新居</span>
+    <span class="chip">書類メイン</span>
+    <span class="chip">単機能でOK</span>
+    <span class="chip">〜1.5万円</span>
+    <span class="chip">AirPrint必須</span>
+    <span class="chip">調査日 2026-06-16</span>
+  </div>
+</header>
+
+<div class="wrap">
+
+  <nav class="toc">
+    <h2>目次</h2>
+    <ol>
+      <li><a href="#s1">結論（先に要点）</a></li>
+      <li><a href="#s2">なぜモノクロレーザーか</a></li>
+      <li><a href="#s3">横並び比較表</a></li>
+      <li><a href="#s4">各機種の詳細</a></li>
+      <li><a href="#s5">Apple機器からの印刷</a></li>
+      <li><a href="#s6">買う前の“落とし穴”</a></li>
+      <li><a href="#s7">お二人のケースへの当てはめ</a></li>
+      <li><a href="#s8">注意点・次のアクション</a></li>
+      <li><a href="#s9">出典</a></li>
+    </ol>
+  </nav>
+
+  <!-- 1 -->
+  <section id="s1">
+    <h2 class="sec"><span class="num">1</span>結論（先に要点だけ）</h2>
+    <div class="callout">
+      <p><strong>本命は実売 約¥11,227 の ブラザー JUSTIO HL-L2460DW（モノクロレーザー・単機能）。</strong> 「書類メイン・とにかく無線で・コスト重視」というお二人の条件に対し、<b>本体価格・ランニングコスト・AirPrint・自動両面・5GHz Wi-Fi</b> のすべてを最安級で満たします。</p>
+      <p>「どうせ同じ値段ならスキャン/コピーも欲しい」なら、複合機の <strong>DCP-L2600DW</strong> に振るのが賢い選択です。</p>
+    </div>
+    <div class="recos">
+      <div class="reco"><span class="medal m1">1</span><div><span class="name">ブラザー JUSTIO HL-L2460DW</span>（単機能）<br><span class="why">本体もランニングも最安級。AirPrint＋自動両面＋5GHz Wi-Fi。約¥11,227 / 約3.3円・枚。迷ったらこれ。</span></div></div>
+      <div class="reco"><span class="medal m2">2</span><div><span class="name">キヤノン Satera LBP122</span>（単機能）<br><span class="why">純粋な単機能・29枚/分。AirPrint対応。約¥12,535 / 約4.5円・枚とコストは一歩譲る。</span></div></div>
+      <div class="reco"><span class="medal" style="background:var(--rose)">🔁</span><div><span class="name">ブラザー JUSTIO DCP-L2600DW</span>（複合機を単機能使い）<br><span class="why">ほぼ同価格でスキャン/コピーも。両面・AirPrint・ランニング(約3.3円)は本命と同系。約¥12,267。</span></div></div>
+      <div class="reco"><span class="medal" style="background:var(--gold)">🔁</span><div><span class="name">キヤノン Satera MF272dw</span>（複合機を単機能使い）<br><span class="why">クラウドプリント対応・コンパクト。約¥12,673〜 / 約4.5円・枚。</span></div></div>
+    </div>
+  </section>
+
+  <!-- 2 -->
+  <section id="s2">
+    <h2 class="sec"><span class="num">2</span>なぜ「モノクロレーザー」なのか</h2>
+    <p>書類メイン＋ランニングコスト重視という条件では、家庭用でも<strong>レーザーが理にかなっています</strong>。インクジェットとの比較は以下の通り。</p>
+    <div class="tablewrap">
+      <table class="compare">
+        <thead><tr><th>観点</th><th>モノクロレーザー（推奨）</th><th>インクジェット</th></tr></thead>
+        <tbody>
+          <tr><td>書類の印刷品質</td><td class="yes">文字がにじまず即乾。マーカー・水濡れに強い</td><td>普通紙だと文字がにじむ場合あり</td></tr>
+          <tr><td>放置耐性</td><td class="yes">数週間使わなくても問題なし</td><td class="no">長期放置でノズル目詰まり→復旧でインク浪費</td></tr>
+          <tr><td>1枚あたり(モノクロ)</td><td>約3.3〜4.5円（推奨機・大容量トナー時）</td><td>約2.2円（※特定の大容量インク機の楽観値）</td></tr>
+          <tr><td>色</td><td class="no">モノクロのみ（カラー不可）</td><td class="yes">カラー印刷できる</td></tr>
+          <tr><td>速度</td><td class="yes">速い（29枚/分級）</td><td>遅め</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="note">⚠️ <strong>“数字のワナ”に注意。</strong> 「インクジェットはモノクロ約2.2円で最安」という比較（ASKUL試算）は、<b>特定の大容量インク機種（ブラザー MFC-J7500CDW-A）ベースの楽観値</b>で、一般的な家庭用インクジェットには当てはまりません。逆に「レーザーは一般に低ランニング（ただし電気代が高い）」という“通説”も、今回の敵対的検証では<b>裏が取れず棄却</b>しました。本レポートは通説ではなく<b>推奨機の実数値（3.3〜4.5円/枚）</b>で判断しています。</div>
+    <div class="callout green"><p><strong>結論：</strong>色が要らない書類用途なら、トナー寿命・即乾・放置耐性の実用メリットで<b>レーザーが有利</b>。ただし「カラーが一切出ない」点だけは許容が必要（→ 落とし穴①）。</p></div>
+  </section>
+
+  <!-- 3 -->
+  <section id="s3">
+    <h2 class="sec"><span class="num">3</span>横並び比較表</h2>
+    <div class="tablewrap">
+      <table class="compare">
+        <thead><tr><th>機種</th><th>タイプ</th><th>実売</th><th>AirPrint</th><th>無線</th><th>自動両面</th><th>ランニング(モノクロ)</th></tr></thead>
+        <tbody>
+          <tr><td>ブラザー HL-L2460DW</td><td>単機能</td><td><span class="best">約¥11,227</span></td><td class="yes">✅ アプリ不要</td><td>Wi-Fi <b>(2.4/5GHz)</b>＋Direct</td><td class="yes">✅</td><td><b>約3.3円</b>(トナーのみ)/約4.0円(ドラム込)</td></tr>
+          <tr><td>キヤノン Satera LBP122</td><td>単機能</td><td>約¥12,535</td><td class="yes">✅ アプリ不要</td><td>Wi-Fi (2.4GHz)＋Direct</td><td class="yes">✅</td><td>約4.5円</td></tr>
+          <tr><td>ブラザー DCP-L2600DW</td><td>複合機</td><td>約¥12,267</td><td class="yes">✅ アプリ不要</td><td>Wi-Fi <b>(2.4/5GHz)</b>＋Direct</td><td class="yes">✅</td><td>約3.3円（兄弟機L2660DW実績）</td></tr>
+          <tr><td>キヤノン Satera MF272dw</td><td>複合機</td><td>約¥12,673〜</td><td class="yes">✅ アプリ不要</td><td>Wi-Fi (2.4GHz)＋クラウド</td><td class="yes">✅</td><td>約4.5円（大容量カートリッジ時）</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p style="font-size:.82rem;color:var(--muted)">凡例：<span class="yes">✅=メーカー公式で確認</span>。価格は価格.com当日(2026/6/16)最安。ランニングは<b>大容量トナー／カートリッジ・印字率5%(ISO規格)前提</b>。速度の公式確証が取れたのは <b>LBP122＝29枚/分</b> のみ。</p>
+
+    <h3>💴 ランニングコストを“実額”にすると</h3>
+    <p>2人世帯で書類メイン、控えめに <b>月100枚</b> 刷ると仮定すると：</p>
+    <div class="tablewrap">
+      <table>
+        <thead><tr><th>単価</th><th>月あたり</th><th>年あたり</th></tr></thead>
+        <tbody>
+          <tr><th>3.3円（HL-L2460DW級）</th><td>約330円</td><td class="best">約4,000円</td></tr>
+          <tr><th>4.5円（LBP122 / MF272dw級）</th><td>約450円</td><td>約5,400円</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p>→ 差は<b>年1,400円程度</b>。この予算帯では、1枚単価の差より<strong>「本体価格」と「AirPrintの使い勝手」</strong>のほうが体感に効きます。だからこそ本体もランニングも最安級の <b>HL-L2460DW</b> が総合で抜けています。</p>
+  </section>
+
+  <!-- 4 -->
+  <section id="s4">
+    <h2 class="sec"><span class="num">4</span>各機種の詳細</h2>
+    <div class="cards">
+      <div class="scard win">
+        <span class="tag">🥇 本命・単機能</span>
+        <h3>ブラザー JUSTIO HL-L2460DW</h3>
+        <ul>
+          <li><b>条件を全部満たす</b>：A4モノクロレーザーの<b>単機能機</b>。実売最安 <b>約¥11,227</b>（価格.com K0001600840）で候補中最安。</li>
+          <li><b>無線（マスト）</b>：AirPrint対応で「ソフトのDLもドライバーのインストールも不要」と公式明記。<b>Wi-Fiはデュアルバンド2.4/5GHz</b>＋Wi-Fi Direct。</li>
+          <li><b>自動両面</b>：標準対応（Brother公式「Automatic Duplex Printing: Yes」）。</li>
+          <li><b>ランニング</b>：大容量トナー TN32JXXL（約5,000枚）で <b>約3.3円/枚</b>。※トナーのみの値、ドラム込みで約4.0円/枚。</li>
+        </ul>
+      </div>
+      <div class="scard">
+        <span class="tag">🥈 次点・純粋な単機能</span>
+        <h3>キヤノン Satera LBP122</h3>
+        <ul>
+          <li><b>完全な単機能</b>：公式が「プリンター機能のため、コピー・FAX・スキャンはできません」と明記。「印刷だけでOK」にドンピシャ。29枚/分。</li>
+          <li><b>無線（マスト）</b>：「ドライバーのインストールを行わずに iPhone／iPad／Mac などからプリント」とAirPrint対応を明記。Wi-Fi Direct（最大5台直結）。無線は2.4GHz。</li>
+          <li>自動両面対応。実売最安 約¥12,535。</li>
+          <li><span class="no">弱点</span>：ランニング約4.5円/枚・本体も少し高め。純コストでは本命に一歩譲る。</li>
+        </ul>
+      </div>
+      <div class="scard">
+        <span class="tag">🔁 複合機を単機能使い</span>
+        <h3>ブラザー JUSTIO DCP-L2600DW</h3>
+        <ul>
+          <li><b>ほぼ同価格でスキャン/コピーが付く</b>：モノクロレーザー複合機。実売最安 約¥12,267（一部¥11,600〜）。</li>
+          <li>AirPrint・Wi-Fi Direct対応、無線LAN <b>IEEE802.11 a/b/g/n（5GHzも可）</b>、自動両面対応。</li>
+          <li>公式「macOS対応ドライバーの提供はありません…AirPrintをご利用ください」＝<b>Macでは AirPrint が正規ルート</b>（むしろシンプル）。</li>
+          <li>ランニング：兄弟機 DCP-L2660DW がTN32JXXL共用で<b>約3.3円/枚</b>＝本命と同系。</li>
+        </ul>
+      </div>
+      <div class="scard">
+        <span class="tag">🔁 複合機・もう一つの候補</span>
+        <h3>キヤノン Satera MF272dw</h3>
+        <ul>
+          <li>モノクロレーザー複合機。実売 約¥12,673〜13,799。<b>「低価格でコンパクト」</b>と評され、置き場所が限られる新居向き。</li>
+          <li>無線LAN（2.4GHz）・AirPrint/Mopria・<b>Microsoft Universal Print（クラウド）</b>・自動両面に対応。</li>
+          <li>ランニングは <b>約4.5円/枚</b>（大容量カートリッジ CRG-071H・2,500枚）。※標準CRG-071（1,200枚）だと割高。</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- 5 -->
+  <section id="s5">
+    <h2 class="sec"><span class="num">5</span>🍎 Apple機器からの印刷（マスト要件の検証）</h2>
+    <div class="callout green"><p><strong>4機種すべて、iPhone / iPad / MacBook から “追加アプリなし” で無線印刷OK。</strong> ここは全候補が合格で、差はつきません。</p></div>
+    <ul class="clean">
+      <li><b>iPhone / iPad</b>：標準のAirPrintフロー。Safari等でページを開き <b>共有ボタン → プリント → プリンタを選択 → プリント</b>。専用アプリもドライバも不要。</li>
+      <li><b>MacBook</b>：同じWi-Fiに繋いで「プリンタを追加」するだけ。特にブラザーは <b>macOS用ドライバを提供していない</b>ため、AirPrintが正規かつ標準の印刷経路＝余計なドライバ管理が不要でむしろシンプル。</li>
+      <li><b>セットアップの簡単さ</b>：いずれも同一Wi-Fiに参加させればすぐ使える。初期設定の容易さでは横並びで優秀。</li>
+    </ul>
+  </section>
+
+  <!-- 6 -->
+  <section id="s6">
+    <h2 class="sec"><span class="num">6</span>🚨 買う前に知っておきたい “落とし穴”</h2>
+    <div class="pitfall"><h4>① モノクロレーザーは「色が一切出ない」</h4><p>書類専用と割り切る前提。アーティストの色校正・カラー資料・年賀状の写真面などが必要なら、別途インクジェット or コンビニ/ネットプリントで対応する想定に。お二人は「写真は重視しない／書類メイン」なので基本問題なし、という判断。</p></div>
+    <div class="pitfall"><h4>② 「3.3円/枚」は条件付きの数字</h4><p>①大容量トナー使用時 ②印字率5%（ISO規格） ③トナーのみ の値。ドラムユニット込みなら約4.0円/枚。さらに本体同梱の初期トナーは少量（同系機で約700枚程度）なので、早めに大容量トナーの買い足しが要る点も予算に。</p></div>
+    <div class="pitfall"><h4>③ 複合機（DCP-L2600DW / MF272dw）は厳密には「単機能でOK」条件から外れる</h4><p>ただしほぼ同価格でスキャン/コピーが付くので、むしろお得なケースも。「省スペース最優先で印刷だけ」なら単機能（HL-L2460DW / LBP122）を選ぶ。</p></div>
+    <div class="pitfall"><h4>④ 価格は日々変動</h4><p>各機種 ¥11,000〜¥13,900 のレンジで動く。購入直前に価格.com / 各ストアで再確認を。</p></div>
+    <div class="pitfall"><h4>⑤ 設置スペース・重量・動作音は要現物確認</h4><p>一般にレーザーはインクジェットより筐体が大きめ・重め。新居の置き場所（棚の耐荷重・奥行き）を測っておくと安心（※本調査では各機の正確な寸法・騒音は未確認）。</p></div>
+  </section>
+
+  <!-- 7 -->
+  <section id="s7">
+    <h2 class="sec"><span class="num">7</span>お二人のケースへの当てはめ／最終提案</h2>
+    <div class="tablewrap">
+      <table>
+        <thead><tr><th>お二人の条件</th><th>当てはめ</th></tr></thead>
+        <tbody>
+          <tr><th>書類メイン・写真は重視しない</th><td>カラー不要 → <b>モノクロレーザーが最適</b>。色のデメリットを受け入れられる条件。</td></tr>
+          <tr><th>とにかく無線でサッと（マスト）</th><td>全候補がAirPrint標準対応で<b>追加アプリ不要</b>。差がつかず、安心して他軸で選べる。</td></tr>
+          <tr><th>本体安さ＋ランニング重視</th><td>本体もトナー単価も最安級の <b>HL-L2460DW</b> が二冠。次点LBP122は本体・ランニングとも少し高い。</td></tr>
+          <tr><th>マンションのWi-Fi混雑</th><td>5GHz対応で強いのは <b>HL-L2460DW / DCP-L2600DW</b>。</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="recos">
+      <div class="reco"><span class="medal m1">1</span><div><span class="name">ブラザー HL-L2460DW</span><br><span class="why">迷ったらこれ。単機能・最安・3.3円・AirPrint・自動両面・5GHz とお二人の条件を全部満たす。</span></div></div>
+      <div class="reco"><span class="medal" style="background:var(--rose)">🔁</span><div><span class="name">ブラザー DCP-L2600DW</span><br><span class="why">「同じ値段ならスキャン/コピーも」なら本命の上位互換的に。役所/契約書類のスキャンも地味に便利。</span></div></div>
+      <div class="reco"><span class="medal m2">2</span><div><span class="name">キヤノン Satera LBP122</span><br><span class="why">完全な単機能の純度・キヤノン党なら。コストは一歩譲る。</span></div></div>
+    </div>
+    <div class="callout"><p><strong>一言でいうと：</strong>印刷だけで省スペース重視なら <b>HL-L2460DW</b>、ほぼ同額でスキャンも欲しいなら <b>DCP-L2600DW</b>。この2択でほぼ正解です。</p></div>
+  </section>
+
+  <!-- 8 -->
+  <section id="s8">
+    <h2 class="sec"><span class="num">8</span>注意点・次のアクション</h2>
+    <ul class="check">
+      <li><b>印刷枚数の見積もり</b>：月あたり何枚刷るか。多い（月300枚以上）なら単価差が効くので3.3円機を、少ないなら本体価格優先でOK。</li>
+      <li><b>単機能 or 複合機の最終判断</b>：スキャン/コピーを使うか？→ 使うなら DCP-L2600DW、使わない＆省スペースなら HL-L2460DW。</li>
+      <li><b>実勢価格を価格.comで再確認</b>（¥11,000〜¥13,900で変動）。</li>
+      <li><b>純正トナーの実売価格と交換周期</b>（TN-29J / TN32JXXL / CRG-071H 等）を確認。互換トナーは安いが保証/故障リスクあり（本レポートは純正前提）。</li>
+      <li><b>置き場所の寸法・耐荷重・動作音</b>を現物/レビューで確認（レーザーはやや大きめ）。</li>
+      <li>（任意）<b>カラーが必要な場面</b>の有無を最終確認。必要ならコンビニ/ネットプリント運用 or カラー機の併用を検討。</li>
+    </ul>
+  </section>
+
+  <!-- 9 -->
+  <section id="s9">
+    <h2 class="sec"><span class="num">9</span>出典（主要）</h2>
+    <ul class="src">
+      <li><b>ブラザー HL-L2460DW</b>：<a href="https://www.brother.co.jp/product/printer/laserprinter/hll2460dw/feature/">機能ページ</a> ／ <a href="https://www.brother.co.jp/product/printer/laserprinter/hll2460dw/feature/feature6/index.aspx">AirPrint説明</a> ／ <a href="https://support.brother.co.jp/j/s/support/html/cv_hll2460dw_jpn/ug/html/GUID-D51BCE8C-C57F-4A82-A700-49D0003FD434_1.html">ユーザーガイド</a> ／ <a href="https://kakaku.com/item/K0001600840/">価格.com K0001600840</a></li>
+      <li><b>キヤノン Satera LBP122</b>：<a href="https://canon.jp/biz/product/printer/satera/lbp/lineup/122/spec">スペック</a> ／ <a href="https://canon.jp/biz/product/printer/satera/lbp/lineup/122/features-usability">使いやすさ(AirPrint)</a> ／ <a href="https://kakaku.com/item/K0001538628/">価格.com K0001538628</a></li>
+      <li><b>ブラザー DCP-L2600DW</b>：<a href="https://www.brother.co.jp/product/printer/laserprinter/dcpl2600dw/spec/index.aspx">スペック</a> ／ <a href="https://kakaku.com/item/K0001600841/">価格.com K0001600841</a></li>
+      <li><b>キヤノン Satera MF272dw</b>：<a href="https://canon.jp/biz/product/printer/satera/mf/lineup/272dw">製品ページ</a> ／ <a href="https://kakaku.com/item/K0001538630/">価格.com K0001538630</a></li>
+      <li><b>レーザー vs インクジェット／コスト</b>：<a href="https://www.askul.co.jp/f/services/print_service/column/inkjet/02/">ASKUL コラム</a> ／ <a href="https://my-best.com/27768">my-best プリンター比較</a></li>
+    </ul>
+    <div class="note">※AirPrint対応・スペックはメーカー公式一次情報で確認済み。価格・ランニングコストの一部は価格.com / my-best 等の二次情報に依拠（変動するため購入直前に再確認）。<br>※検証で<b>棄却</b>した主張：「HL-L2400D/L2460DWのAirPrint対応(出典の表現が弱く1-2)」「ASKULのレーザー3.8円/枚(1-2)」「レーザーは一般に低ランニング＆高消費電力(0-3)」。本レポートはこれらを断定に使っていません。</div>
+  </section>
+
+  <footer>
+    調査方法：22ソース取得 → 89の主張を抽出 → 25件を「3票の敵対的検証」にかけ 22件確証・3件棄却（2026-06-16時点）。<br>
+    家庭用プリンター選定リサーチ ／ 畑family
+  </footer>
+
+</div>
+</body>
+</html>
